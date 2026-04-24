@@ -674,6 +674,24 @@
   .github-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
   @media (max-width: 700px) { .github-link .lbl { display: none; } }
 
+  /* Tip-jar pill — sits to the left of the GitHub corner, same look.
+   * Kept deliberately small so it doesn't read as a commercial ask. */
+  .tip-link {
+    position: fixed; right: 126px; bottom: 14px; z-index: 50;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 12px; border-radius: 999px;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border);
+    font-size: 11px; font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: background .15s, border-color .15s, transform .12s;
+  }
+  .tip-link:hover { background: var(--accent-soft); border-color: var(--accent); transform: translateY(-1px); }
+  .tip-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
+  @media (max-width: 700px) { .tip-link { right: 80px; } .tip-link .lbl { display: none; } }
+  @media print { .tip-link { display: none !important; } }
+
   .icon-btn {
     border: 0; background: transparent;
     width: 42px; height: 42px; border-radius: 12px;
@@ -1523,12 +1541,16 @@
   .splash-word {
     font-size: clamp(22px, 4vw, 42px);
     font-weight: 900; letter-spacing: .24em; text-transform: uppercase;
-    color: var(--text);
+    /* Explicit high-contrast color — never inherits a low-contrast theme value,
+     * since the splash flashes before applyTheme() gets a chance to run. */
+    color: #f5f5f5;
+    text-shadow: 0 1px 2px rgba(0,0,0,.6);
   }
   .splash-word .hi { color: var(--accent); }
   .splash-sub {
     font-size: 12px; letter-spacing: .32em; text-transform: uppercase;
-    color: var(--text-muted);
+    /* Brighter than --text-muted so "loading…" stays readable on very dark bgs. */
+    color: #c9c9c9;
   }
   @keyframes splashBounce {
     0%, 100% { transform: translateY(0) rotate(-2deg); }
@@ -1546,8 +1568,29 @@
     font-size: clamp(26px, 3.4vw, 40px);
     font-weight: 900; letter-spacing: -0.01em;
     margin: 0 0 8px;
+    /* Pin to high-contrast white for the noir default; light themes override below. */
+    color: #f5f5f5;
   }
-  .picker-head .sub { color: var(--text-muted); font-size: 14px; }
+  .picker-head .sub { color: #bfbfbf; font-size: 14px; }
+  /* Light-theme picker text — flip to dark so "black on black" can't happen. */
+  [data-theme="earth"] .picker-head h1,
+  [data-theme="sunset"] .picker-head h1,
+  [data-theme="lavender"] .picker-head h1,
+  [data-theme="ocean"] .picker-head h1,
+  [data-theme="mono"] .picker-head h1,
+  [data-theme="bauhaus"] .picker-head h1,
+  [data-theme="memphis"] .picker-head h1,
+  [data-theme="swiss"] .picker-head h1,
+  [data-theme="vignelli"] .picker-head h1 { color: var(--text); }
+  [data-theme="earth"] .picker-head .sub,
+  [data-theme="sunset"] .picker-head .sub,
+  [data-theme="lavender"] .picker-head .sub,
+  [data-theme="ocean"] .picker-head .sub,
+  [data-theme="mono"] .picker-head .sub,
+  [data-theme="bauhaus"] .picker-head .sub,
+  [data-theme="memphis"] .picker-head .sub,
+  [data-theme="swiss"] .picker-head .sub,
+  [data-theme="vignelli"] .picker-head .sub { color: var(--text-muted); }
   .brand-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1556,7 +1599,9 @@
     margin: 0 auto;
   }
   .brand-tile {
-    background: var(--surface);
+    /* Slight gradient lift so tiles read as distinct cards on near-black bg,
+     * instead of blending into the body. */
+    background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 60%), var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 22px 18px 20px;
@@ -1568,21 +1613,25 @@
   }
   .brand-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent); }
   .brand-tile:active { transform: translateY(0); }
-  .brand-tile[data-inactive="true"] { opacity: .55; cursor: not-allowed; }
+  .brand-tile[data-inactive="true"] { opacity: .62; cursor: not-allowed; }
   .brand-tile[data-inactive="true"]:hover { transform: none; border-color: var(--border); }
   .brand-disc {
     width: 68px; height: 68px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 32px; font-weight: 900; color: #0a0a0a;
+    font-size: 32px; font-weight: 900;
+    /* White glyph + subtle dark outline reads on every brand color —
+     * avoids the prior near-black-on-dark-teal problem for Verilife/Trulieve. */
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 0 1px rgba(0,0,0,.4);
     box-shadow: 0 6px 16px rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.28);
   }
-  .brand-name { font-size: 15px; font-weight: 800; text-align: center; }
-  .brand-meta { font-size: 11px; color: var(--text-muted); text-align: center; }
+  .brand-name { font-size: 15px; font-weight: 800; text-align: center; color: #f2f2f2; }
+  .brand-meta { font-size: 11px; color: #b8b8b8; text-align: center; }
   .brand-soon {
     position: absolute; top: 8px; right: 10px;
     font-size: 9px; font-weight: 900; letter-spacing: .1em;
     padding: 3px 7px; border-radius: 999px;
-    background: var(--surface-alt); color: var(--text-muted);
+    background: rgba(255,255,255,.08); color: #d0d0d0;
     text-transform: uppercase;
   }
   .brand-live {
@@ -1592,6 +1641,25 @@
     background: var(--accent-soft); color: var(--accent);
     text-transform: uppercase;
   }
+  /* Light-theme overrides: switch brand-tile text back to theme-dark on beige/white bgs. */
+  [data-theme="earth"] .brand-name,
+  [data-theme="sunset"] .brand-name,
+  [data-theme="lavender"] .brand-name,
+  [data-theme="ocean"] .brand-name,
+  [data-theme="mono"] .brand-name,
+  [data-theme="bauhaus"] .brand-name,
+  [data-theme="memphis"] .brand-name,
+  [data-theme="swiss"] .brand-name,
+  [data-theme="vignelli"] .brand-name { color: var(--text); }
+  [data-theme="earth"] .brand-meta,
+  [data-theme="sunset"] .brand-meta,
+  [data-theme="lavender"] .brand-meta,
+  [data-theme="ocean"] .brand-meta,
+  [data-theme="mono"] .brand-meta,
+  [data-theme="bauhaus"] .brand-meta,
+  [data-theme="memphis"] .brand-meta,
+  [data-theme="swiss"] .brand-meta,
+  [data-theme="vignelli"] .brand-meta { color: var(--text-muted); }
 
   .loc-grid {
     display: grid;
@@ -1613,12 +1681,27 @@
   .loc-dot {
     width: 12px; height: 12px; border-radius: 50%;
     background: var(--accent); flex-shrink: 0;
-    box-shadow: 0 0 0 4px var(--accent-soft);
+    box-shadow: 0 0 0 4px var(--accent-soft), 0 0 0 5px rgba(255,255,255,.18);
   }
   .loc-info { flex: 1; }
-  .loc-name { font-size: 16px; font-weight: 800; }
-  .loc-city { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-  .loc-arrow { font-size: 22px; color: var(--text-muted); }
+  .loc-name { font-size: 16px; font-weight: 800; color: #f2f2f2; }
+  .loc-city { font-size: 12px; color: #b8b8b8; margin-top: 2px; }
+  .loc-arrow { font-size: 22px; color: #c9c9c9; }
+  [data-theme="earth"] .loc-name, [data-theme="sunset"] .loc-name,
+  [data-theme="lavender"] .loc-name, [data-theme="ocean"] .loc-name,
+  [data-theme="mono"] .loc-name, [data-theme="bauhaus"] .loc-name,
+  [data-theme="memphis"] .loc-name, [data-theme="swiss"] .loc-name,
+  [data-theme="vignelli"] .loc-name { color: var(--text); }
+  [data-theme="earth"] .loc-city, [data-theme="sunset"] .loc-city,
+  [data-theme="lavender"] .loc-city, [data-theme="ocean"] .loc-city,
+  [data-theme="mono"] .loc-city, [data-theme="bauhaus"] .loc-city,
+  [data-theme="memphis"] .loc-city, [data-theme="swiss"] .loc-city,
+  [data-theme="vignelli"] .loc-city,
+  [data-theme="earth"] .loc-arrow, [data-theme="sunset"] .loc-arrow,
+  [data-theme="lavender"] .loc-arrow, [data-theme="ocean"] .loc-arrow,
+  [data-theme="mono"] .loc-arrow, [data-theme="bauhaus"] .loc-arrow,
+  [data-theme="memphis"] .loc-arrow, [data-theme="swiss"] .loc-arrow,
+  [data-theme="vignelli"] .loc-arrow { color: var(--text-muted); }
 
   .picker-footer { text-align: center; margin-top: 24px; }
   .picker-footer .back-link {
@@ -1627,6 +1710,12 @@
     padding: 10px 18px; border-radius: 10px;
   }
   .picker-footer .back-link:hover { color: var(--accent); background: var(--surface-alt); }
+  .picker-hint { color: #a8a8a8; }
+  [data-theme="earth"] .picker-hint, [data-theme="sunset"] .picker-hint,
+  [data-theme="lavender"] .picker-hint, [data-theme="ocean"] .picker-hint,
+  [data-theme="mono"] .picker-hint, [data-theme="bauhaus"] .picker-hint,
+  [data-theme="memphis"] .picker-hint, [data-theme="swiss"] .picker-hint,
+  [data-theme="vignelli"] .picker-hint { color: var(--text-muted); }
 
   /* Hide the main layout while picker screens are active */
   .app[data-picker="true"] .header,
@@ -1688,7 +1777,7 @@
   </div>
   <div class="brand-grid" id="brand-grid"></div>
   <div class="picker-footer">
-    <small style="color:var(--text-muted);font-size:11px">Order shuffles each load · no location preference</small>
+    <small class="picker-hint" style="font-size:11px">Order shuffles each load · no location preference</small>
   </div>
 </section>
 
@@ -1925,6 +2014,12 @@
 
   </div>
 </div>
+
+<!-- Tip-jar link (paypal.me) — sits just left of GitHub pill -->
+<a class="tip-link no-print" href="https://www.paypal.com/paypalme/Adoan412" target="_blank" rel="noopener" aria-label="Buy me a coffee (PayPal)" title="Keeps this project maintained ☕">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h14v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-5z"/><path d="M18 11h1.5a2.5 2.5 0 0 1 0 5H18"/><path d="M8 5c0-.5.5-1 1-1M12 5c0-.5.5-1 1-1M10 3c0-.5.5-1 1-1"/></svg>
+  <span class="lbl">Buy me a coffee</span>
+</a>
 
 <!-- GitHub corner link (fixed bottom-right) -->
 <a class="github-link no-print" href="https://github.com/adoan412/Terp-Search-Dispensary" target="_blank" rel="noopener" aria-label="Source on GitHub">
@@ -4270,8 +4365,14 @@ const KINDS   = ['flower','vape','extract','edible','tincture','topical','gear']
  * build. Other brands stub to a "coming soon" state — add their
  * storeIds and keys to enable. Colors/glyphs drive the brand tiles
  * in lieu of fetching real brand logos inline. */
+/* `provider` field determines which adapter fetches the menu.
+ *   'jane'    → search.iheartjane.com Algolia (shared creds, per-store filter)
+ *   'dutchie' → dispensary.api.dutchie.com GraphQL (adapter pending live schema capture)
+ *   'sweed'   → Zen Leaf's POS stack (not yet implemented)
+ *   'custom'  → Sunnyside/Ethos bespoke scrapes (not yet implemented)
+ * Brands with no known provider yet default to 'jane' so we fail loud, not silent. */
 const BRANDS = [
-  { id: 'organic',   name: 'Organic Remedies',   short: 'OR',  color: '#8bc541', glyph: '🌿', active: true,
+  { id: 'organic',   name: 'Organic Remedies',   short: 'OR',  color: '#8bc541', glyph: '🌿', active: true,  provider: 'jane',
     stores: [
       { id: '4139', name: 'Paoli',        slug: 'organic-remedies-paoli-pa',        city: 'Paoli, PA' },
       { id: '1877', name: 'Enola',        slug: 'organic-remedies-enola-pa',        city: 'Enola, PA' },
@@ -4281,13 +4382,13 @@ const BRANDS = [
       { id: '4365', name: 'Bethel Park',  slug: 'organic-remedies-bethel-park-pa',  city: 'Bethel Park, PA' },
     ],
   },
-  { id: 'rise',      name: 'Rise',                short: 'RS',  color: '#ff7a59', glyph: '🔥', active: false,
+  { id: 'rise',      name: 'Rise',                short: 'RS',  color: '#ff7a59', glyph: '🔥', active: false, provider: 'jane',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
-  { id: 'trulieve',  name: 'Trulieve',            short: 'TL',  color: '#00a991', glyph: '🌱', active: false,
+  { id: 'trulieve',  name: 'Trulieve',            short: 'TL',  color: '#00a991', glyph: '🌱', active: false, provider: 'dutchie',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
-  { id: 'sunnyside', name: 'Sunnyside (Cresco)',  short: 'SU',  color: '#f9c22e', glyph: '☀️', active: false,
+  { id: 'sunnyside', name: 'Sunnyside (Cresco)',  short: 'SU',  color: '#f9c22e', glyph: '☀️', active: false, provider: 'custom',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
-  { id: 'verilife',  name: 'Verilife',            short: 'VL',  color: '#3c6e71', glyph: '🍃', active: true,
+  { id: 'verilife',  name: 'Verilife',            short: 'VL',  color: '#3c6e71', glyph: '🍃', active: true,  provider: 'jane',
     stores: [
       { id: '2587', name: 'Chester',          slug: 'verilife-chester-pa',          city: 'Chester, PA' },
       { id: '3846', name: 'Lancaster',        slug: 'verilife-lancaster-pa',        city: 'Lancaster, PA' },
@@ -4300,7 +4401,7 @@ const BRANDS = [
       { id: '3052', name: 'Williamsport',     slug: 'verilife-williamsport-pa',     city: 'Williamsport, PA' },
     ],
   },
-  { id: 'beyond',    name: 'Beyond / Hello',       short: 'BH',  color: '#d65dd5', glyph: '✦', active: true,
+  { id: 'beyond',    name: 'Beyond / Hello',       short: 'BH',  color: '#d65dd5', glyph: '✦', active: true,  provider: 'jane',
     stores: [
       { id: '1852', name: 'Ardmore',              slug: 'beyond-hello-ardmore-pa',              city: 'Ardmore, PA' },
       { id: '1132', name: 'Bethlehem',            slug: 'beyond-hello-bethlehem-pa',            city: 'Bethlehem, PA' },
@@ -4322,9 +4423,9 @@ const BRANDS = [
       { id: '1640', name: 'West Chester',         slug: 'beyond-hello-west-chester-pa',         city: 'West Chester, PA' },
     ],
   },
-  { id: 'zen',       name: 'Zen Leaf',            short: 'ZL',  color: '#6c63ff', glyph: '☯', active: false,
+  { id: 'zen',       name: 'Zen Leaf',            short: 'ZL',  color: '#6c63ff', glyph: '☯', active: false, provider: 'sweed',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
-  { id: 'ethos',     name: 'Ethos',               short: 'ET',  color: '#e55934', glyph: '◆', active: false,
+  { id: 'ethos',     name: 'Ethos',               short: 'ET',  color: '#e55934', glyph: '◆', active: false, provider: 'custom',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
 ];
 const BRAND_BY_ID = Object.fromEntries(BRANDS.map(b => [b.id, b]));
@@ -4677,49 +4778,113 @@ const state = {
   storeId: localStorage.getItem('terpfinder_store')   || '4365',
 };
 
-/* ─── API ─────────────────────────────────────────────── */
-async function loadMenu() {
-  setToast('loading', `Connecting to ${currentStore().name}…`);
-  document.getElementById('loading-sub').textContent =
-    `Pulling live inventory from store #${state.storeId} (${currentStore().name})`;
-  const requests = KINDS.map(k => ({
-    indexName: INDEX,
-    params: new URLSearchParams({
-      query: '',
-      hitsPerPage: '1000',
-      filters: `store_id = ${state.storeId} AND kind:${k}`,
-    }).toString(),
-  }));
-  try {
-    const res = await fetch(`https://${HOST}/1/indexes/*/queries`, {
-      method: 'POST',
-      headers: {
-        'X-Algolia-Application-Id': APP_ID,
-        'X-Algolia-API-Key': API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ requests }),
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const seen = new Set();
-    state.products = [];
-    for (const r of (data.results || [])) {
-      for (const h of (r.hits || [])) {
-        if (h.objectID && !seen.has(h.objectID)) {
+/* ─── API ───────────────────────────────────────────────
+ * Provider adapters return an array of Jane-shaped product objects.
+ * Every adapter MUST populate `_terps`, `_cannabs`, `_sizes`, `_subs`
+ * and a `kind` matching our KINDS set — the downstream rendering code
+ * assumes the Jane shape. Keeping provider quirks inside the adapter
+ * keeps one brand's API drift from cascading into another. */
+const PROVIDERS = {
+  /* Jane / iheartjane — shared Algolia creds, per-store filter.
+   * Active for Organic Remedies, Verilife, Beyond/Hello. */
+  jane: {
+    label: 'iHeartJane',
+    async fetchProducts(storeId) {
+      const requests = KINDS.map(k => ({
+        indexName: INDEX,
+        params: new URLSearchParams({
+          query: '',
+          hitsPerPage: '1000',
+          filters: `store_id = ${storeId} AND kind:${k}`,
+        }).toString(),
+      }));
+      const res = await fetch(`https://${HOST}/1/indexes/*/queries`, {
+        method: 'POST',
+        headers: {
+          'X-Algolia-Application-Id': APP_ID,
+          'X-Algolia-API-Key': API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ requests }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const seen = new Set();
+      const out = [];
+      for (const r of (data.results || [])) {
+        for (const h of (r.hits || [])) {
+          if (!h.objectID || seen.has(h.objectID)) continue;
           seen.add(h.objectID);
           h._terps = extractTerps(h);
           h._cannabs = extractCannabinoids(h);
           h._sizes = extractSizes(h);
           h._subs  = detectSubtypes(h);
-          /* Tincture products get folded into the edible category */
           if (h.kind === 'tincture') {
             h.kind = 'edible';
             if (!h._subs.includes('tincture')) h._subs.push('tincture');
           }
-          state.products.push(h);
+          out.push(h);
         }
       }
+      return out;
+    },
+  },
+
+  /* Dutchie — embed URL pattern is dutchie.com/embedded-menu/{cName},
+   * backed by a GraphQL API at dispensary.api.dutchie.com/plus/graphql.
+   * The exact operation + Apollo-persisted-query hashes haven't been
+   * captured from a live browser session yet, so we throw a clear error
+   * and the loadMenu handler renders the "menu unavailable" state.
+   *
+   * Handoff for the next session:
+   *   1. Open any Trulieve store page in Chrome, open DevTools → Network.
+   *   2. Filter to 'graphql'. Copy the request payload for the first
+   *      products query (usually operationName=FilteredProducts).
+   *   3. Paste it here; replace this stub with a real fetch + normalizer.
+   *   4. Product normalizer must map Dutchie's strainType/potencyCBD/etc.
+   *      into Jane's root_subtype/percent_thc/lab_results shape. */
+  dutchie: {
+    label: 'Dutchie',
+    async fetchProducts(/* storeId */) {
+      const err = new Error('Dutchie adapter pending — live GraphQL capture needed (see PROVIDERS.dutchie comment).');
+      err._adapterMissing = true;
+      throw err;
+    },
+  },
+
+  /* Sweed (Zen Leaf) and bespoke custom stacks (Sunnyside, Ethos):
+   * not fingerprinted yet. Same graceful-failure pattern as Dutchie —
+   * the UI will show a "menu temporarily unavailable" state rather than
+   * white-screening if anyone flips their active flag prematurely. */
+  sweed: {
+    label: 'Sweed POS',
+    async fetchProducts() { const e = new Error('Sweed adapter pending.'); e._adapterMissing = true; throw e; },
+  },
+  custom: {
+    label: 'custom stack',
+    async fetchProducts() { const e = new Error('Custom adapter pending.'); e._adapterMissing = true; throw e; },
+  },
+};
+
+function brandProviderKey() {
+  const b = BRAND_BY_ID[state.selBrandId];
+  return (b && b.provider) || 'jane';
+}
+
+async function loadMenu() {
+  setToast('loading', `Connecting to ${currentStore().name}…`);
+  document.getElementById('loading-sub').textContent =
+    `Pulling live inventory from store #${state.storeId} (${currentStore().name})`;
+  const provKey = brandProviderKey();
+  const provider = PROVIDERS[provKey] || PROVIDERS.jane;
+  try {
+    state.products = await provider.fetchProducts(state.storeId);
+    /* Resilience: if an adapter returns an empty list we surface it
+     * clearly rather than dumping the patient into an empty category
+     * screen with no explanation. A menu with zero products is almost
+     * always a broken integration, not a genuinely empty store. */
+    if (!state.products.length) {
+      throw Object.assign(new Error('Menu returned zero products — integration may be out of date.'), { _emptyMenu: true });
     }
     setToast('ok', `✓ ${currentStore().name} loaded — ${state.products.length.toLocaleString()} products`);
     setTimeout(() => document.getElementById('toast').classList.add('hidden'), 2800);
@@ -4727,13 +4892,22 @@ async function loadMenu() {
     setScreen('category');
   } catch (e) {
     console.error(e);
-    setToast('fail', `Could not reach menu. ${e?.message || ''}`);
+    const pending = e && (e._adapterMissing || e._emptyMenu);
+    setToast('fail', pending ? `Menu temporarily unavailable.` : `Could not reach menu. ${e?.message || ''}`);
+    const brand = BRAND_BY_ID[state.selBrandId];
+    const fallbackHref = (brand && brand.id === 'organic')
+      ? 'https://www.iheartjane.com/stores/' + (currentStore().slug || '')
+      : '#';
     document.getElementById('screen-loading').innerHTML = `
       <div class="state-box">
         <div class="icon">⚠️</div>
-        <p><strong>Could not load menu.</strong></p>
-        <p class="sub">${e?.message || 'Unknown error'}</p>
-        <p class="sub" style="margin-top:12px;">If CORS is blocking, serve via <code>npx serve .</code></p>
+        <p><strong>${pending ? 'Menu temporarily unavailable.' : 'Could not load menu.'}</strong></p>
+        <p class="sub">${pending
+          ? `${esc(brand?.name || 'This brand')} — ${esc(provider.label)} adapter not yet live.`
+          : esc(e?.message || 'Unknown error')}</p>
+        ${pending
+          ? `<p class="sub" style="margin-top:12px;">Try a different brand from the picker, or check back soon.</p>`
+          : `<p class="sub" style="margin-top:12px;">If CORS is blocking, serve via <code>npx serve .</code></p>`}
       </div>`;
   }
 }
