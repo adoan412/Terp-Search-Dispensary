@@ -692,6 +692,25 @@
   @media (max-width: 700px) { .tip-link { right: 80px; } .tip-link .lbl { display: none; } }
   @media print { .tip-link { display: none !important; } }
 
+  /* "Built with Claude" credit — sits to the left of the tip jar. Same shape
+   * as its siblings; deliberately understated so it reads as attribution,
+   * not promotion. The sparkle is an asterism, not a brand mark. */
+  .credit-link {
+    position: fixed; right: 290px; bottom: 14px; z-index: 50;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 12px; border-radius: 999px;
+    background: var(--surface); color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-size: 11px; font-weight: 600;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: background .15s, border-color .15s, color .15s, transform .12s;
+  }
+  .credit-link:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+  .credit-link svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; opacity: .85; }
+  @media (max-width: 700px) { .credit-link { right: 146px; } .credit-link .lbl { display: none; } }
+  @media print { .credit-link { display: none !important; } }
+
   .icon-btn {
     border: 0; background: transparent;
     width: 42px; height: 42px; border-radius: 12px;
@@ -1722,7 +1741,7 @@
   .app[data-picker="true"] .layout,
   .app[data-picker="true"] #toast { display: none; }
   /* No print for the splash / pickers either */
-  @media print { .splash, .picker-screen, .github-link { display: none !important; } }
+  @media print { .splash, .picker-screen, .github-link, .credit-link { display: none !important; } }
 </style>
 </head>
 <body>
@@ -2014,6 +2033,14 @@
 
   </div>
 </div>
+
+<!-- Built-with-Claude credit pill — sits just left of the tip jar.
+     Tony's call: he wanted the AI work credited honestly without it
+     reading as promotion. Asterism mark + muted text keeps it modest. -->
+<a class="credit-link no-print" href="https://www.anthropic.com/claude" target="_blank" rel="noopener" aria-label="Built with Claude (Anthropic)" title="Wizard logic, multi-brand adapters, and themes were co-built with Claude.">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l1.6 5 5 1.6-5 1.6L12 15.7l-1.6-5-5-1.6 5-1.6L12 2.5zm6 13l.9 2.7 2.7.9-2.7.9-.9 2.7-.9-2.7-2.7-.9 2.7-.9.9-2.7zm-12 0l.9 2.7 2.7.9-2.7.9-.9 2.7-.9-2.7L2.4 19l2.7-.9.9-2.6z"/></svg>
+  <span class="lbl">Built with Claude</span>
+</a>
 
 <!-- Tip-jar link (paypal.me) — sits just left of GitHub pill -->
 <a class="tip-link no-print" href="https://www.paypal.com/paypalme/Adoan412" target="_blank" rel="noopener" aria-label="Buy me a coffee (PayPal)" title="Keeps this project maintained ☕">
@@ -4384,8 +4411,29 @@ const BRANDS = [
   },
   { id: 'rise',      name: 'Rise',                short: 'RS',  color: '#ff7a59', glyph: '🔥', active: false, provider: 'jane',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
-  { id: 'trulieve',  name: 'Trulieve',            short: 'TL',  color: '#00a991', glyph: '🌱', active: false, provider: 'dutchie',
-    stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
+  { id: 'trulieve',  name: 'Trulieve',            short: 'TL',  color: '#00a991', glyph: '🌱', active: true,  provider: 'dutchie',
+    stores: [
+      { id: '5fcd803c0d0a250106ded129', name: 'Camp Hill',                          city: 'Camp Hill, PA',          slug: 'camp-hill' },
+      { id: '628414ba169240008cb1b334', name: 'Coatesville',                        city: 'Coatesville, PA',        slug: 'coatesville' },
+      { id: '5fcd8074fa3cf100cb2b7098', name: 'Cranberry Township',                 city: 'Cranberry Township, PA', slug: 'cranberry-township' },
+      { id: '5ed197666ccfd20132a5d574', name: 'East York',                          city: 'East York, PA',          slug: 'east-york' },
+      { id: '5fcd8098bdf7ed00ebdb7320', name: 'Harrisburg',                         city: 'Harrisburg, PA',         slug: 'harrisburg' },
+      { id: '5fcd80bede6523010411865e', name: 'Johnstown',                          city: 'Johnstown, PA',          slug: 'johnstown' },
+      { id: '6274290112704c0237179a91', name: 'King of Prussia',                    city: 'King of Prussia, PA',    slug: 'king-of-prussia' },
+      { id: '6453cc9ec5742b0055cb3531', name: 'Limerick',                           city: 'Limerick, PA',           slug: 'limerick' },
+      { id: '627428c500f2d04cdad66a81', name: 'Philadelphia',                       city: 'Philadelphia, PA',       slug: 'philadelphia' },
+      { id: '6169ba6f97abf100ab976dd6', name: 'Philadelphia – Center City',         city: 'Philadelphia, PA',       slug: 'philadelphia-center-city' },
+      { id: '60d24e689655f600b5ca1bc2', name: 'Philadelphia – Washington Sq West',  city: 'Philadelphia, PA',       slug: 'philadelphia-washington-square-west' },
+      { id: '627429962262fd6c7c3dbbb2', name: 'Pittsburgh – Squirrel Hill',         city: 'Pittsburgh, PA',         slug: 'pittsburgh' },
+      { id: '6090306bd43b6e00c28cf0e5', name: 'Pittsburgh – North Shore',           city: 'Pittsburgh, PA',         slug: 'pittsburgh-north-shore' },
+      { id: '5fcd815e51b1c000ec2f25a3', name: 'Reading',                            city: 'Reading, PA',            slug: 'reading' },
+      { id: '5fcd8116cf099200b819fd12', name: 'Reading – Fifth',                    city: 'Reading, PA',            slug: 'reading-fifth' },
+      { id: '5fcd8181656f8f00bc07dc8b', name: 'Scranton',                           city: 'Scranton, PA',           slug: 'scranton' },
+      { id: '6272e32719bbdc008a71bb98', name: 'Washington',                         city: 'Washington, PA',         slug: 'washington' },
+      { id: '609456326bf69800d1533fc2', name: 'Whitehall',                          city: 'Whitehall, PA',          slug: 'whitehall' },
+      { id: '667581d71356d84114cfcc05', name: 'Wilkes-Barre',                       city: 'Wilkes-Barre, PA',       slug: 'wilkes-barre' },
+      { id: '62742963973a624cc8dad488', name: 'Zelienople',                         city: 'Zelienople, PA',         slug: 'zelienople' },
+    ] },
   { id: 'sunnyside', name: 'Sunnyside (Cresco)',  short: 'SU',  color: '#f9c22e', glyph: '☀️', active: false, provider: 'custom',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
   { id: 'verilife',  name: 'Verilife',            short: 'VL',  color: '#3c6e71', glyph: '🍃', active: true,  provider: 'jane',
@@ -4778,6 +4826,195 @@ const state = {
   storeId: localStorage.getItem('terpfinder_store')   || '4365',
 };
 
+/* ─── Dutchie adapter helpers ─────────────────────────────
+ * All used by PROVIDERS.dutchie below. Defined out-of-line because the
+ * field shape is messier than Jane's and benefits from named helpers. */
+
+/* Apollo persisted-query hash for the FilteredProducts operation.
+ * Captured 2026-04-24 from a live Trulieve Squirrel Hill session. Stable until
+ * Dutchie's frontend ships a new query; if menus break with PersistedQueryNotFound,
+ * recapture from DevTools (Network → graphql → Copy as cURL). */
+const DUTCHIE_PERSISTED_HASH = '98b4aaef79a84ae804b64d550f98dd64d7ba0aa6d836eb6b5d4b2ae815c95e32';
+
+/* CORS proxy. Dutchie's API doesn't echo Access-Control-Allow-Origin to
+ * foreign callers, so we route POSTs through corsproxy.io. Tested 2026-04-25:
+ * corsproxy.io is the only public proxy that simultaneously (a) gets past
+ * Cloudflare's bot-detection, (b) forwards our content-type header so
+ * Apollo's CSRF check passes, and (c) supports POST.
+ *
+ * If this goes down or starts rate-limiting, replace DUTCHIE_PROXY with a
+ * self-hosted Cloudflare Worker (10 min setup, free tier handles all
+ * expected traffic). The Worker just needs to forward the POST and add
+ * `Access-Control-Allow-Origin: *` to the response. Until then, adapter
+ * failure cascades to loadMenu's friendly "menu temporarily unavailable"
+ * state — patients won't see a white screen. */
+const DUTCHIE_PROXY = url => 'https://corsproxy.io/?' + encodeURIComponent(url);
+const DUTCHIE_ENDPOINT = 'https://dutchie.com/api-4/graphql';
+
+async function dutchieFetch(body) {
+  const res = await fetch(DUTCHIE_PROXY(DUTCHIE_ENDPOINT), {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-apollo-operation-name': body.operationName || 'FilteredProducts',
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error('Dutchie HTTP ' + res.status);
+  const json = await res.json();
+  if (json && json.errors && json.errors.length) {
+    throw new Error('Dutchie GraphQL: ' + json.errors[0].message);
+  }
+  return json;
+}
+
+/* Dutchie `type` → our internal `kind`. Pre-rolls intentionally drop out
+ * (returns null) — Tony removed pre-rolls from the OR build and we keep
+ * that decision consistent across brands. */
+const DUTCHIE_TYPE_TO_KIND = {
+  'Flower': 'flower',
+  'Vape': 'vape',
+  'Vaporizers': 'vape',
+  'Concentrate': 'extract',
+  'Concentrates': 'extract',
+  'Extract': 'extract',
+  'Edible': 'edible',
+  'Edibles': 'edible',
+  'Tincture': 'edible',
+  'Tinctures': 'edible',
+  'Topical': 'topical',
+  'Topicals': 'topical',
+  'Accessories': 'gear',
+  'Apparel': 'gear',
+};
+function dutchieKind(type) {
+  if (!type) return null;
+  if (/pre[\s-]?roll/i.test(type)) return null;
+  return DUTCHIE_TYPE_TO_KIND[type] || null;
+}
+
+/* Dutchie option label (e.g. "3.5g", "1g", "each", "0.5g") → our SIZE_KEYS key. */
+function dutchieSizeKey(option) {
+  if (option == null) return 'each';
+  const o = String(option).toLowerCase().replace(/\s+/g, '');
+  if (o === '0.5g' || o === '0.5gram' || o === 'halfgram' || o === '.5g') return 'half_gram';
+  if (o === '1g' || o === '1gram' || o === 'gram')                       return 'gram';
+  if (o === '2g' || o === '2gram')                                       return 'two_gram';
+  if (o === '3.5g' || o === 'eighth' || o === '1/8oz' || o === '1/8')    return 'eighth_ounce';
+  if (o === '7g' || o === 'quarter' || o === '1/4oz' || o === '1/4')     return 'quarter_ounce';
+  if (o === '14g' || o === 'half' || o === '1/2oz' || o === '1/2')       return 'half_ounce';
+  if (o === '28g' || o === 'ounce' || o === '1oz')                       return 'ounce';
+  return 'each';
+}
+
+/* Dutchie reports effect intensities (0-10) keyed by name. We map each effect
+ * to whichever terpene the wizard's EFFECT_TILES already associates with that
+ * mood, so the same wizard tile lights up the same products regardless of
+ * provider. Synthetic _terps are flagged `_synthetic:true` so the chip
+ * renderer can hide the % suffix (since these are mood-derived, not lab-measured). */
+const DUTCHIE_EFFECT_TO_TERP = {
+  sleepy:    'Myrcene',
+  relaxed:   'Myrcene',
+  calm:      'Linalool',
+  happy:     'Limonene',
+  euphoric:  'Limonene',
+  uplifted:  'Limonene',
+  energetic: 'Terpinolene',
+  creative:  'Terpinolene',
+  inspired:  'Terpinolene',
+  focused:   'Pinene',
+  clearMind: 'Pinene',
+  painRelief:'Caryophyllene',
+};
+function dutchieSynthTerps(effects) {
+  if (!effects || typeof effects !== 'object') return [];
+  const byTerp = {};
+  for (const [k, v] of Object.entries(effects)) {
+    if (typeof v !== 'number' || v <= 0) continue;
+    const terp = DUTCHIE_EFFECT_TO_TERP[k];
+    if (!terp) continue;
+    /* 0-10 intensity → 0-1.0 numeric (well above MIN_TERP_VALUE=0.05 so they
+     * register as hits for scoring). The actual number is meaningless to the
+     * patient — chip renderer suppresses the % suffix on _synthetic terps. */
+    const synth = v / 10;
+    if (!byTerp[terp] || synth > byTerp[terp].value) {
+      byTerp[terp] = { name: terp, value: synth, _synthetic: true };
+    }
+  }
+  return Object.values(byTerp);
+}
+
+/* Dutchie product → Jane-shaped product. Returns null for kinds we drop
+ * (pre-rolls) or unknown types. */
+function dutchieToJaneShape(p) {
+  const kind = dutchieKind(p.type);
+  if (!kind) return null;
+
+  const norm = {
+    objectID: p._id || p.id,
+    product_id: p._id || p.id,
+    name: p.Name || '',
+    brand: p.brandName || (p.brand && p.brand.name) || '',
+    kind,
+    category: (p.strainType || '').toLowerCase(),
+    percent_thc: (p.THCContent && Array.isArray(p.THCContent.range))
+      ? Number(p.THCContent.range[0]) : null,
+    image_urls: (Array.isArray(p.images) && p.images.length)
+      ? p.images.map(im => im && (im.url || im)).filter(Boolean)
+      : (p.Image ? [p.Image] : []),
+    root_subtype: p.subcategory || '',
+    product_subtype: p.subcategory || '',
+    description: '',
+  };
+
+  /* Dutchie price arrays are index-aligned with Options[]. We collapse them
+   * to Jane's price_<size>/discounted_price_<size> per-size scalars. PA is
+   * medical-only so medicalPrices is the source of truth; we fall through
+   * to recPrices defensively. */
+  const opts = p.Options || [];
+  const med  = p.medicalPrices || [];
+  const medS = p.medicalSpecialPrices || [];
+  const rec  = p.recPrices || [];
+  const recS = p.recSpecialPrices || [];
+  for (let i = 0; i < opts.length; i++) {
+    const key = dutchieSizeKey(opts[i]);
+    const full = med[i] != null ? med[i] : (rec[i] != null ? rec[i] : null);
+    const disc = medS[i] != null ? medS[i] : (recS[i] != null ? recS[i] : null);
+    if (full == null && disc == null) continue;
+    /* On collisions (multiple options resolving to the same size key), keep
+     * the lower price — better for the patient and stays comparable across
+     * stores. */
+    const existing = norm['price_' + key];
+    if (existing == null || (full != null && full < existing)) {
+      norm['price_' + key] = full;
+    }
+    if (disc != null) {
+      const existingDisc = norm['discounted_price_' + key];
+      if (existingDisc == null || disc < existingDisc) {
+        norm['discounted_price_' + key] = disc;
+      }
+    }
+  }
+
+  norm._terps   = dutchieSynthTerps(p.effects);
+  norm._cannabs = [];
+  if (Number.isFinite(norm.percent_thc) && norm.percent_thc > 0) {
+    norm._cannabs.push({ name: 'THC', value: norm.percent_thc });
+  }
+  const cbd = (p.CBDContent && Array.isArray(p.CBDContent.range))
+    ? Number(p.CBDContent.range[0]) : null;
+  if (Number.isFinite(cbd) && cbd > 0) {
+    norm._cannabs.push({ name: 'CBD', value: cbd });
+  }
+  norm._sizes  = extractSizes(norm);
+  norm._subs   = detectSubtypes(norm);
+  norm._totalTerps = (p.totalTerpenes && Array.isArray(p.totalTerpenes.range))
+    ? Number(p.totalTerpenes.range[0]) : null;
+  norm._effects   = p.effects || null;
+  norm._isDutchie = true;
+  return norm;
+}
+
 /* ─── API ───────────────────────────────────────────────
  * Provider adapters return an array of Jane-shaped product objects.
  * Every adapter MUST populate `_terps`, `_cannabs`, `_sizes`, `_subs`
@@ -4830,25 +5067,85 @@ const PROVIDERS = {
     },
   },
 
-  /* Dutchie — embed URL pattern is dutchie.com/embedded-menu/{cName},
-   * backed by a GraphQL API at dispensary.api.dutchie.com/plus/graphql.
-   * The exact operation + Apollo-persisted-query hashes haven't been
-   * captured from a live browser session yet, so we throw a clear error
-   * and the loadMenu handler renders the "menu unavailable" state.
+  /* Dutchie embedded-menu adapter — used by Trulieve PA stores.
    *
-   * Handoff for the next session:
-   *   1. Open any Trulieve store page in Chrome, open DevTools → Network.
-   *   2. Filter to 'graphql'. Copy the request payload for the first
-   *      products query (usually operationName=FilteredProducts).
-   *   3. Paste it here; replace this stub with a real fetch + normalizer.
-   *   4. Product normalizer must map Dutchie's strainType/potencyCBD/etc.
-   *      into Jane's root_subtype/percent_thc/lab_results shape. */
+   * API: GET https://dutchie.com/api-4/graphql with operationName=FilteredProducts
+   *      and Apollo persistedQuery hash. The hash is stable across sessions and
+   *      tied to a frontend deploy — if menus stop loading with a
+   *      'PersistedQueryNotFound' error, capture a fresh request from devtools
+   *      (Network → filter graphql → copy as cURL) and update DUTCHIE_PERSISTED_HASH.
+   *
+   * CORS: dutchie.com does NOT echo Access-Control-Allow-Origin to foreign
+   *      callers, so direct fetch from file:// or GitHub Pages is browser-blocked.
+   *      We route through a small chain of public proxies (corsproxy.io,
+   *      allorigins.win). For long-term reliability, replace with a self-hosted
+   *      Cloudflare Worker — see project_pa_buddy_finder_roadmap memory.
+   *
+   * Field mapping notes:
+   *   - Dutchie returns `effects` as a 0-10 intensity map (calm/sleepy/happy/
+   *     painRelief/etc) but does NOT return per-terpene profiles, only a
+   *     `totalTerpenes` sum. We synthesize `_terps` from effects so the wizard's
+   *     terpene-driven scoring still finds Dutchie products. The terps are
+   *     flagged `_synthetic: true` and the chip renderer suppresses the % suffix
+   *     for those, so patients don't see fake-looking lab numbers. The total-%
+   *     sits on `_totalTerps` for the inline display feature. */
   dutchie: {
     label: 'Dutchie',
-    async fetchProducts(/* storeId */) {
-      const err = new Error('Dutchie adapter pending — live GraphQL capture needed (see PROVIDERS.dutchie comment).');
-      err._adapterMissing = true;
-      throw err;
+    async fetchProducts(storeId) {
+      /* perPage tuned to fit under corsproxy.io's ~500KB response cap.
+       * 50 keeps each page well under that with full product detail. */
+      const perPage = 50;
+      const all = [];
+      let page = 0;
+      let totalPages = 1;
+      while (page < totalPages) {
+        const body = {
+          operationName: 'FilteredProducts',
+          variables: {
+            includeEnterpriseSpecials: false,
+            productsFilter: {
+              dispensaryId: storeId,
+              pricingType: 'med',
+              strainTypes: [],
+              subcategories: [],
+              Status: 'Active',
+              types: [],
+              useCache: false,
+              isDefaultSort: true,
+              sortBy: 'popular',
+              sortDirection: 1,
+              bypassOnlineThresholds: false,
+              isKioskMenu: false,
+              removeProductsBelowOptionThresholds: true,
+              platformType: 'ONLINE_MENU',
+              preOrderType: null,
+            },
+            page,
+            perPage,
+          },
+          extensions: {
+            persistedQuery: { version: 1, sha256Hash: DUTCHIE_PERSISTED_HASH },
+          },
+        };
+        const json = await dutchieFetch(body);
+        const fp = json && json.data && json.data.filteredProducts;
+        if (!fp) throw new Error('Dutchie: missing filteredProducts payload');
+        const products = fp.products || [];
+        const qi = fp.queryInfo || {};
+        if (Number.isFinite(qi.totalPages) && qi.totalPages > 0) totalPages = qi.totalPages;
+        for (const p of products) {
+          const norm = dutchieToJaneShape(p);
+          if (norm) all.push(norm);
+        }
+        /* Trust totalPages from queryInfo; Dutchie sometimes returns short
+         * pages mid-stream (inventory shifts between requests), so an
+         * early-break on `products.length < perPage` would silently truncate. */
+        page += 1;
+        if (totalPages > 0 && page >= totalPages) break;
+        if (products.length === 0) break;          /* defensive */
+        if (page > 60) break;                      /* safety: ~3000+ products cap */
+      }
+      return all;
     },
   },
 
@@ -5429,7 +5726,11 @@ function renderProductCard(p) {
   const chipHTML = (chips.length)
     ? `<div class="pcard-terps">${chips.slice(0, 6).map(t => {
         const isMatch = selSet.includes(t.name);
-        return `<span class="tchip${isMatch ? ' match' : ''}">${t.name}${t.value != null ? ' '+t.value.toFixed(2)+'%' : ''}</span>`;
+        /* Suppress the % suffix on synthetic terps — these are mood-derived
+         * (Dutchie effects map) rather than lab-measured, so showing a
+         * decimal would read as fake lab data. */
+        const showVal = t.value != null && !t._synthetic;
+        return `<span class="tchip${isMatch ? ' match' : ''}">${t.name}${showVal ? ' '+t.value.toFixed(2)+'%' : ''}</span>`;
       }).join('')}</div>`
     : '';
 
