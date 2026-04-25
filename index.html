@@ -1275,6 +1275,10 @@
   .bdg-sale  {background:var(--hot-soft);   color:var(--hot); font-weight:900; position:relative; }
   .bdg-thc   {background:var(--surface-alt);color:var(--text-muted);}
   .bdg-thc.hi{background:var(--accent-soft);color:var(--accent); font-weight:900;}
+  /* Total-terpene badge — sits next to THC. Values >= 2% are connoisseur-grade
+   * per Tony's domain knowledge; we visually elevate those without screaming. */
+  .bdg-tterp   {background:var(--surface-alt);color:var(--text-muted);}
+  .bdg-tterp.hi{background:var(--hybrid-soft);color:var(--hybrid); font-weight:900;}
   .bdg-match {background:var(--accent-soft);color:var(--accent);}
   .bdg-sub   {background:var(--surface-alt);color:var(--text-muted); text-transform:capitalize;}
 
@@ -5056,6 +5060,7 @@ const PROVIDERS = {
           h._cannabs = extractCannabinoids(h);
           h._sizes = extractSizes(h);
           h._subs  = detectSubtypes(h);
+          h._totalTerps = extractTotalTerps(h);
           if (h.kind === 'tincture') {
             h.kind = 'edible';
             if (!h._subs.includes('tincture')) h._subs.push('tincture');
@@ -5228,6 +5233,36 @@ function extractTerps(p) {
     }
   }
   return Object.values(byName);
+}
+
+/* Total-terpene % for connoisseur-grade signal. Sums every non-cannabinoid
+ * lab result, BUT first dedupes by compound name across the multiple
+ * `lab_results[]` entries Jane reports per product (one entry per batch /
+ * price tier). Naively summing across batches double-counts, inflating the
+ * total ~2x. Strategy: max-per-compound across batches, then sum.
+ *
+ * Returns null when no terp data is reported, so we render nothing rather
+ * than misleading "0.00%". Used for the inline badge; >= 2% is the
+ * connoisseur threshold per Tony's domain knowledge. */
+function extractTotalTerps(p) {
+  const byName = {};
+  for (const entry of (p.lab_results || [])) {
+    for (const r of (entry.lab_results || [])) {
+      const raw = (r.unit_id || r.compound_name || '').trim();
+      if (!raw || CANNABINOID_UNITS.has(raw)) continue;
+      /* Skip "Total Terpenes" / "Total Terps" rows if any lab reports them
+       * pre-summed — including them would double the actual total. */
+      if (/^total\s*(terp|terpenes?)/i.test(raw)) continue;
+      const v = Number(r.value);
+      if (!Number.isFinite(v) || v <= 0) continue;
+      if (byName[raw] == null || v > byName[raw]) byName[raw] = v;
+    }
+  }
+  const names = Object.keys(byName);
+  if (!names.length) return null;
+  let sum = 0;
+  for (const n of names) sum += byName[n];
+  return sum;
 }
 
 function extractCannabinoids(p) {
@@ -5690,6 +5725,21 @@ function renderProductCard(p) {
   if (onSale) badges.push(`<span class="bdg bdg-sale">SALE</span>`);
   if (p._mc) badges.push(`<span class="bdg bdg-match">${p._mc}/${state.selCat === 'edible' ? state.selCannabs.length : state.selTerps.length}</span>`);
   if (thc != null && thc > 0) badges.push(`<span class="bdg bdg-thc${thc >= 28 ? ' hi' : ''}">${thc.toFixed(1)}% THC</span>`);
+  /* Total terpene % — calibrated per kind because absolute totals aren't
+   * comparable across forms. Flower tops out around 5%; vapes 5-12%; extracts
+   * 10-20%. Hiding on edibles/topicals/gear because terp totals aren't a
+   * useful signal for those (terps decompose with heat / get diluted with
+   * carrier oils / aren't the value driver patients are weighing). */
+  const tterp = Number.isFinite(p._totalTerps) ? p._totalTerps : null;
+  const TTERP_HI = { flower: 2, vape: 6, extract: 8 };
+  const hiBar = TTERP_HI[p.kind];
+  if (tterp != null && tterp > 0 && hiBar != null) {
+    const hi = tterp >= hiBar ? ' hi' : '';
+    const tip = p.kind === 'flower'
+      ? 'Sum of detected terpenes — over 2% is connoisseur-grade flower.'
+      : `Sum of detected terpenes (${p.kind}). Over ${hiBar}% is the high-end tier for this category.`;
+    badges.push(`<span class="bdg bdg-tterp${hi}" title="${tip}">${tterp.toFixed(2)}% terps</span>`);
+  }
   /* subtype pill */
   if (p._subs?.length) {
     const cfg = SUBTYPE_CONFIG[p.kind];
