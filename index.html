@@ -711,6 +711,23 @@
   @media (max-width: 700px) { .credit-link { right: 146px; } .credit-link .lbl { display: none; } }
   @media print { .credit-link { display: none !important; } }
 
+  /* Built-with-Codex credit — same understated family as the Claude pill. */
+  .codex-link {
+    position: fixed; right: 452px; bottom: 14px; z-index: 50;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 12px; border-radius: 999px;
+    background: var(--surface); color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-size: 11px; font-weight: 600;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: background .15s, border-color .15s, color .15s, transform .12s;
+  }
+  .codex-link:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+  .codex-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; opacity: .85; }
+  @media (max-width: 700px) { .codex-link { right: 212px; } .codex-link .lbl { display: none; } }
+  @media print { .codex-link { display: none !important; } }
+
   .icon-btn {
     border: 0; background: transparent;
     width: 42px; height: 42px; border-radius: 12px;
@@ -926,6 +943,20 @@
   .side-toggle input:checked + .side-toggle-box::after {
     left: 16px; background: var(--accent);
   }
+  .side-select-label {
+    display: block;
+    margin: 8px 0 4px;
+    font-size: 11px; font-weight: 800;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em;
+  }
+  .side-select {
+    width: 100%; box-sizing: border-box;
+    padding: 8px 10px;
+    background: var(--surface-alt); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text);
+    font-size: 12px; font-weight: 700;
+  }
+  .side-select:focus { border-color: var(--accent); background: var(--surface); }
   .side-brand-head {
     display: flex; justify-content: space-between; align-items: center;
     font-size: 11px; font-weight: 800;
@@ -1776,7 +1807,7 @@
   .app[data-picker="true"] .layout,
   .app[data-picker="true"] #toast { display: none; }
   /* No print for the splash / pickers either */
-  @media print { .splash, .picker-screen, .github-link, .credit-link { display: none !important; } }
+  @media print { .splash, .picker-screen, .github-link, .credit-link, .codex-link { display: none !important; } }
 </style>
 </head>
 <body>
@@ -1902,6 +1933,18 @@
           <span class="side-toggle-box"></span>
           <span class="side-toggle-lbl">On sale only</span>
         </label>
+        <label class="side-toggle" id="side-top-shelf-wrap">
+          <input type="checkbox" id="side-top-shelf">
+          <span class="side-toggle-box"></span>
+          <span class="side-toggle-lbl">Top Shelf only</span>
+        </label>
+        <label class="side-select-label" for="side-sort">Sort</label>
+        <select class="side-select" id="side-sort">
+          <option value="relevance">Best match</option>
+          <option value="thc_desc">THC high to low</option>
+          <option value="price_asc">Price low to high</option>
+          <option value="terps_desc">Terps high to low</option>
+        </select>
         <div class="side-brand-head">
           <span>Brand</span>
           <button type="button" class="side-brand-clear" id="side-brand-clear">clear</button>
@@ -2081,6 +2124,12 @@
 <a class="credit-link no-print" href="https://www.anthropic.com/claude" target="_blank" rel="noopener" aria-label="Built with Claude (Anthropic)" title="Wizard logic, multi-brand adapters, and themes were co-built with Claude.">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l1.6 5 5 1.6-5 1.6L12 15.7l-1.6-5-5-1.6 5-1.6L12 2.5zm6 13l.9 2.7 2.7.9-2.7.9-.9 2.7-.9-2.7-2.7-.9 2.7-.9.9-2.7zm-12 0l.9 2.7 2.7.9-2.7.9-.9 2.7-.9-2.7L2.4 19l2.7-.9.9-2.6z"/></svg>
   <span class="lbl">Built with Claude</span>
+</a>
+
+<!-- Built-with-Codex credit pill — the backend tie-in and roadmap pass got a second AI fingerprint. -->
+<a class="codex-link no-print" href="https://openai.com/" target="_blank" rel="noopener" aria-label="Built with Codex (OpenAI)" title="Backend integration, roadmap polish, and verification were co-built with Codex.">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><path d="M14 4l-4 16"/></svg>
+  <span class="lbl">Built with Codex</span>
 </a>
 
 <!-- Tip-jar link (paypal.me) — sits just left of GitHub pill -->
@@ -4452,6 +4501,10 @@ const BRANDS = [
   },
   { id: 'rise',      name: 'Rise',                short: 'RS',  color: '#ff7a59', glyph: '🔥', active: false, provider: 'jane',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
+  { id: 'restore',   name: 'Restore',             short: 'RE',  color: '#3f8f5b', glyph: '✚', active: false, provider: 'custom',
+    stores: [{ id: 'tbd', name: 'Coming soon', city: 'requested on Reddit' }] },
+  { id: 'liberty',   name: 'Liberty',             short: 'LB',  color: '#2f6fd6', glyph: '★', active: false, provider: 'custom',
+    stores: [{ id: 'tbd', name: 'Coming soon', city: 'requested on Reddit' }] },
   { id: 'trulieve',  name: 'Trulieve',            short: 'TL',  color: '#00a991', glyph: '🌱', active: true,  provider: 'dutchie',
     stores: [
       { id: '5fcd803c0d0a250106ded129', name: 'Camp Hill',                          city: 'Camp Hill, PA',          slug: 'camp-hill' },
@@ -4866,6 +4919,8 @@ const state = {
   searchText: '',    // free-text filter on product/brand/strain
   selBrands: [],     // brand multi-select
   saleOnly: false,   // only show discounted items
+  topShelfOnly: false, // category-aware quality filter for flower/vape/extract
+  sortMode: 'relevance',
   cart: new Map(),
   theme:   localStorage.getItem('terpfinder_theme')   || 'noir',
   naughty: localStorage.getItem('terpfinder_naughty') === '1',
@@ -4882,36 +4937,48 @@ const state = {
  * recapture from DevTools (Network → graphql → Copy as cURL). */
 const DUTCHIE_PERSISTED_HASH = '98b4aaef79a84ae804b64d550f98dd64d7ba0aa6d836eb6b5d4b2ae815c95e32';
 
-/* CORS proxy. Dutchie's API doesn't echo Access-Control-Allow-Origin to
- * foreign callers, so we route POSTs through corsproxy.io. Tested 2026-04-25:
- * corsproxy.io is the only public proxy that simultaneously (a) gets past
- * Cloudflare's bot-detection, (b) forwards our content-type header so
- * Apollo's CSRF check passes, and (c) supports POST.
+/* Dutchie relay. Dutchie's API doesn't echo Access-Control-Allow-Origin to
+ * browser callers, so we use Tony's Oracle proxy first and keep corsproxy.io
+ * as a fallback. Tested 2026-04-25: corsproxy.io is the only public proxy
+ * that simultaneously (a) gets past Cloudflare's bot-detection, (b) forwards
+ * our content-type header so Apollo's CSRF check passes, and (c) supports POST.
  *
- * If this goes down or starts rate-limiting, replace DUTCHIE_PROXY with a
- * self-hosted Cloudflare Worker (10 min setup, free tier handles all
- * expected traffic). The Worker just needs to forward the POST and add
- * `Access-Control-Allow-Origin: *` to the response. Until then, adapter
+ * If both relays go down, adapter
  * failure cascades to loadMenu's friendly "menu temporarily unavailable"
  * state — patients won't see a white screen. */
+const DUTCHIE_ORACLE_PROXY_BASE = 'http://129.80.9.166:8787';
+const DUTCHIE_PROXY_BASE = localStorage.getItem('pa_buddy_dutchie_proxy') || DUTCHIE_ORACLE_PROXY_BASE;
 const DUTCHIE_PROXY = url => 'https://corsproxy.io/?' + encodeURIComponent(url);
 const DUTCHIE_ENDPOINT = 'https://dutchie.com/api-4/graphql';
 
 async function dutchieFetch(body) {
-  const res = await fetch(DUTCHIE_PROXY(DUTCHIE_ENDPOINT), {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-apollo-operation-name': body.operationName || 'FilteredProducts',
-    },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error('Dutchie HTTP ' + res.status);
-  const json = await res.json();
-  if (json && json.errors && json.errors.length) {
-    throw new Error('Dutchie GraphQL: ' + json.errors[0].message);
+  const targets = [];
+  if (DUTCHIE_PROXY_BASE) targets.push(DUTCHIE_PROXY_BASE.replace(/\/+$/, '') + '/dutchie/graphql');
+  targets.push(DUTCHIE_PROXY(DUTCHIE_ENDPOINT));
+
+  let lastErr = null;
+  for (const target of targets) {
+    try {
+      const res = await fetch(target, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-apollo-operation-name': body.operationName || 'FilteredProducts',
+        },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error('Dutchie HTTP ' + res.status);
+      const json = await res.json();
+      if (json && json.errors && json.errors.length) {
+        throw new Error('Dutchie GraphQL: ' + json.errors[0].message);
+      }
+      return json;
+    } catch (err) {
+      lastErr = err;
+      console.warn('Dutchie relay failed, trying fallback if available:', target, err);
+    }
   }
-  return json;
+  throw lastErr || new Error('Dutchie proxy unavailable');
 }
 
 /* Dutchie `type` → our internal `kind`. Pre-rolls intentionally drop out
@@ -5489,6 +5556,7 @@ function renderCategoryGrid() {
       state.selCat = c.kind;
       state.selSubs = []; state.selSize = null; state.selTerps = [];
       state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
+      state.searchText = ''; state.selBrands = []; state.saleOnly = false; state.topShelfOnly = false; state.sortMode = 'relevance';
       state.matchMode = 'terp';
       goNext();
     });
@@ -5681,6 +5749,33 @@ function renderExtractGrid() {
   }
 }
 
+const TOP_SHELF_RULES = {
+  flower:  { thc: 28, terps: 2 },
+  vape:    { thc: 75, terps: 5 },
+  extract: { thc: 70, terps: 8 },
+};
+function topShelfRule(kind) {
+  return TOP_SHELF_RULES[kind] || null;
+}
+function isTopShelf(p) {
+  const rule = topShelfRule(p.kind);
+  if (!rule) return true;
+  const thc = Number.isFinite(p.percent_thc) ? p.percent_thc : 0;
+  const terps = Number.isFinite(p._totalTerps) ? p._totalTerps : 0;
+  return thc >= rule.thc && terps >= rule.terps;
+}
+function sortFilteredProducts(list) {
+  const price = p => chosenSize(p)?.price ?? 1e9;
+  if (state.sortMode === 'thc_desc') {
+    list.sort((a,b) => ((b.percent_thc ?? -1) - (a.percent_thc ?? -1)) || price(a) - price(b));
+  } else if (state.sortMode === 'price_asc') {
+    list.sort((a,b) => price(a) - price(b) || ((b._mScore ?? 0) - (a._mScore ?? 0)));
+  } else if (state.sortMode === 'terps_desc') {
+    list.sort((a,b) => ((b._totalTerps ?? -1) - (a._totalTerps ?? -1)) || price(a) - price(b));
+  }
+  return list;
+}
+
 function getFilteredProducts() {
   let list = state.products.filter(p => p.kind === state.selCat);
 
@@ -5768,7 +5863,10 @@ function getFilteredProducts() {
   if (state.saleOnly) {
     list = list.filter(p => p._sizes.some(s => s.onSale));
   }
-  return list;
+  if (state.topShelfOnly && topShelfRule(state.selCat)) {
+    list = list.filter(isTopShelf);
+  }
+  return sortFilteredProducts(list);
 }
 function chosenSize(p) {
   if (state.selSize) return p._sizes.find(s => s.key === state.selSize) || null;
@@ -5802,6 +5900,11 @@ function renderResults() {
   if (state.selCat === 'edible' && state.selExtract) {
     const ex = EXTRACT_TYPES.find(e => e.id === state.selExtract);
     if (ex) chips.push(`<span class="chip">${ex.icon} ${ex.label}</span>`);
+  }
+  if (state.topShelfOnly && topShelfRule(state.selCat)) chips.push(`<span class="chip hot">Top Shelf</span>`);
+  if (state.sortMode !== 'relevance') {
+    const labels = { thc_desc: 'THC high to low', price_asc: 'Price low to high', terps_desc: 'Terps high to low' };
+    chips.push(`<span class="chip">${labels[state.sortMode] || 'Sorted'}</span>`);
   }
   chips.push(`<span class="chip">${list.length} result${list.length === 1 ? '' : 's'}</span>`);
   summaryEl.innerHTML = chips.join('');
@@ -6116,6 +6219,13 @@ function updateSidePanels(opts) {
     if (si && si.value !== state.searchText) si.value = state.searchText || '';
     const so = document.getElementById('side-sale-only');
     if (so) so.checked = !!state.saleOnly;
+    const tsWrap = document.getElementById('side-top-shelf-wrap');
+    const ts = document.getElementById('side-top-shelf');
+    const hasTopShelf = !!topShelfRule(state.selCat);
+    if (tsWrap) tsWrap.style.display = hasTopShelf ? '' : 'none';
+    if (ts) ts.checked = !!state.topShelfOnly;
+    const sort = document.getElementById('side-sort');
+    if (sort && sort.value !== state.sortMode) sort.value = state.sortMode;
     const brandList = document.getElementById('side-brand-list');
     /* Build counts from the pre-brand-filter list so the user can see
      * how many items each brand contributes *within* their current
@@ -6360,6 +6470,8 @@ function buildCartText() {
   const date = new Date();
   const stamp = date.toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
   const store = currentStore();
+  const brand = BRAND_BY_ID[state.selBrandId];
+  const brandName = brand?.name || 'PA Buddy Finder';
   /* ASCII-only, column-aligned layout. Avoids em-dashes / middots /
    * angle-brackets — any of which could trigger iOS Notes to render
    * the text as rich / HTML-ish and show glyphs like "<f>". */
@@ -6376,7 +6488,7 @@ function buildCartText() {
   const W = { qty: 4, size: 7, brand: 18, cat: 10, sub: 14 };
 
   const lines = [];
-  lines.push(`ORGANIC REMEDIES - ${ascii(store.name).toUpperCase()}`);
+  lines.push(`${ascii(brandName).toUpperCase()} - ${ascii(store.name).toUpperCase()}`);
   lines.push(`Store #${store.id}   ${ascii(stamp)}`);
   lines.push('');
   lines.push(`${pad('QTY',W.qty)}${pad('SIZE',W.size)}${pad('BRAND',W.brand)}${pad('CATEGORY',W.cat)}${pad('SUBCATEGORY',W.sub)}`);
@@ -6761,8 +6873,8 @@ function wireEvents() {
     state.cart.clear();
     state.selCat = null; state.selSubs = []; state.selSize = null;
     state.selTerps = []; state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
-  state.matchMode = 'terp';
-    state.searchText = ''; state.selBrands = []; state.saleOnly = false;
+    state.matchMode = 'terp';
+    state.searchText = ''; state.selBrands = []; state.saleOnly = false; state.topShelfOnly = false; state.sortMode = 'relevance';
     renderCategoryGrid();
     setScreen('category');
   });
@@ -6835,6 +6947,16 @@ function wireEvents() {
     if (state.screen === 'results') renderResults();
     updateSidePanels();
   });
+  document.getElementById('side-top-shelf').addEventListener('change', (e) => {
+    state.topShelfOnly = e.target.checked;
+    if (state.screen === 'results') renderResults();
+    updateSidePanels();
+  });
+  document.getElementById('side-sort').addEventListener('change', (e) => {
+    state.sortMode = e.target.value || 'relevance';
+    if (state.screen === 'results') renderResults();
+    updateSidePanels();
+  });
   document.getElementById('side-brand-clear').addEventListener('click', () => {
     state.selBrands = [];
     if (state.screen === 'results') renderResults();
@@ -6869,7 +6991,7 @@ function renderBrandPicker() {
     tile.innerHTML = `
       <div class="brand-disc" style="background:${b.color}">${b.glyph}</div>
       <div class="brand-name">${esc(b.name)}</div>
-      <div class="brand-meta">${b.stores.length} location${b.stores.length === 1 ? '' : 's'}</div>
+      <div class="brand-meta">${b.active ? `${b.stores.length} location${b.stores.length === 1 ? '' : 's'}` : 'Coming soon'}</div>
       <div class="${b.active ? 'brand-live' : 'brand-soon'}">${b.active ? 'live' : 'soon'}</div>
     `;
     tile.addEventListener('click', () => {
