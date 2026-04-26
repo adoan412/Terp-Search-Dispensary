@@ -1440,6 +1440,37 @@
   .btn-secondary:hover { background: var(--border); }
   .btn-block { width: 100%; }
 
+  /* ─── Match-mode toggle (terpene ↔ cannabinoid on effects screen) ── */
+  .match-mode {
+    display: inline-flex;
+    margin: 0 auto 18px;
+    padding: 4px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    gap: 4px;
+  }
+  .match-mode-wrap { display: flex; justify-content: center; }
+  .mode-pill {
+    padding: 8px 16px;
+    border: 0;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px; font-weight: 700;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    white-space: nowrap;
+  }
+  .mode-pill:hover { color: var(--text); }
+  .mode-pill.active {
+    background: var(--accent);
+    color: #0a0a0a;
+  }
+  @media (max-width: 540px) {
+    .mode-pill { padding: 8px 12px; font-size: 12px; }
+  }
+
   /* ─── Sheet overlay (themes/store) ─────────────────────── */
   .sheet-overlay {
     position: fixed; inset: 0;
@@ -1936,6 +1967,12 @@
             <div class="screen-step">Step 3</div>
             <h1 class="screen-title" id="fx-title">How do you want to feel?</h1>
             <p class="screen-sub" id="fx-sub">Pick up to 3.</p>
+          </div>
+          <div class="match-mode-wrap" id="fx-mode-wrap">
+            <div class="match-mode" id="fx-mode" role="tablist" aria-label="Match by">
+              <button class="mode-pill active" data-mode="terp"   role="tab" aria-selected="true">🌿 By terpene</button>
+              <button class="mode-pill"        data-mode="cannab" role="tab" aria-selected="false">💊 By cannabinoid</button>
+            </div>
           </div>
           <div class="tile-grid" id="fx-grid"></div>
           <div class="step-actions">
@@ -4485,7 +4522,11 @@ const BRAND_BY_ID = Object.fromEntries(BRANDS.map(b => [b.id, b]));
 const STORES = BRANDS.flatMap(b => b.stores.map(s => ({ ...s, brandId: b.id })));
 
 /* ─── Size config ─────────────────────────────────────── */
-const SIZE_KEYS = ['each','half_gram','gram','two_gram','eighth_ounce','quarter_ounce','half_ounce','ounce'];
+/* Order matters — drives sort order in size pickers and on cards.
+ * Strict ascending by grams: 0.5 → 1 → 3.5 (1/8) → 4.2 (Calypso, flower-only
+ * pre-pack at OR/Trulieve) → 7 (1/4) → 14 (1/2) → 28 (oz). Reddit user
+ * pennkratom flagged the original 4.2-before-3.5 ordering 2026-04-25. */
+const SIZE_KEYS = ['each','half_gram','gram','eighth_ounce','two_gram','quarter_ounce','half_ounce','ounce'];
 /* STONER/slang labels — only surface these when state.naughty=true. */
 const SIZE_LABELS_STONER = {
   each: 'Each',
@@ -4819,6 +4860,7 @@ const state = {
   selSize: null,
   selTerps: [],
   selCannabs: [],
+  matchMode: 'terp',  // 'terp' | 'cannab' — Christine's toggle on the effects screen for non-edibles. Edibles always run cannabinoid-first via the dedicated cannab screen.
   selExtract: null,  // for edible path
   sideFilter: 'all', // for results page
   searchText: '',    // free-text filter on product/brand/strain
@@ -5337,6 +5379,7 @@ function applyStore(id) {
   state.products = []; state.cart.clear();
   state.selCat = null; state.selSubs = []; state.selSize = null;
   state.selTerps = []; state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
+  state.matchMode = 'terp';
   setScreen('loading');
   loadMenu();
   renderStoreSheet();
@@ -5380,8 +5423,27 @@ function fullOrder() {
   if (!state.selCat) return ['category'];
   return [...flowFor(state.selCat), 'cart'];
 }
+/* Re-render a screen against current state. Pulled out so setScreen can
+ * call it on EVERY navigation (including back-nav) — earlier behaviour
+ * left stale HTML on screens you backed into, which surfaced as "category
+ * shows nothing" or "category shows another store's tile counts" after
+ * the user switched stores or backtracked through a cart-build session.
+ * (Bug reported by Tony 2026-04-25.) */
+function renderForScreen(name) {
+  if (name === 'category') renderCategoryGrid();
+  else if (name === 'results') renderResults();
+  else if (name === 'size') renderSizeGrid();
+  else if (name === 'effects') renderEffectsGrid();
+  else if (name === 'cannab') renderCannabGrid();
+  else if (name === 'extract') renderExtractGrid();
+  else if (name === 'subtype') renderSubtypeGrid();
+}
 function setScreen(name) {
   state.screen = name;
+  /* Refresh content BEFORE the screen becomes visible — avoids a flash
+   * of stale data on slow renders. Skipped for 'loading' / 'cart' /
+   * non-wizard screens where there's nothing to derive from products. */
+  if (name !== 'loading' && name !== 'cart') renderForScreen(name);
   for (const s of document.querySelectorAll('.screen')) s.classList.remove('active');
   const el = document.getElementById(`screen-${name}`);
   if (el) el.classList.add('active');
@@ -5398,16 +5460,11 @@ function goBack() {
   setScreen(order[i - 1]);
 }
 function goNext() {
+  /* setScreen now handles render dispatch, so this stays simple. */
   const order = fullOrder();
   const i = order.indexOf(state.screen);
   const next = order[i + 1];
   if (!next) return;
-  if (next === 'results') renderResults();
-  else if (next === 'size') renderSizeGrid();
-  else if (next === 'effects') renderEffectsGrid();
-  else if (next === 'cannab') renderCannabGrid();
-  else if (next === 'extract') renderExtractGrid();
-  else if (next === 'subtype') renderSubtypeGrid();
   setScreen(next);
 }
 
@@ -5432,6 +5489,7 @@ function renderCategoryGrid() {
       state.selCat = c.kind;
       state.selSubs = []; state.selSize = null; state.selTerps = [];
       state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
+      state.matchMode = 'terp';
       goNext();
     });
     grid.appendChild(tile);
@@ -5511,6 +5569,54 @@ function renderSizeGrid() {
 function renderEffectsGrid() {
   const grid = document.getElementById('fx-grid');
   grid.innerHTML = '';
+  /* Edibles route through the dedicated cannab screen, so the toggle is moot
+   * there. For everything else the toggle is visible and controls which tile
+   * grid renders here. */
+  const wrap = document.getElementById('fx-mode-wrap');
+  if (wrap) wrap.style.display = (state.selCat === 'edible') ? 'none' : '';
+  /* Sync pill active state + aria. */
+  for (const b of document.querySelectorAll('#fx-mode .mode-pill')) {
+    const on = b.dataset.mode === state.matchMode;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  }
+  /* Header copy reflects the mode. */
+  const titleEl = document.getElementById('fx-title');
+  const subEl   = document.getElementById('fx-sub');
+  if (state.matchMode === 'cannab' && state.selCat !== 'edible') {
+    if (titleEl) titleEl.textContent = 'What are you looking for?';
+    if (subEl)   subEl.textContent   = 'Pick up to 3 cannabinoids — CBD, CBN, CBG, etc.';
+  } else {
+    const naughty = state.naughty;
+    if (titleEl) titleEl.textContent = naughty ? (NAUGHTY_STRINGS.fxTitle || 'How do you want to feel?') : 'How do you want to feel?';
+    if (subEl)   subEl.textContent   = 'Pick up to 3.';
+  }
+
+  const useCannab = state.matchMode === 'cannab' && state.selCat !== 'edible';
+  if (useCannab) {
+    const naughtyMap = state.naughty ? NAUGHTY_STRINGS.cannab : null;
+    for (const c of CANNABINOID_TILES) {
+      const over = naughtyMap ? naughtyMap[c.id] : null;
+      const tile = document.createElement('div');
+      const atMax = state.selCannabs.length >= 3 && !state.selCannabs.includes(c.id);
+      tile.className = 'tile' + (state.selCannabs.includes(c.id) ? ' selected' : '') + (atMax ? ' disabled' : '');
+      tile.dataset.fx = c.fx;
+      tile.innerHTML = `
+        <div class="tile-icon">${over?.icon || c.icon}</div>
+        <div class="tile-title">${over?.label || c.label}</div>
+        <div class="tile-sub">${over?.sub || c.sub}</div>
+      `;
+      tile.addEventListener('click', () => {
+        if (state.selCannabs.includes(c.id)) state.selCannabs = state.selCannabs.filter(x => x !== c.id);
+        else if (state.selCannabs.length < 3) state.selCannabs.push(c.id);
+        renderEffectsGrid();
+        updateSidePanels();
+      });
+      grid.appendChild(tile);
+    }
+    return;
+  }
+
   const mode = state.naughty ? NAUGHTY_STRINGS.effects : null;
   for (const e of EFFECT_TILES) {
     const over = mode ? mode[e.terp] : null;
@@ -5589,8 +5695,10 @@ function getFilteredProducts() {
     const mk = EXTRACT_TYPES.find(e => e.id === state.selExtract)?.match || [];
     list = list.filter(p => matchesAny(p, mk));
   }
-  /* effect filter: terps OR cannabinoids depending on category */
-  const useCannab = state.selCat === 'edible';
+  /* effect filter: terps OR cannabinoids depending on category and mode.
+   * Edibles always run cannabinoid-first (dedicated cannab step). Other
+   * categories follow Christine's toggle on the effects screen. */
+  const useCannab = state.selCat === 'edible' || state.matchMode === 'cannab';
   /* A "hit" requires an actual measurable value (>= 0.05%). Products where the
    * terp/cannabinoid is listed with null or 0 don't count — that was the cause
    * of the "1g flower shows items with no selected terp" bug: products with
@@ -5679,20 +5787,21 @@ function renderResults() {
     if (opt) chips.push(`<span class="chip">${opt.icon} ${opt.label}</span>`);
   }
   if (state.selSize) chips.push(`<span class="chip">${getSizeLabel(state.selSize, state.selCat, state.naughty)}</span>`);
-  if (state.selCat === 'edible') {
+  const summaryUseCannab = state.selCat === 'edible' || state.matchMode === 'cannab';
+  if (summaryUseCannab) {
     for (const c of state.selCannabs) {
       const ct = CANNABINOID_TILES.find(x => x.id === c);
       if (ct) chips.push(`<span class="chip">${ct.icon} ${ct.label}</span>`);
-    }
-    if (state.selExtract) {
-      const ex = EXTRACT_TYPES.find(e => e.id === state.selExtract);
-      if (ex) chips.push(`<span class="chip">${ex.icon} ${ex.label}</span>`);
     }
   } else {
     for (const t of state.selTerps) {
       const fx = EFFECT_TILES.find(x => x.terp === t);
       if (fx) chips.push(`<span class="chip">${fx.icon} ${fx.label}</span>`);
     }
+  }
+  if (state.selCat === 'edible' && state.selExtract) {
+    const ex = EXTRACT_TYPES.find(e => e.id === state.selExtract);
+    if (ex) chips.push(`<span class="chip">${ex.icon} ${ex.label}</span>`);
   }
   chips.push(`<span class="chip">${list.length} result${list.length === 1 ? '' : 's'}</span>`);
   summaryEl.innerHTML = chips.join('');
@@ -5723,7 +5832,11 @@ function renderProductCard(p) {
   const badges = [];
   if (strainBdg) badges.push(`<span class="bdg bdg-${strainBdg[1]}">${strainBdg[0]}</span>`);
   if (onSale) badges.push(`<span class="bdg bdg-sale">SALE</span>`);
-  if (p._mc) badges.push(`<span class="bdg bdg-match">${p._mc}/${state.selCat === 'edible' ? state.selCannabs.length : state.selTerps.length}</span>`);
+  if (p._mc) {
+    const useCannab = state.selCat === 'edible' || state.matchMode === 'cannab';
+    const denom = useCannab ? state.selCannabs.length : state.selTerps.length;
+    badges.push(`<span class="bdg bdg-match">${p._mc}/${denom}</span>`);
+  }
   if (thc != null && thc > 0) badges.push(`<span class="bdg bdg-thc${thc >= 28 ? ' hi' : ''}">${thc.toFixed(1)}% THC</span>`);
   /* Total terpene % — calibrated per kind because absolute totals aren't
    * comparable across forms. Flower tops out around 5%; vapes 5-12%; extracts
@@ -5761,12 +5874,12 @@ function renderProductCard(p) {
        </div>`
     : '';
 
-  /* show terps for non-edibles, cannabinoids for edibles.
-   * Selected/matched chips first (always visible + highlighted under the
-   * 6-chip cap), then rest by value descending. Old code sliced by
-   * lab-result insertion order, which could hide the picked terp. */
-  const rawChips = state.selCat === 'edible' ? p._cannabs : p._terps;
-  const selSet = state.selCat === 'edible' ? state.selCannabs : state.selTerps;
+  /* show terps for terpene-mode, cannabinoids for cannabinoid-mode (edibles
+   * are always cannabinoid). Selected/matched chips first (always visible +
+   * highlighted under the 6-chip cap), then rest by value descending. */
+  const cardUseCannab = state.selCat === 'edible' || state.matchMode === 'cannab';
+  const rawChips = cardUseCannab ? p._cannabs : p._terps;
+  const selSet = cardUseCannab ? state.selCannabs : state.selTerps;
   const chips = (rawChips || []).slice().sort((a, b) => {
     const aM = selSet.includes(a.name) ? 1 : 0;
     const bM = selSet.includes(b.name) ? 1 : 0;
@@ -5913,21 +6026,15 @@ function updateSidePanels(opts) {
     if (state.screen === 'results') renderResults();
     updateSidePanels();
   }});
-  if (state.selCat === 'edible') {
+  const sideUseCannab = state.selCat === 'edible' || state.matchMode === 'cannab';
+  if (sideUseCannab) {
     for (const c of state.selCannabs) {
       const ct = CANNABINOID_TILES.find(x => x.id === c);
       chips.push({ cls: 'dismissable', label: ct ? `${ct.icon} ${ct.label}` : c, onDismiss: () => {
         state.selCannabs = state.selCannabs.filter(x => x !== c);
         if (state.screen === 'results') renderResults();
         else if (state.screen === 'cannab') renderCannabGrid();
-        updateSidePanels();
-      }});
-    }
-    if (state.selExtract) {
-      const ex = EXTRACT_TYPES.find(e => e.id === state.selExtract);
-      if (ex) chips.push({ cls: 'dismissable', label: `${ex.icon} ${ex.label}`, onDismiss: () => {
-        state.selExtract = null;
-        if (state.screen === 'results') renderResults();
+        else if (state.screen === 'effects') renderEffectsGrid();
         updateSidePanels();
       }});
     }
@@ -5941,6 +6048,14 @@ function updateSidePanels(opts) {
         updateSidePanels();
       }});
     }
+  }
+  if (state.selCat === 'edible' && state.selExtract) {
+    const ex = EXTRACT_TYPES.find(e => e.id === state.selExtract);
+    if (ex) chips.push({ cls: 'dismissable', label: `${ex.icon} ${ex.label}`, onDismiss: () => {
+      state.selExtract = null;
+      if (state.screen === 'results') renderResults();
+      updateSidePanels();
+    }});
   }
   const chipsEl = document.getElementById('side-l-chips');
   chipsEl.innerHTML = '';
@@ -6646,6 +6761,7 @@ function wireEvents() {
     state.cart.clear();
     state.selCat = null; state.selSubs = []; state.selSize = null;
     state.selTerps = []; state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
+  state.matchMode = 'terp';
     state.searchText = ''; state.selBrands = []; state.saleOnly = false;
     renderCategoryGrid();
     setScreen('category');
@@ -6670,7 +6786,23 @@ function wireEvents() {
   document.getElementById('sub-go').addEventListener('click',   () => goNext());
 
   document.getElementById('fx-go').addEventListener('click',   () => goNext());
-  document.getElementById('fx-skip').addEventListener('click', () => { state.selTerps = []; renderEffectsGrid(); goNext(); });
+  document.getElementById('fx-skip').addEventListener('click', () => {
+    state.selTerps = []; state.selCannabs = [];
+    renderEffectsGrid();
+    goNext();
+  });
+
+  /* Match-mode toggle (Christine's cannabinoid step). Tile selections
+   * across modes are kept independent so flipping back doesn't lose picks. */
+  document.querySelectorAll('#fx-mode .mode-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const next = btn.dataset.mode;
+      if (state.matchMode === next) return;
+      state.matchMode = next;
+      renderEffectsGrid();
+      updateSidePanels();
+    });
+  });
 
   document.getElementById('cn-go').addEventListener('click',   () => goNext());
   document.getElementById('cn-skip').addEventListener('click', () => { state.selCannabs = []; renderCannabGrid(); goNext(); });
