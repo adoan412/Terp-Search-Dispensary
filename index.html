@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>PA Buddy Finder — pick your dispensary</title>
+<!-- Buddy mascot favicon — inline SVG so the file stays single-asset.
+     Simplified version of the splash chibi-nug, tuned for 16×16 legibility:
+     fewer bumps, bigger face, transparent backdrop. -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><ellipse cx='100' cy='118' rx='66' ry='60' fill='%238bc541'/><circle cx='70' cy='82' r='14' fill='%238bc541'/><circle cx='100' cy='72' r='15' fill='%238bc541'/><circle cx='130' cy='82' r='14' fill='%238bc541'/><circle cx='55' cy='102' r='12' fill='%238bc541'/><circle cx='145' cy='102' r='12' fill='%238bc541'/><ellipse cx='82' cy='104' rx='22' ry='14' fill='%23a9dd5e' opacity='.7'/><circle cx='72' cy='130' r='7' fill='%23ffb3c1' opacity='.75'/><circle cx='128' cy='130' r='7' fill='%23ffb3c1' opacity='.75'/><ellipse cx='82' cy='120' rx='5' ry='7' fill='%231b1b1b'/><ellipse cx='118' cy='120' rx='5' ry='7' fill='%231b1b1b'/><circle cx='84' cy='117' r='1.6' fill='%23fff'/><circle cx='120' cy='117' r='1.6' fill='%23fff'/><path d='M88 138 Q100 148 112 138' stroke='%231b1b1b' stroke-width='3' fill='none' stroke-linecap='round'/><path d='M100 48 C92 40 90 28 100 22 C110 28 108 40 100 48 Z' fill='%234c8b1d'/></svg>">
 
 <!--
 ================================================================================
@@ -615,7 +619,10 @@
   }
   .h-left, .h-right { display: flex; align-items: center; gap: 8px; }
   .h-right { justify-content: flex-end; }
-  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; transition: opacity .12s; }
+  .brand:hover { opacity: .85; }
+  .brand:active .brand-mark { transform: scale(.95); }
+  .brand-mark { transition: transform .08s; }
   /* Typographic monogram — no company logo, just a dot+wordmark */
   .brand-mark {
     width: 38px; height: 38px; border-radius: 10px;
@@ -692,11 +699,12 @@
   @media (max-width: 700px) { .tip-link { right: 80px; } .tip-link .lbl { display: none; } }
   @media print { .tip-link { display: none !important; } }
 
-  /* "Built with Claude" credit — sits to the left of the tip jar. Same shape
-   * as its siblings; deliberately understated so it reads as attribution,
-   * not promotion. The sparkle is an asterism, not a brand mark. */
+  /* "Built with Claude" credit — sits on the LEFT side of the screen alongside
+   * Codex. Pills were stacking right-side and bleeding into menu content at
+   * narrow widths; left/right split keeps the menu unobstructed.
+   * Same shape as its siblings; deliberately understated. */
   .credit-link {
-    position: fixed; right: 290px; bottom: 14px; z-index: 50;
+    position: fixed; left: 156px; bottom: 14px; z-index: 50;
     display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 12px; border-radius: 999px;
     background: var(--surface); color: var(--text-muted);
@@ -708,12 +716,12 @@
   }
   .credit-link:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
   .credit-link svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; opacity: .85; }
-  @media (max-width: 700px) { .credit-link { right: 146px; } .credit-link .lbl { display: none; } }
+  @media (max-width: 700px) { .credit-link { left: 80px; } .credit-link .lbl { display: none; } }
   @media print { .credit-link { display: none !important; } }
 
-  /* Built-with-Codex credit — same understated family as the Claude pill. */
+  /* Built-with-Codex credit — pinned to the far LEFT (Codex first, then Claude). */
   .codex-link {
-    position: fixed; right: 452px; bottom: 14px; z-index: 50;
+    position: fixed; left: 14px; bottom: 14px; z-index: 50;
     display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 12px; border-radius: 999px;
     background: var(--surface); color: var(--text-muted);
@@ -725,7 +733,7 @@
   }
   .codex-link:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
   .codex-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; opacity: .85; }
-  @media (max-width: 700px) { .codex-link { right: 212px; } .codex-link .lbl { display: none; } }
+  @media (max-width: 700px) { .codex-link { left: 14px; } .codex-link .lbl { display: none; } }
   @media print { .codex-link { display: none !important; } }
 
   .icon-btn {
@@ -1174,6 +1182,70 @@
   }
   .screen-sub { margin-top: 6px; font-size: 13px; color: var(--text-muted); }
 
+  /* ─── Category-screen escape hatches: global search + browse-all ─
+   * Sits above the wizard tiles. Search routes the user straight to a
+   * results view that ignores selCat; browse-all chips skip the wizard
+   * and show every product in a kind. Validates Tony's mode-2 use case
+   * (regulars / staff already know what they want, wizard adds friction). */
+  .cat-search-wrap {
+    max-width: 780px; margin: 0 auto 22px;
+    position: relative;
+  }
+  .cat-search-wrap input {
+    width: 100%; box-sizing: border-box;
+    padding: 14px 44px 14px 44px;
+    background: var(--surface-alt); border: 1.5px solid var(--border);
+    border-radius: 14px; color: var(--text);
+    font-size: 15px; font-weight: 600;
+    outline: none;
+    transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .cat-search-wrap input::placeholder { color: var(--text-muted); font-weight: 500; }
+  .cat-search-wrap input:focus {
+    border-color: var(--accent); background: var(--surface);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .cat-search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); font-size: 16px; pointer-events: none;
+  }
+  .cat-search-clear {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    border: 0; background: transparent; color: var(--text-muted);
+    font-size: 22px; line-height: 1; cursor: pointer; padding: 4px 10px;
+    border-radius: 8px; display: none;
+  }
+  .cat-search-wrap.has-text .cat-search-clear { display: block; }
+  .cat-search-clear:hover { color: var(--hot); background: var(--surface-alt); }
+  .cat-or {
+    max-width: 780px; margin: 26px auto 12px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--text-muted);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cat-or::before, .cat-or::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .browse-row {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; max-width: 780px; margin: 0 auto;
+  }
+  .browse-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px; border-radius: 999px;
+    background: var(--surface-alt); border: 1px solid var(--border);
+    color: var(--text); font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: background .12s, border-color .12s, transform .08s;
+  }
+  .browse-chip:hover { background: var(--surface); border-color: var(--accent); }
+  .browse-chip:active { transform: scale(0.97); }
+  .browse-chip.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+  .browse-chip .bc-count {
+    color: var(--text-muted); font-weight: 600; font-size: 11px;
+    background: var(--surface); border-radius: 999px; padding: 1px 7px;
+  }
+  .bdg-kind { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+
   /* ─── Tile grid (category / subtype / size / effects) ──── */
   .tile-grid {
     display: grid;
@@ -1526,6 +1598,272 @@
   }
   .sheet-overlay.open .sheet { transform: translate(-50%, 0); }
   .sheet-handle { width: 44px; height: 5px; background: var(--border); border-radius: 3px; margin: 0 auto 14px; }
+
+  /* ─── Compare drawer + floating bar ───────────────────────
+   * Connoisseur/regular path: pick 2-3 products, slide them into a drawer to
+   * see THC / terps / cannabinoids / prices side-by-side. Compare set persists
+   * across category switches (a flower vs. a vape is a valid comparison). */
+  .compare-bar {
+    position: fixed; left: 50%; bottom: 18px;
+    transform: translateX(-50%) translateY(160%);
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1.5px solid var(--accent);
+    border-radius: 999px;
+    box-shadow: 0 12px 36px rgba(0,0,0,.45);
+    z-index: 40;
+    transition: transform .25s ease;
+    max-width: calc(100% - 32px);
+  }
+  .compare-bar.show { transform: translateX(-50%) translateY(0); }
+  .compare-bar-thumbs { display: flex; align-items: center; }
+  .compare-bar-thumb {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--surface-alt); border: 2px solid var(--surface);
+    background-size: cover; background-position: center;
+    margin-left: -10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .compare-bar-thumb:first-child { margin-left: 0; }
+  .compare-bar-thumb.placeholder {
+    border-style: dashed; color: var(--text-muted);
+  }
+  .compare-bar-text { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; }
+  .compare-bar-text .ct-sub { color: var(--text-muted); font-weight: 600; font-size: 11px; }
+  .compare-bar-actions { display: flex; gap: 6px; align-items: center; }
+  .compare-bar-btn {
+    padding: 8px 14px; border-radius: 999px;
+    background: var(--accent); color: var(--surface);
+    border: 0; font-weight: 800; font-size: 13px;
+    cursor: pointer; transition: filter .12s, transform .08s;
+  }
+  .compare-bar-btn:hover { filter: brightness(1.08); }
+  .compare-bar-btn:active { transform: scale(0.96); }
+  .compare-bar-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .compare-bar-btn.ghost {
+    background: transparent; color: var(--text-muted);
+    font-size: 18px; padding: 6px 10px; line-height: 1;
+  }
+  .compare-bar-btn.ghost:hover { color: var(--hot); }
+
+  /* Per-card compare toggle button */
+  .pcard { position: relative; }
+  .pcard-compare-btn {
+    position: absolute; top: 8px; right: 8px;
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text-muted); font-size: 13px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; padding: 0; line-height: 1;
+    transition: background .12s, color .12s, border-color .12s, transform .08s;
+    z-index: 2;
+  }
+  .pcard-compare-btn:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+  .pcard-compare-btn.active {
+    background: var(--accent); color: var(--surface); border-color: var(--accent);
+  }
+  .pcard-compare-btn:active { transform: scale(0.9); }
+
+  /* Compare modal — overrides the .sheet bottom-pull-up positioning to a
+   * centered floating dialog with item-card-style fully-rounded corners.
+   * The other sheets (theme, store) keep the iOS-style bottom-sheet pattern;
+   * compare is treated as a desktop modal because it's a content viewer, not
+   * a quick picker. */
+  .sheet.compare-sheet {
+    left: 50%; top: 50%; bottom: auto;
+    transform: translate(-50%, -50%) scale(.94);
+    width: calc(100% - 32px);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 22px 24px 26px;
+    box-shadow: 0 28px 80px rgba(0,0,0,.55), 0 0 0 1px var(--border);
+    transition: transform .22s cubic-bezier(.2,.9,.3,1.1), opacity .18s;
+    opacity: 0;
+  }
+  .sheet-overlay.open .sheet.compare-sheet {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  .sheet.compare-sheet .sheet-handle { display: none; }
+
+  /* Compare drawer — single normalized matrix:
+   *   - One big grid (label-col + N product-cols) so the product cards align
+   *     vertically with the bars below them.
+   *   - Section bodies render as: [compound name] [bar] [bar] [bar] rows.
+   *   - Bars are sized by value/maxAcrossRow → "which has more of THIS one?" is
+   *     instant. Highest bar per row gets the accent fill so the eye lands
+   *     correctly even if you don't read the labels.
+   *   - Rows sorted by max-value desc; <0.05% rows collapse into a "+ N traces"
+   *     toggle so the matrix doesn't drown in noise.
+   *   - Bars-only by default; a single "% values" toggle reveals exact numbers
+   *     when you actually need them. Hovering a bar always shows a tooltip. */
+  .compare-sheet {
+    max-width: 980px !important;
+    max-height: 88vh; overflow-y: auto;
+  }
+  .compare-sheet h3 {
+    text-align: left;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .compare-pct-toggle {
+    font-size: 11px; font-weight: 700; letter-spacing: .04em;
+    padding: 5px 10px; border-radius: 999px;
+    background: var(--surface-alt); border: 1px solid var(--border);
+    color: var(--text-muted); cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s;
+  }
+  .compare-pct-toggle:hover { color: var(--text); border-color: var(--accent); }
+  .compare-pct-toggle.active {
+    background: var(--accent); color: var(--surface);
+    border-color: var(--accent);
+  }
+  /* The whole drawer body is one grid: label column + N product columns.
+   * Top row = product cards (with an empty cell at col 1).
+   * Sections inject section-header rows + matrix rows into the same grid. */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 130px repeat(var(--cmp-cols, 2), minmax(0, 1fr));
+    gap: 10px;
+    align-items: stretch;
+  }
+  @media (max-width: 720px) {
+    .compare-grid { grid-template-columns: 90px repeat(var(--cmp-cols, 2), minmax(0, 1fr)); gap: 6px; }
+  }
+  .compare-col {
+    background: var(--surface-alt); border-radius: 14px;
+    padding: 12px; border: 1px solid var(--border);
+    position: relative;
+  }
+  .compare-col-img {
+    width: 100%; aspect-ratio: 1.5 / 1;
+    background: var(--surface); border-radius: 10px;
+    background-size: cover; background-position: center;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .compare-col-name { font-size: 13px; font-weight: 800; color: var(--text); line-height: 1.25; margin-bottom: 2px; }
+  .compare-col-brand { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
+  .compare-col-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+  .compare-col-remove {
+    position: absolute; top: 6px; right: 6px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text-muted); cursor: pointer; line-height: 1;
+    font-size: 14px; display: flex; align-items: center; justify-content: center;
+  }
+  .compare-col-remove:hover { color: var(--hot); border-color: var(--hot); }
+  .compare-section-head {
+    grid-column: 1 / -1;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; padding: 14px 6px 8px;
+    margin-top: 6px; border-top: 1px solid var(--border);
+    font-size: 11px; font-weight: 800; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--text-muted);
+    user-select: none;
+  }
+  .compare-section-head:hover { color: var(--text); }
+  .compare-section-head .csec-count {
+    font-size: 10px; color: var(--text-muted); font-weight: 700;
+    background: var(--surface-alt); border-radius: 999px; padding: 2px 8px;
+    margin-left: 8px;
+  }
+  .compare-section-head .csec-chev { transition: transform .15s; font-weight: 700; display: inline-block; }
+  .compare-section-head.open .csec-chev { transform: rotate(90deg); }
+
+  /* Matrix row: label cell on the left, then N bar cells aligned with the
+   * product columns above. We use display: contents on a wrapper so each row's
+   * children participate directly in the parent grid (perfect column align). */
+  .matrix-row { display: contents; }
+  .matrix-row.hidden { display: none; }
+  .matrix-label {
+    align-self: center;
+    font-size: 12px; font-weight: 700;
+    color: var(--text);
+    padding: 6px 8px;
+    line-height: 1.2;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .matrix-cell {
+    align-self: center;
+    position: relative;
+    padding: 4px 4px;
+  }
+  .matrix-bar {
+    position: relative;
+    height: 14px;
+    background: var(--surface-alt);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .matrix-bar-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: var(--text-muted);
+    border-radius: 999px;
+    transition: width .25s ease;
+    opacity: .55;
+  }
+  .matrix-bar.is-max .matrix-bar-fill {
+    background: var(--accent);
+    opacity: 1;
+  }
+  .matrix-bar.is-zero .matrix-bar-fill { display: none; }
+  .matrix-bar.is-zero::after {
+    content: '—'; position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-muted); font-size: 11px; font-weight: 700;
+  }
+  .matrix-bar.is-synth { background: repeating-linear-gradient(45deg, var(--surface-alt), var(--surface-alt) 4px, var(--surface) 4px, var(--surface) 8px); }
+  .matrix-bar.is-synth .matrix-bar-fill { opacity: .7; }
+  .matrix-val {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 3px;
+    text-align: right;
+    padding-right: 4px;
+  }
+  .matrix-val.dim { color: var(--text-muted); font-weight: 600; }
+  .matrix-val.hidden { display: none; }
+  .matrix-bar.is-max + .matrix-val { color: var(--accent); }
+
+  /* "+ N traces" footer — collapsed-by-default low-% rows */
+  .matrix-traces-toggle {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 8px 4px 2px;
+    font-size: 11px; font-weight: 700; letter-spacing: .05em;
+    color: var(--text-muted); cursor: pointer;
+    user-select: none;
+  }
+  .matrix-traces-toggle:hover { color: var(--text); }
+
+  /* Plain (non-matrix) sections: prices, details — fall back to per-column cells */
+  .compare-cell {
+    background: var(--surface-alt); border-radius: 10px; padding: 8px 10px;
+    font-size: 12px; color: var(--text);
+  }
+  .compare-cell.label-cell {
+    background: transparent; padding: 8px 4px;
+    font-size: 10px; font-weight: 800; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--text-muted);
+    align-self: start;
+  }
+  .compare-cell .cc-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 2px 0;
+  }
+  .compare-cell .cc-row .lab { color: var(--text-muted); font-weight: 600; }
+  .compare-cell .cc-row .val { font-weight: 700; }
+  .compare-cell .cc-row .val.dim { color: var(--text-muted); font-weight: 600; }
+  .compare-cell .cc-empty { color: var(--text-muted); font-style: italic; font-size: 11px; }
+  .compare-empty {
+    text-align: center; padding: 30px 10px;
+    color: var(--text-muted); font-size: 13px;
+  }
   .sheet h3 { font-size: 14px; font-weight: 800; margin-bottom: 12px; text-align: center; }
   .theme-grid, .store-grid {
     display: grid;
@@ -1972,12 +2310,19 @@
 
         <!-- 1. Category -->
         <section class="screen" id="screen-category">
+          <div class="cat-search-wrap" id="cat-search-wrap">
+            <span class="cat-search-icon">🔎</span>
+            <input type="search" id="cat-search" placeholder="Search any product, brand, or strain…" autocomplete="off" spellcheck="false">
+            <button type="button" class="cat-search-clear" id="cat-search-clear" aria-label="Clear">×</button>
+          </div>
           <div class="screen-head">
             <div class="screen-step">Step 1</div>
             <h1 class="screen-title" id="cat-title">Pick a category</h1>
             <p class="screen-sub" id="cat-sub">Start with what kind of product you want.</p>
           </div>
           <div class="tile-grid" id="cat-grid"></div>
+          <div class="cat-or">or browse the whole menu</div>
+          <div class="browse-row" id="browse-row"></div>
         </section>
 
         <!-- 2. Subtype (consistency / edibletype / topicaltype / geartype) -->
@@ -2054,6 +2399,14 @@
 
         <!-- 5. Results -->
         <section class="screen" id="screen-results">
+          <!-- Persistent live search — visible only in browseAll mode (entered
+               via the category-screen search or a Browse-all chip). Mirrored
+               to state.searchText so users can keep editing without re-routing. -->
+          <div class="cat-search-wrap" id="res-search-wrap" style="display:none">
+            <span class="cat-search-icon">🔎</span>
+            <input type="search" id="res-search" placeholder="Search any product, brand, or strain…" autocomplete="off" spellcheck="false">
+            <button type="button" class="cat-search-clear" id="res-search-clear" aria-label="Clear">×</button>
+          </div>
           <div class="screen-head">
             <div class="screen-step">Results</div>
             <h1 class="screen-title" id="res-title">Your matches</h1>
@@ -2159,6 +2512,25 @@
     <div class="sheet-handle"></div>
     <h3>Switch store</h3>
     <div class="store-grid" id="store-grid"></div>
+  </div>
+</div>
+
+<!-- Compare floating bar -->
+<div class="compare-bar" id="compare-bar" role="region" aria-label="Compare tray">
+  <div class="compare-bar-thumbs" id="compare-bar-thumbs"></div>
+  <div class="compare-bar-text" id="compare-bar-text"></div>
+  <div class="compare-bar-actions">
+    <button type="button" class="compare-bar-btn" id="compare-bar-open">Compare →</button>
+    <button type="button" class="compare-bar-btn ghost" id="compare-bar-clear" aria-label="Clear compare">×</button>
+  </div>
+</div>
+
+<!-- Compare drawer -->
+<div class="sheet-overlay" id="compare-sheet">
+  <div class="sheet compare-sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <h3><span>Compare side-by-side</span><button type="button" class="compare-pct-toggle" id="compare-pct-toggle" title="Show / hide exact %">% values</button></h3>
+    <div id="compare-body"></div>
   </div>
 </div>
 
@@ -4917,11 +5289,15 @@ const state = {
   selExtract: null,  // for edible path
   sideFilter: 'all', // for results page
   searchText: '',    // free-text filter on product/brand/strain
+  browseAll: false,  // true when user entered results via category-screen search or "Browse all" shortcut — bypasses wizard, shortens fullOrder() to category→results
   selBrands: [],     // brand multi-select
   saleOnly: false,   // only show discounted items
   topShelfOnly: false, // category-aware quality filter for flower/vape/extract
   sortMode: 'relevance',
   cart: new Map(),
+  compare: new Map(), // objectID → product. Capped at 3. Persists across category switches.
+  compareOpenSecs: new Set(['terps','cannabinoids']), // which drawer sections are expanded; defaults to the patient-relevant ones
+  compareShowPct: false, // matrix view defaults to bars-only; toggle reveals exact %
   theme:   localStorage.getItem('terpfinder_theme')   || 'noir',
   naughty: localStorage.getItem('terpfinder_naughty') === '1',
   storeId: localStorage.getItem('terpfinder_store')   || '4365',
@@ -5447,6 +5823,7 @@ function applyStore(id) {
   state.selCat = null; state.selSubs = []; state.selSize = null;
   state.selTerps = []; state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
   state.matchMode = 'terp';
+  state.browseAll = false; state.searchText = '';
   setScreen('loading');
   loadMenu();
   renderStoreSheet();
@@ -5487,6 +5864,9 @@ function flowFor(cat) {
   }
 }
 function fullOrder() {
+  /* Browse-all and global search both short-circuit the wizard. From results,
+   * back goes to category (not effects/cannab/etc). */
+  if (state.browseAll) return ['category', 'results', 'cart'];
   if (!state.selCat) return ['category'];
   return [...flowFor(state.selCat), 'cart'];
 }
@@ -5558,9 +5938,42 @@ function renderCategoryGrid() {
       state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
       state.searchText = ''; state.selBrands = []; state.saleOnly = false; state.topShelfOnly = false; state.sortMode = 'relevance';
       state.matchMode = 'terp';
+      state.browseAll = false;
       goNext();
     });
     grid.appendChild(tile);
+  }
+  /* Browse-all chip row: skip the wizard, jump straight to all-products of a
+   * kind. Kinds with zero products are shown disabled so the row is stable. */
+  const row = document.getElementById('browse-row');
+  if (row) {
+    row.innerHTML = '';
+    for (const c of CATEGORY_TILES) {
+      const n = counts[c.kind] || 0;
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'browse-chip' + (n === 0 ? ' disabled' : '');
+      chip.innerHTML = `<span>${c.icon}</span><span>Browse all ${c.label.toLowerCase()}</span><span class="bc-count">${n}</span>`;
+      chip.addEventListener('click', () => {
+        if (n === 0) return;
+        state.selCat = c.kind;
+        state.selSubs = []; state.selSize = null; state.selTerps = [];
+        state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
+        state.selBrands = []; state.saleOnly = false; state.topShelfOnly = false; state.sortMode = 'relevance';
+        state.matchMode = 'terp';
+        state.browseAll = true;
+        setScreen('results');
+      });
+      row.appendChild(chip);
+    }
+  }
+  /* Keep the category-screen search input in sync with state.searchText so
+   * back-navigating from results preserves what the user typed. */
+  const csi = document.getElementById('cat-search');
+  const csw = document.getElementById('cat-search-wrap');
+  if (csi && csw) {
+    if (csi.value !== (state.searchText || '')) csi.value = state.searchText || '';
+    csw.classList.toggle('has-text', !!csi.value);
   }
 }
 
@@ -5777,7 +6190,11 @@ function sortFilteredProducts(list) {
 }
 
 function getFilteredProducts() {
-  let list = state.products.filter(p => p.kind === state.selCat);
+  /* Global search (no selCat) skips the kind filter — pipeline still runs the
+   * subsequent text/brand/sale filters across the full mixed product set. */
+  let list = state.selCat
+    ? state.products.filter(p => p.kind === state.selCat)
+    : state.products.slice();
 
   /* subtype filter */
   if (state.selSubs.length) {
@@ -5874,11 +6291,40 @@ function chosenSize(p) {
 }
 
 function renderResults() {
+  /* Persistent live search bar at the top of results — only in browseAll mode.
+   * The cat-search input is on the category screen and gets hidden the moment
+   * we route to results; without this, users felt "locked into" the first 2
+   * characters they typed. Mirrors state.searchText with cat-search/side-search. */
+  const resSearchWrap = document.getElementById('res-search-wrap');
+  const resSearchInp = document.getElementById('res-search');
+  if (resSearchWrap && resSearchInp) {
+    if (state.browseAll) {
+      resSearchWrap.style.display = '';
+      if (resSearchInp.value !== (state.searchText || '')) resSearchInp.value = state.searchText || '';
+      resSearchWrap.classList.toggle('has-text', !!resSearchInp.value);
+    } else {
+      resSearchWrap.style.display = 'none';
+    }
+  }
   const list = getFilteredProducts();
   const summaryEl = document.getElementById('res-summary');
   const chips = [];
   const cat = CATEGORY_TILES.find(c => c.kind === state.selCat);
+  /* Adjust the results header for browse vs. wizard contexts. */
+  const titleEl = document.getElementById('res-title');
+  const subEl   = document.getElementById('res-sub');
+  if (state.browseAll && !state.selCat) {
+    titleEl.textContent = state.searchText ? `Search: "${state.searchText}"` : 'Browse everything';
+    subEl.textContent = 'All categories. Use the side panel to narrow further.';
+  } else if (state.browseAll && cat) {
+    titleEl.textContent = `All ${cat.label.toLowerCase()}`;
+    subEl.textContent = 'Tap + to add to cart. Side filters narrow further.';
+  } else {
+    titleEl.textContent = 'Your matches';
+    subEl.textContent = 'Tap + to add to cart. Side filters narrow further.';
+  }
   if (cat) chips.push(`<span class="chip hot">${cat.icon} ${cat.label}</span>`);
+  else if (state.browseAll) chips.push(`<span class="chip hot">🔎 All categories</span>`);
   for (const s of state.selSubs) {
     const cfg = SUBTYPE_CONFIG[state.selCat];
     const opt = cfg?.options.find(o => o.id === s);
@@ -5933,6 +6379,12 @@ function renderProductCard(p) {
 
   const strainBdg = {sativa:['Sativa','sativa'],indica:['Indica','indica'],hybrid:['Hybrid','hybrid'],cbd:['CBD','cbd']}[strain];
   const badges = [];
+  /* In global search (selCat null) the user is looking across kinds — surface
+   * the kind so a vape doesn't look like a flower at a glance. */
+  if (!state.selCat) {
+    const kt = CATEGORY_TILES.find(c => c.kind === p.kind);
+    if (kt) badges.push(`<span class="bdg bdg-kind">${kt.icon} ${kt.label}</span>`);
+  }
   if (strainBdg) badges.push(`<span class="bdg bdg-${strainBdg[1]}">${strainBdg[0]}</span>`);
   if (onSale) badges.push(`<span class="bdg bdg-sale">SALE</span>`);
   if (p._mc) {
@@ -6002,7 +6454,12 @@ function renderProductCard(p) {
 
   const card = document.createElement('div');
   card.className = 'pcard' + (inCart ? ' in-cart' : '');
+  const inCompare = state.compare.has(p.objectID);
   card.innerHTML = `
+    <button type="button" class="pcard-compare-btn${inCompare ? ' active' : ''}"
+      title="${inCompare ? 'Remove from compare' : 'Add to compare (max 3)'}"
+      aria-label="${inCompare ? 'Remove from compare' : 'Add to compare'}"
+      data-act="compare">${inCompare ? '✓' : '+'}</button>
     ${imgHTML}
     <div class="pcard-badges">${badges.join('')}</div>
     <div class="pcard-name">${esc(p.name || '—')}</div>
@@ -6011,6 +6468,10 @@ function renderProductCard(p) {
     ${chipHTML}
     <div class="pcard-qty"></div>
   `;
+  card.querySelector('[data-act="compare"]').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleCompare(p);
+  });
 
   /* Stickers in stoner mode — ONLY on truly standout cards, and only some
    * of the time, so the ones that DO appear actually pop. Deterministic by
@@ -6090,6 +6551,298 @@ function updateQty(key, q) {
   if (q <= 0) state.cart.delete(key);
   else state.cart.get(key).qty = q;
   updateSidePanels({ flashKey: q > 0 ? key : null });
+}
+
+/* ─── Compare (2-3 items, side-by-side) ───────────────────
+ * Compare set is independent of cart — patients can compare a vape against a
+ * flower without touching their cart, and adding to compare doesn't add to
+ * cart. Capacity 3 is a UX cap (any more is unreadable in the drawer). */
+function toggleCompare(p) {
+  if (!p || !p.objectID) return;
+  const id = p.objectID;
+  if (state.compare.has(id)) {
+    state.compare.delete(id);
+  } else {
+    if (state.compare.size >= 3) {
+      /* visual feedback only — silently no-op so the user understands the cap */
+      const bar = document.getElementById('compare-bar');
+      if (bar) {
+        bar.classList.add('shake');
+        setTimeout(() => bar.classList.remove('shake'), 300);
+      }
+      return;
+    }
+    state.compare.set(id, p);
+  }
+  if (state.screen === 'results') renderResults();
+  renderCompareBar();
+  /* If drawer is open, keep it in sync as the user toggles items off */
+  if (document.getElementById('compare-sheet').classList.contains('open')) {
+    renderCompareDrawer();
+  }
+}
+function renderCompareBar() {
+  const bar = document.getElementById('compare-bar');
+  if (!bar) return;
+  const n = state.compare.size;
+  if (n === 0) { bar.classList.remove('show'); return; }
+  bar.classList.add('show');
+  const thumbs = document.getElementById('compare-bar-thumbs');
+  thumbs.innerHTML = '';
+  for (const p of state.compare.values()) {
+    const img = (p.image_urls && p.image_urls[0]) || (p.photos && p.photos[0]?.urls?.original) || null;
+    const t = document.createElement('div');
+    t.className = 'compare-bar-thumb';
+    if (img) t.style.backgroundImage = `url("${img}")`;
+    else t.textContent = '🌿';
+    thumbs.appendChild(t);
+  }
+  /* Add a dashed placeholder for the open slot, up to 3, so the cap is visible. */
+  for (let i = n; i < 3; i++) {
+    const t = document.createElement('div');
+    t.className = 'compare-bar-thumb placeholder';
+    t.textContent = '+';
+    thumbs.appendChild(t);
+  }
+  document.getElementById('compare-bar-text').innerHTML = n < 2
+    ? `<span>Compare ${n}</span> <span class="ct-sub">pick one more</span>`
+    : `<span>Compare</span> <span class="ct-sub">${n} of 3</span>`;
+  document.getElementById('compare-bar-open').disabled = n < 2;
+}
+function openCompareDrawer() {
+  if (state.compare.size < 2) return;
+  renderCompareDrawer();
+  document.getElementById('compare-sheet').classList.add('open');
+}
+function closeCompareDrawer() {
+  document.getElementById('compare-sheet').classList.remove('open');
+}
+function clearCompare() {
+  state.compare.clear();
+  renderCompareBar();
+  if (state.screen === 'results') renderResults();
+  closeCompareDrawer();
+}
+/* Drawer renderer (matrix layout).
+ * One big CSS grid: label-col + N product-cols. Section heads span full width;
+ * matrix rows put a compound name on the left and bars under each product.
+ * Bar widths are normalized per-row (max value in row = 100%) so "which has
+ * more of THIS one?" reads instantly. The max bar gets the accent fill. */
+function renderCompareDrawer() {
+  const body = document.getElementById('compare-body');
+  const products = [...state.compare.values()];
+  const n = products.length;
+  if (!n) {
+    body.innerHTML = `<div class="compare-empty">Pick 2-3 products to compare. Tap the <strong>+</strong> on any product card.</div>`;
+    return;
+  }
+
+  const showPct = !!state.compareShowPct;
+  const TRACE_THRESHOLD = 0.05; /* below this is noise; collapse into traces toggle */
+
+  const fmtPct = (v) => Number.isFinite(v) && v > 0 ? `${v.toFixed(2)}%` : '0%';
+
+  /* ─ Top row: empty label cell + product cards ─ */
+  const colCardHTML = (p) => {
+    const img = (p.image_urls && p.image_urls[0]) || (p.photos && p.photos[0]?.urls?.original) || null;
+    const sz = chosenSize(p) || (p._sizes && p._sizes.slice().sort((a,b)=>(a.price??1e9)-(b.price??1e9))[0]) || null;
+    const onSale = !!(sz && sz.onSale);
+    const thc = Number.isFinite(p.percent_thc) ? p.percent_thc : null;
+    const tterp = Number.isFinite(p._totalTerps) ? p._totalTerps : null;
+    const strain = (p.category || '').toLowerCase();
+    const strainBdg = {sativa:['Sativa','sativa'],indica:['Indica','indica'],hybrid:['Hybrid','hybrid'],cbd:['CBD','cbd']}[strain];
+    const kindTile = CATEGORY_TILES.find(c => c.kind === p.kind);
+    const badges = [];
+    if (kindTile) badges.push(`<span class="bdg bdg-kind">${kindTile.icon} ${kindTile.label}</span>`);
+    if (strainBdg) badges.push(`<span class="bdg bdg-${strainBdg[1]}">${strainBdg[0]}</span>`);
+    if (onSale) badges.push(`<span class="bdg bdg-sale">SALE</span>`);
+    if (thc != null && thc > 0) badges.push(`<span class="bdg bdg-thc${thc >= 28 ? ' hi' : ''}">${thc.toFixed(1)}% THC</span>`);
+    if (tterp != null && tterp > 0) badges.push(`<span class="bdg bdg-tterp">${tterp.toFixed(2)}% terps</span>`);
+    return `
+      <div class="compare-col">
+        <button type="button" class="compare-col-remove" data-act="remove" data-id="${esc(p.objectID)}" aria-label="Remove from compare">×</button>
+        <div class="compare-col-img" ${img ? `style="background-image:url('${esc(img)}')"` : ''}>${img ? '' : '🌿'}</div>
+        <div class="compare-col-name">${esc(p.name || '—')}</div>
+        <div class="compare-col-brand">${esc(p.brand || '')}</div>
+        <div class="compare-col-badges">${badges.join('')}</div>
+      </div>`;
+  };
+
+  /* ─ Matrix builder: produces the rows for terps or cannabinoids ─ */
+  const buildMatrixRows = (sectionId, getList) => {
+    /* Collect every compound name that appears across any product in this
+     * section, normalized to lowercase keys but preserving display name. */
+    const byKey = new Map(); /* key → { display, values: [v0..vN-1], synth: bool } */
+    products.forEach((p, idx) => {
+      const items = getList(p) || [];
+      for (const it of items) {
+        if (!it.name) continue;
+        const k = it.name.toLowerCase().trim();
+        if (!byKey.has(k)) byKey.set(k, { display: it.name, values: new Array(n).fill(null), synth: false });
+        const slot = byKey.get(k);
+        if (Number.isFinite(it.value)) slot.values[idx] = it.value;
+        if (it._synthetic) slot.synth = true;
+      }
+    });
+    const rows = [...byKey.values()].map(r => {
+      const max = Math.max(0, ...r.values.map(v => Number.isFinite(v) ? v : 0));
+      return { ...r, max };
+    });
+    /* Sort by max desc — most-impactful compounds float to the top */
+    rows.sort((a, b) => b.max - a.max);
+    /* Split into "main" rows and traces (sub-threshold). Synthetic rows stay
+     * in main since their value scale isn't a real %. */
+    const main = [], traces = [];
+    for (const r of rows) {
+      if (r.synth || r.max >= TRACE_THRESHOLD) main.push(r);
+      else traces.push(r);
+    }
+    return { main, traces };
+  };
+
+  const matrixRowHTML = (row) => {
+    const cells = row.values.map(v => {
+      const val = Number.isFinite(v) ? v : 0;
+      const isMax = val > 0 && val === row.max;
+      const isZero = !(val > 0);
+      const pct = row.max > 0 ? Math.max(2, Math.round((val / row.max) * 100)) : 0;
+      const cls = ['matrix-bar'];
+      if (isMax) cls.push('is-max');
+      if (isZero) cls.push('is-zero');
+      if (row.synth) cls.push('is-synth');
+      const tip = row.synth ? `${row.display}: synthesized` : `${row.display}: ${fmtPct(val)}`;
+      const valHTML = row.synth
+        ? `<span class="matrix-val dim${showPct ? '' : ' hidden'}">·</span>`
+        : `<span class="matrix-val${showPct ? '' : ' hidden'}">${fmtPct(val)}</span>`;
+      return `<div class="matrix-cell" title="${esc(tip)}">
+        <div class="${cls.join(' ')}"><div class="matrix-bar-fill" style="width:${isZero ? 0 : pct}%"></div></div>
+        ${valHTML}
+      </div>`;
+    }).join('');
+    return `<div class="matrix-row">
+      <div class="matrix-label" title="${esc(row.display)}">${esc(row.display)}</div>
+      ${cells}
+    </div>`;
+  };
+
+  /* ─ Section: terps and cannabinoids use the matrix; prices/details fall back
+     to per-column compare-cells in the same grid (label + N cells). ─ */
+  const renderMatrixSection = (sec) => {
+    const open = state.compareOpenSecs.has(sec.id);
+    const { main, traces } = buildMatrixRows(sec.id, sec.getList);
+    if (!main.length && !traces.length) {
+      return `<div class="compare-section-head${open ? ' open' : ''}" data-act="toggle-sec" data-sec="${sec.id}">
+        <span><span class="csec-chev">▶</span> ${sec.label}</span>
+        <span class="csec-count">none reported</span>
+      </div>` + (open
+        ? `<div class="matrix-row" data-belongs="${sec.id}"><div class="matrix-label" style="grid-column:1 / -1;color:var(--text-muted);font-style:italic;font-weight:600;font-size:11px;">No lab values reported for this group.</div></div>`
+        : '');
+    }
+    const headerHTML = `<div class="compare-section-head${open ? ' open' : ''}" data-act="toggle-sec" data-sec="${sec.id}">
+      <span><span class="csec-chev">▶</span> ${sec.label}<span class="csec-count">${main.length}${traces.length ? ` + ${traces.length} trace` : ''}</span></span>
+    </div>`;
+    if (!open) return headerHTML;
+    const mainHTML = main.map(matrixRowHTML).join('');
+    let tracesHTML = '';
+    if (traces.length) {
+      tracesHTML = `<div class="matrix-traces-toggle" data-act="toggle-traces" data-sec="${sec.id}" data-belongs="${sec.id}-traces">+ ${traces.length} trace${traces.length===1?'':'s'} (&lt; ${TRACE_THRESHOLD}%) · click to show</div>`;
+    }
+    return headerHTML + mainHTML + tracesHTML;
+  };
+
+  /* Plain (non-matrix) section: prices / details. Renders a label cell + N
+   * compare-cells aligned to the product columns. */
+  const renderPlainSection = (sec) => {
+    const open = state.compareOpenSecs.has(sec.id);
+    const headerHTML = `<div class="compare-section-head${open ? ' open' : ''}" data-act="toggle-sec" data-sec="${sec.id}">
+      <span><span class="csec-chev">▶</span> ${sec.label}</span>
+    </div>`;
+    if (!open) return headerHTML;
+    const cells = products.map(p => {
+      const inner = sec.render(p);
+      return `<div class="compare-cell">${inner || '<div class="cc-empty">—</div>'}</div>`;
+    }).join('');
+    return headerHTML + `<div class="compare-cell label-cell">${sec.shortLabel || sec.label}</div>${cells}`;
+  };
+
+  const renderPricesCell = (p) => {
+    const sizes = (p._sizes || []).slice().sort((a,b) => (a.price ?? 1e9) - (b.price ?? 1e9));
+    if (!sizes.length) return null;
+    return sizes.map(s => {
+      const lbl = getSizeLabel(s.key, p.kind, false);
+      const wasHTML = s.onSale && Number.isFinite(s.full)
+        ? `<span class="val dim" style="text-decoration:line-through;margin-right:6px;">$${s.full.toFixed(2)}</span>`
+        : '';
+      return `<div class="cc-row"><span class="lab">${esc(lbl)}</span><span>${wasHTML}<span class="val">$${(s.price||0).toFixed(2)}</span>${s.onSale?' <span class="bdg bdg-sale" style="font-size:9px;">SALE</span>':''}</span></div>`;
+    }).join('');
+  };
+  const renderDetailsCell = (p) => {
+    const rows = [];
+    const cat = (p.category || '').replace(/^\w/, c => c.toUpperCase());
+    if (cat) rows.push(`<div class="cc-row"><span class="lab">Strain type</span><span class="val">${esc(cat)}</span></div>`);
+    if (p.root_subtype) rows.push(`<div class="cc-row"><span class="lab">Subtype</span><span class="val">${esc(p.root_subtype)}</span></div>`);
+    if (p.product_subtype && p.product_subtype !== p.root_subtype) rows.push(`<div class="cc-row"><span class="lab">Form</span><span class="val">${esc(p.product_subtype)}</span></div>`);
+    if (p.brand) rows.push(`<div class="cc-row"><span class="lab">Brand</span><span class="val">${esc(p.brand)}</span></div>`);
+    return rows.length ? rows.join('') : null;
+  };
+
+  const sections = [
+    { id: 'terps',         label: 'Terpenes',     getList: (p) => p._terps,    matrix: true },
+    { id: 'cannabinoids',  label: 'Cannabinoids', getList: (p) => p._cannabs,  matrix: true },
+    { id: 'prices',        label: 'Prices',       render: renderPricesCell,    matrix: false, shortLabel: '$' },
+    { id: 'details',       label: 'Details',      render: renderDetailsCell,   matrix: false, shortLabel: 'Info' },
+  ];
+
+  const sectionsHTML = sections.map(s => s.matrix ? renderMatrixSection(s) : renderPlainSection(s)).join('');
+
+  body.innerHTML = `
+    <div class="compare-grid" style="--cmp-cols:${n}">
+      <div></div>
+      ${products.map(colCardHTML).join('')}
+      ${sectionsHTML}
+    </div>
+  `;
+
+  /* Wire drawer interactions */
+  body.querySelectorAll('[data-act="remove"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id');
+      state.compare.delete(id);
+      renderCompareBar();
+      if (state.screen === 'results') renderResults();
+      if (state.compare.size === 0) closeCompareDrawer();
+      else renderCompareDrawer();
+    });
+  });
+  body.querySelectorAll('[data-act="toggle-sec"]').forEach(head => {
+    head.addEventListener('click', () => {
+      const sec = head.getAttribute('data-sec');
+      if (state.compareOpenSecs.has(sec)) state.compareOpenSecs.delete(sec);
+      else state.compareOpenSecs.add(sec);
+      renderCompareDrawer();
+    });
+  });
+  body.querySelectorAll('[data-act="toggle-traces"]').forEach(t => {
+    t.addEventListener('click', () => {
+      /* Build the trace rows on demand, replace the toggle inline. */
+      const secId = t.getAttribute('data-sec');
+      const sec = sections.find(s => s.id === secId);
+      if (!sec) return;
+      const { traces } = buildMatrixRows(sec.id, sec.getList);
+      const html = traces.map(matrixRowHTML).join('');
+      t.outerHTML = html;
+    });
+  });
+}
+function toggleComparePct() {
+  state.compareShowPct = !state.compareShowPct;
+  const btn = document.getElementById('compare-pct-toggle');
+  if (btn) btn.classList.toggle('active', state.compareShowPct);
+  /* Lightweight: just toggle the .hidden class on every matrix-val without
+   * re-rendering the whole drawer. */
+  document.querySelectorAll('#compare-body .matrix-val').forEach(el => {
+    el.classList.toggle('hidden', !state.compareShowPct);
+  });
 }
 function cartTotals() {
   let salePrice = 0, fullPrice = 0, count = 0;
@@ -6875,6 +7628,7 @@ function wireEvents() {
     state.selTerps = []; state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
     state.matchMode = 'terp';
     state.searchText = ''; state.selBrands = []; state.saleOnly = false; state.topShelfOnly = false; state.sortMode = 'relevance';
+    state.browseAll = false;
     renderCategoryGrid();
     setScreen('category');
   });
@@ -6966,6 +7720,153 @@ function wireEvents() {
     if (!confirm('Clear the whole cart?')) return;
     state.cart.clear(); renderCart(); setScreen('category'); renderCategoryGrid();
   });
+
+  /* ─── Category-screen escape hatches: global search input ───
+   * Live-routes to the results screen on first keystroke (browseAll=true,
+   * selCat=null so the filter pipeline runs across every kind). Clearing
+   * the input back to empty bounces the user back to category. */
+  const catSearch = document.getElementById('cat-search');
+  const catSearchClear = document.getElementById('cat-search-clear');
+  const catSearchWrap = document.getElementById('cat-search-wrap');
+  const enterGlobalSearch = (q) => {
+    state.searchText = q;
+    state.selCat = null;
+    state.selSubs = []; state.selSize = null; state.selTerps = [];
+    state.selCannabs = []; state.selExtract = null; state.sideFilter = 'all';
+    state.selBrands = []; state.saleOnly = false; state.topShelfOnly = false; state.sortMode = 'relevance';
+    state.matchMode = 'terp';
+    state.browseAll = true;
+    /* Keep the side-search input in sync so the user can keep typing on the
+     * results screen without re-typing what they had on the category screen. */
+    const sideSi = document.getElementById('side-search');
+    if (sideSi) sideSi.value = q;
+    const wasOnResults = state.screen === 'results';
+    if (!wasOnResults) setScreen('results');
+    else renderResults();
+    /* Hand focus to the persistent results-screen search so the user keeps
+     * typing without interruption. Only when transitioning IN — if they were
+     * already on results editing the res-search, leave focus alone. */
+    if (!wasOnResults) {
+      const rs = document.getElementById('res-search');
+      if (rs) {
+        rs.value = q;
+        rs.focus();
+        const len = q.length;
+        try { rs.setSelectionRange(len, len); } catch (_) {}
+      }
+    }
+  };
+  catSearch.addEventListener('input', () => {
+    const q = catSearch.value;
+    catSearchWrap.classList.toggle('has-text', !!q);
+    /* Don't route to results until 2+ chars — single-letter routing was too eager
+     * and made typing feel janky (every first keystroke flashed the user onto a
+     * near-meaningless results page). Pressing Enter still forces a route below
+     * for power users who want to search a 1-char query intentionally. */
+    if (q.trim().length >= 2) {
+      enterGlobalSearch(q);
+    } else if (state.screen === 'results' && state.browseAll && !state.selCat) {
+      /* User backspaced from a routed search down to 0-1 chars — go home. */
+      state.searchText = q;
+      state.browseAll = false;
+      setScreen('category');
+    } else {
+      state.searchText = q;
+    }
+  });
+  catSearch.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && catSearch.value.trim()) {
+      e.preventDefault();
+      enterGlobalSearch(catSearch.value);
+    }
+  });
+  catSearchClear.addEventListener('click', () => {
+    catSearch.value = '';
+    catSearchWrap.classList.remove('has-text');
+    state.searchText = '';
+    if (state.screen === 'results' && state.browseAll && !state.selCat) {
+      state.browseAll = false;
+      setScreen('category');
+    }
+    catSearch.focus();
+  });
+
+  /* ─── Live results search — same wrap design as the category-screen one,
+   * but in-place editing only. No routing here (we're already on results),
+   * so backspacing to empty just shows everything in browseAll mode. */
+  const resSearch = document.getElementById('res-search');
+  const resSearchClear = document.getElementById('res-search-clear');
+  const resSearchWrap = document.getElementById('res-search-wrap');
+  resSearch.addEventListener('input', () => {
+    const q = resSearch.value;
+    resSearchWrap.classList.toggle('has-text', !!q);
+    state.searchText = q;
+    /* Keep the side-panel and category-screen inputs synced so a user
+     * switching contexts later sees what they typed. */
+    const sideSi = document.getElementById('side-search');
+    if (sideSi && sideSi.value !== q) sideSi.value = q;
+    if (catSearch && catSearch.value !== q) catSearch.value = q;
+    catSearchWrap.classList.toggle('has-text', !!q);
+    renderResults();
+  });
+  resSearchClear.addEventListener('click', () => {
+    resSearch.value = '';
+    resSearchWrap.classList.remove('has-text');
+    state.searchText = '';
+    const sideSi = document.getElementById('side-search');
+    if (sideSi) sideSi.value = '';
+    if (catSearch) catSearch.value = '';
+    catSearchWrap.classList.remove('has-text');
+    renderResults();
+    resSearch.focus();
+  });
+
+  /* ─── Logo-as-home: clicking the wordmark/mark returns to category, cart preserved.
+   * Standard shopping-site UX. Distinct from the 🏠 home-btn which triggers a
+   * full reset (cart-clear confirm) — the wordmark is the soft "go home" path. */
+  document.getElementById('brand').addEventListener('click', () => {
+    if (state.screen === 'category') return;
+    /* Drop wizard picks but keep cart + compare. selCat reset so the user lands
+     * on the picker, not whatever they were narrowing. */
+    state.selCat = null; state.selSubs = []; state.selSize = null;
+    state.selTerps = []; state.selCannabs = []; state.selExtract = null;
+    state.sideFilter = 'all'; state.matchMode = 'terp';
+    state.searchText = ''; state.selBrands = [];
+    state.saleOnly = false; state.topShelfOnly = false;
+    state.sortMode = 'relevance'; state.browseAll = false;
+    setScreen('category');
+  });
+
+  /* ─── Compare bar + drawer wiring ─── */
+  document.getElementById('compare-bar-open').addEventListener('click', openCompareDrawer);
+  document.getElementById('compare-bar-clear').addEventListener('click', clearCompare);
+  document.getElementById('compare-sheet').addEventListener('click', e => {
+    if (e.target.id === 'compare-sheet') closeCompareDrawer();
+  });
+  document.getElementById('compare-pct-toggle').addEventListener('click', toggleComparePct);
+  /* Press-and-hold any bar / row to peek the numbers temporarily — releases
+   * back to whatever the toggle says. Lets users skim with bars and check
+   * exact values for one row without flipping the whole drawer. */
+  const cmpBody = document.getElementById('compare-body');
+  let peekActive = false;
+  const startPeek = () => {
+    if (peekActive || state.compareShowPct) return;
+    peekActive = true;
+    cmpBody.querySelectorAll('.matrix-val').forEach(el => el.classList.remove('hidden'));
+  };
+  const endPeek = () => {
+    if (!peekActive) return;
+    peekActive = false;
+    if (!state.compareShowPct) {
+      cmpBody.querySelectorAll('.matrix-val').forEach(el => el.classList.add('hidden'));
+    }
+  };
+  cmpBody.addEventListener('mousedown', e => { if (e.target.closest('.matrix-cell, .matrix-label')) startPeek(); });
+  cmpBody.addEventListener('mouseup', endPeek);
+  cmpBody.addEventListener('mouseleave', endPeek);
+  cmpBody.addEventListener('touchstart', e => { if (e.target.closest('.matrix-cell, .matrix-label')) startPeek(); }, { passive: true });
+  cmpBody.addEventListener('touchend', endPeek);
+  cmpBody.addEventListener('touchcancel', endPeek);
 }
 
 /* ─── PA Buddy Finder — splash / brand / location boot flow ──
