@@ -660,6 +660,7 @@
   }
   .banner .and { color: var(--text-muted); margin: 0 .15em; font-weight: 700; font-size: .7em; }
   .banner-wrap { text-align: center; }
+  .banner-wrap { cursor: pointer; }
   .banner-tag {
     display: block; font-size: 11px; letter-spacing: .32em; text-transform: uppercase;
     color: var(--text-muted); margin-top: 3px;
@@ -815,6 +816,14 @@
       border: 0; padding: 10px 12px;
       border-top: 1px solid var(--border);
     }
+    .side-left {
+      order: 2;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      align-items: start;
+    }
+    .main-frame { order: 1; }
+    .side-right { order: 3; }
     .main-frame { box-shadow: none; }
   }
 
@@ -1181,6 +1190,21 @@
     color: var(--text);
   }
   .screen-sub { margin-top: 6px; font-size: 13px; color: var(--text-muted); }
+  .provider-note {
+    display: none;
+    margin: 10px auto 0;
+    max-width: 620px;
+    padding: 9px 11px;
+    border: 1px solid color-mix(in srgb, var(--warn) 42%, transparent);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--warn) 12%, transparent);
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.35;
+    text-align: center;
+  }
+  .provider-note.show { display: block; }
+  .provider-note strong { color: var(--warn); }
 
   /* ─── Category-screen escape hatches: global search + browse-all ─
    * Sits above the wizard tiles. Search routes the user straight to a
@@ -1197,6 +1221,7 @@
     background: var(--surface-alt); border: 1.5px solid var(--border);
     border-radius: 14px; color: var(--text);
     font-size: 15px; font-weight: 600;
+    text-align: center;
     outline: none;
     transition: border-color .15s, background .15s, box-shadow .15s;
   }
@@ -1256,6 +1281,29 @@
   }
   @media (min-width: 560px)  { .tile-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
   @media (min-width: 1100px) { .tile-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  #cat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+  }
+  #cat-grid .tile {
+    flex: 1 1 calc(50% - 12px);
+    max-width: calc(50% - 6px);
+  }
+  @media (min-width: 560px) {
+    #cat-grid .tile {
+      flex-basis: calc(33.333% - 10px);
+      max-width: calc(33.333% - 10px);
+    }
+  }
+  @media (min-width: 1100px) {
+    #cat-grid .tile {
+      flex-basis: calc(25% - 11px);
+      max-width: calc(25% - 11px);
+    }
+  }
 
   .tile {
     position: relative;
@@ -1933,6 +1981,12 @@
     .header { padding: 10px 12px; grid-template-columns: auto 1fr auto; gap: 6px; }
     .banner { font-size: 13px; letter-spacing: 0.1em; }
     .brand-title { font-size: 13px; } .brand-sub { display: none; }
+    .h-left { min-width: 0; }
+    .brand { gap: 6px; }
+    .brand-mark { width: 32px; height: 32px; border-radius: 9px; font-size: 15px; }
+    .h-right { gap: 2px; }
+    .icon-btn { width: 34px; height: 34px; border-radius: 10px; font-size: 17px; }
+    .store-btn { padding: 8px 9px; border-radius: 10px; }
     .screen { padding: 18px 14px 30px; }
     .screen-title { font-size: 22px; }
     .tile { min-height: 128px; padding: 16px 10px 12px; }
@@ -2312,13 +2366,14 @@
         <section class="screen" id="screen-category">
           <div class="cat-search-wrap" id="cat-search-wrap">
             <span class="cat-search-icon">🔎</span>
-            <input type="search" id="cat-search" placeholder="Search any product, brand, or strain…" autocomplete="off" spellcheck="false">
+            <input type="search" id="cat-search" placeholder="search any product....." autocomplete="off" spellcheck="false">
             <button type="button" class="cat-search-clear" id="cat-search-clear" aria-label="Clear">×</button>
           </div>
           <div class="screen-head">
             <div class="screen-step">Step 1</div>
             <h1 class="screen-title" id="cat-title">Pick a category</h1>
             <p class="screen-sub" id="cat-sub">Start with what kind of product you want.</p>
+            <p class="provider-note" id="cat-provider-note"><strong>Heads up:</strong> individual terpene percentages are not available for this dispensary yet. Total terp % and effect-based matches may still appear.</p>
           </div>
           <div class="tile-grid" id="cat-grid"></div>
           <div class="cat-or">or browse the whole menu</div>
@@ -2404,13 +2459,14 @@
                to state.searchText so users can keep editing without re-routing. -->
           <div class="cat-search-wrap" id="res-search-wrap" style="display:none">
             <span class="cat-search-icon">🔎</span>
-            <input type="search" id="res-search" placeholder="Search any product, brand, or strain…" autocomplete="off" spellcheck="false">
+            <input type="search" id="res-search" placeholder="search any product....." autocomplete="off" spellcheck="false">
             <button type="button" class="cat-search-clear" id="res-search-clear" aria-label="Clear">×</button>
           </div>
           <div class="screen-head">
             <div class="screen-step">Results</div>
             <h1 class="screen-title" id="res-title">Your matches</h1>
             <p class="screen-sub" id="res-sub">Tap + to add to cart. Side filters narrow further.</p>
+            <p class="provider-note" id="res-provider-note"><strong>Heads up:</strong> individual terpene percentages are not available for this dispensary yet. Total terp % and effect-based matches may still appear.</p>
           </div>
           <div class="results-wrap">
             <div class="results-summary" id="res-summary"></div>
@@ -4998,13 +5054,14 @@ const STORES = BRANDS.flatMap(b => b.stores.map(s => ({ ...s, brandId: b.id })))
  * Strict ascending by grams: 0.5 → 1 → 3.5 (1/8) → 4.2 (Calypso, flower-only
  * pre-pack at OR/Trulieve) → 7 (1/4) → 14 (1/2) → 28 (oz). Reddit user
  * pennkratom flagged the original 4.2-before-3.5 ordering 2026-04-25. */
-const SIZE_KEYS = ['each','half_gram','gram','eighth_ounce','two_gram','quarter_ounce','half_ounce','ounce'];
+const SIZE_KEYS = ['each','half_gram','gram','eighth_ounce','two_gram','four_point_five_gram','quarter_ounce','half_ounce','ounce'];
 /* STONER/slang labels — only surface these when state.naughty=true. */
 const SIZE_LABELS_STONER = {
   each: 'Each',
   half_gram: '½ gram',
   gram: 'A g',
   two_gram: '4.2g',      /* correct for flower; getSizeLabel() overrides for vape/extract */
+  four_point_five_gram: '4.5g',
   eighth_ounce: 'Cut',
   quarter_ounce: 'Quarter',
   half_ounce: 'Halfie',
@@ -5016,6 +5073,7 @@ const SIZE_LABELS_FORMAL = {
   half_gram: '0.5g',
   gram: '1g',
   two_gram: '4.2g',      /* flower default; overridden below for vape/extract */
+  four_point_five_gram: '4.5g',
   eighth_ounce: '⅛ oz',
   quarter_ounce: '¼ oz',
   half_ounce: '½ oz',
@@ -5026,6 +5084,7 @@ const SIZE_SUBLABEL = {  /* small gram-count sub-line under formal label */
   half_gram: '',
   gram: '',
   two_gram: '',
+  four_point_five_gram: '',
   eighth_ounce: '(3.5g)',
   quarter_ounce: '(7g)',
   half_ounce: '(14g)',
@@ -5043,10 +5102,12 @@ function twoGramLabel(kind) { return kind === 'flower' ? '4.2g' : '2g'; }
  *   naughty: slang when true, formal otherwise.
  */
 function getSizeLabel(key, kind, naughty) {
+  if (key === 'each' && kind === 'vape') return '300mg';
   if (key === 'two_gram') return twoGramLabel(kind);
   return (naughty ? SIZE_LABELS_STONER : SIZE_LABELS_FORMAL)[key] || key;
 }
 function getSizeSub(key, kind) {
+  if (key === 'each' && kind === 'vape') return 'Disposable';
   if (key === 'two_gram') return ''; /* label already shows exact grams */
   return SIZE_SUBLABEL[key] || '';
 }
@@ -5054,7 +5115,7 @@ function getSizeSub(key, kind) {
 const SIZE_LABELS = SIZE_LABELS_FORMAL;
 const SIZE_ICONS = {
   each: '🧩', half_gram: '🟢', gram: '🌿', two_gram: '🌿🌿',
-  eighth_ounce: '✂️', quarter_ounce: '🧺', half_ounce: '🛍️', ounce: '👑',
+  four_point_five_gram: '🌿', eighth_ounce: '✂️', quarter_ounce: '🧺', half_ounce: '🛍️', ounce: '👑',
 };
 
 /* ─── Terpene aliases + effect tiles ──────────────────── */
@@ -5197,6 +5258,7 @@ const SIDE_FILTERS = {
     options: [
       { id: 'all',         label: 'All',         match: null },
       { id: 'cartridge',   label: 'Cartridge',   match: (p) => matchesAny(p, ['cartridge','cart','510']) && !matchesAny(p,['disposable','pod']) },
+      { id: 'disposable_300', label: '300mg Disposable', match: isVapeDisposable300mg },
       { id: 'disposable',  label: 'Disposable',  match: (p) => matchesAny(p, ['disposable','all-in-one','all in one','aio']) },
       { id: 'pod',         label: 'Pod',         match: (p) => matchesAny(p, ['pod','pax']) },
     ],
@@ -5215,6 +5277,10 @@ const SIDE_FILTERS = {
 function matchesAny(p, needles) {
   const hay = `${p.name||''} ${p.product_subtype||''} ${p.root_subtype||''} ${p.category||''}`.toLowerCase();
   return needles.some(n => hay.includes(n));
+}
+function isVapeDisposable300mg(p) {
+  return matchesAny(p, ['disposable','all-in-one','all in one','aio']) &&
+    (p._sizes || []).some(s => s.key === 'each');
 }
 
 /* ─── Themes ─────────────────────────────────────────────────
@@ -5437,6 +5503,7 @@ function dutchieSizeKey(option) {
   if (o === '1g' || o === '1gram' || o === 'gram')                       return 'gram';
   if (o === '2g' || o === '2gram')                                       return 'two_gram';
   if (o === '3.5g' || o === 'eighth' || o === '1/8oz' || o === '1/8')    return 'eighth_ounce';
+  if (o === '4.5g' || o === '4.5gram')                                   return 'four_point_five_gram';
   if (o === '7g' || o === 'quarter' || o === '1/4oz' || o === '1/4')     return 'quarter_ounce';
   if (o === '14g' || o === 'half' || o === '1/2oz' || o === '1/2')       return 'half_ounce';
   if (o === '28g' || o === 'ounce' || o === '1oz')                       return 'ounce';
@@ -5480,6 +5547,41 @@ function dutchieSynthTerps(effects) {
   return Object.values(byTerp);
 }
 
+function dutchiePotencyValue(potency) {
+  if (!potency || typeof potency !== 'object') return null;
+  const raw = Array.isArray(potency.range) ? potency.range[0] : potency.range;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : null;
+}
+
+function dutchieLooksLikeProduct(value) {
+  return !!(value && typeof value === 'object' && (
+    value.Name || value.brandName || value.THCContent || value.POSMetaData
+  ));
+}
+
+function dutchieUnwrapProductPayload(json) {
+  const fp = json && (
+    (json.data && json.data.filteredProducts) ||
+    json.filteredProducts ||
+    json.productsList ||
+    json.productList
+  );
+  if (fp && Array.isArray(fp.products)) return { products: fp.products, queryInfo: fp.queryInfo || {} };
+  if (json && json.data && Array.isArray(json.data.products)) return { products: json.data.products, queryInfo: json.data.queryInfo || {} };
+  if (json && Array.isArray(json.products)) return { products: json.products, queryInfo: json.queryInfo || {} };
+  if (Array.isArray(json)) return { products: json, queryInfo: {} };
+  if (dutchieLooksLikeProduct(json)) return { products: [json], queryInfo: {} };
+  return { products: [], queryInfo: {}, missing: true };
+}
+
+function dutchiePageCount(queryInfo, perPage) {
+  const totalCount = Number(queryInfo && queryInfo.totalCount);
+  if (Number.isFinite(totalCount) && totalCount > 0) return Math.max(1, Math.ceil(totalCount / perPage));
+  const pages = Number(queryInfo && queryInfo.totalPages);
+  return Number.isFinite(pages) && pages > 0 ? pages : null;
+}
+
 /* Dutchie product → Jane-shaped product. Returns null for kinds we drop
  * (pre-rolls) or unknown types. */
 function dutchieToJaneShape(p) {
@@ -5493,8 +5595,7 @@ function dutchieToJaneShape(p) {
     brand: p.brandName || (p.brand && p.brand.name) || '',
     kind,
     category: (p.strainType || '').toLowerCase(),
-    percent_thc: (p.THCContent && Array.isArray(p.THCContent.range))
-      ? Number(p.THCContent.range[0]) : null,
+    percent_thc: dutchiePotencyValue(p.THCContent),
     image_urls: (Array.isArray(p.images) && p.images.length)
       ? p.images.map(im => im && (im.url || im)).filter(Boolean)
       : (p.Image ? [p.Image] : []),
@@ -5507,14 +5608,17 @@ function dutchieToJaneShape(p) {
    * to Jane's price_<size>/discounted_price_<size> per-size scalars. PA is
    * medical-only so medicalPrices is the source of truth; we fall through
    * to recPrices defensively. */
-  const opts = p.Options || [];
+  const opts = p.Options || p.rawOptions || (p.POSMetaData && Array.isArray(p.POSMetaData.children)
+    ? p.POSMetaData.children.map(c => c && c.option).filter(Boolean)
+    : []);
   const med  = p.medicalPrices || [];
   const medS = p.medicalSpecialPrices || [];
   const rec  = p.recPrices || [];
   const recS = p.recSpecialPrices || [];
+  const base = p.Prices || [];
   for (let i = 0; i < opts.length; i++) {
     const key = dutchieSizeKey(opts[i]);
-    const full = med[i] != null ? med[i] : (rec[i] != null ? rec[i] : null);
+    const full = med[i] != null ? med[i] : (rec[i] != null ? rec[i] : (base[i] != null ? base[i] : null));
     const disc = medS[i] != null ? medS[i] : (recS[i] != null ? recS[i] : null);
     if (full == null && disc == null) continue;
     /* On collisions (multiple options resolving to the same size key), keep
@@ -5537,15 +5641,13 @@ function dutchieToJaneShape(p) {
   if (Number.isFinite(norm.percent_thc) && norm.percent_thc > 0) {
     norm._cannabs.push({ name: 'THC', value: norm.percent_thc });
   }
-  const cbd = (p.CBDContent && Array.isArray(p.CBDContent.range))
-    ? Number(p.CBDContent.range[0]) : null;
+  const cbd = dutchiePotencyValue(p.CBDContent);
   if (Number.isFinite(cbd) && cbd > 0) {
     norm._cannabs.push({ name: 'CBD', value: cbd });
   }
   norm._sizes  = extractSizes(norm);
   norm._subs   = detectSubtypes(norm);
-  norm._totalTerps = (p.totalTerpenes && Array.isArray(p.totalTerpenes.range))
-    ? Number(p.totalTerpenes.range[0]) : null;
+  norm._totalTerps = dutchiePotencyValue(p.totalTerpenes);
   norm._effects   = p.effects || null;
   norm._isDutchie = true;
   return norm;
@@ -5665,11 +5767,11 @@ const PROVIDERS = {
           },
         };
         const json = await dutchieFetch(body);
-        const fp = json && json.data && json.data.filteredProducts;
-        if (!fp) throw new Error('Dutchie: missing filteredProducts payload');
-        const products = fp.products || [];
-        const qi = fp.queryInfo || {};
-        if (Number.isFinite(qi.totalPages) && qi.totalPages > 0) totalPages = qi.totalPages;
+        const payload = dutchieUnwrapProductPayload(json);
+        if (payload.missing) throw new Error('Dutchie: missing product payload');
+        const products = payload.products || [];
+        const pages = dutchiePageCount(payload.queryInfo || {}, perPage);
+        if (pages) totalPages = pages;
         for (const p of products) {
           const norm = dutchieToJaneShape(p);
           if (norm) all.push(norm);
@@ -5701,8 +5803,16 @@ const PROVIDERS = {
 };
 
 function brandProviderKey() {
-  const b = BRAND_BY_ID[state.selBrandId];
+  const store = currentStore();
+  const b = BRAND_BY_ID[(store && store.brandId) || state.selBrandId];
   return (b && b.provider) || 'jane';
+}
+function updateProviderNotes() {
+  const show = brandProviderKey() === 'dutchie';
+  for (const id of ['cat-provider-note', 'res-provider-note']) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('show', show);
+  }
 }
 
 async function loadMenu() {
@@ -5863,6 +5973,7 @@ function detectSubtypes(p) {
 function currentStore() { return STORES.find(s => s.id === state.storeId) || STORES[STORES.length - 1]; }
 function applyStore(id) {
   state.storeId = id;
+  state.selBrandId = currentStore().brandId || state.selBrandId;
   localStorage.setItem('terpfinder_store', id);
   document.getElementById('store-name').textContent = currentStore().name;
   /* wipe state + reload menu */
@@ -5938,6 +6049,7 @@ function setScreen(name) {
    * of stale data on slow renders. Skipped for 'loading' / 'cart' /
    * non-wizard screens where there's nothing to derive from products. */
   if (name !== 'loading' && name !== 'cart') renderForScreen(name);
+  updateProviderNotes();
   for (const s of document.querySelectorAll('.screen')) s.classList.remove('active');
   const el = document.getElementById(`screen-${name}`);
   if (el) el.classList.add('active');
@@ -6236,6 +6348,21 @@ function sortFilteredProducts(list) {
   return list;
 }
 
+function productMatchesSearch(p, query) {
+  const terms = (query || '').trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (!terms.length) return true;
+  const hay = [
+    p.name,
+    p.brand,
+    p.category,
+    p.product_subtype,
+    p.root_subtype,
+    ...(p._subs || []),
+    ...(p._sizes || []).map(s => getSizeLabel(s.key, p.kind, false)),
+  ].filter(Boolean).join(' ').toLowerCase();
+  return terms.every(term => hay.includes(term));
+}
+
 function getFilteredProducts() {
   /* Global search (no selCat) skips the kind filter — pipeline still runs the
    * subsequent text/brand/sale filters across the full mixed product set. */
@@ -6314,9 +6441,7 @@ function getFilteredProducts() {
   /* free-text search (product name / strain / brand) */
   const q = (state.searchText || '').trim().toLowerCase();
   if (q) {
-    list = list.filter(p =>
-      (p.name  || '').toLowerCase().includes(q) ||
-      (p.brand || '').toLowerCase().includes(q));
+    list = list.filter(p => productMatchesSearch(p, q));
   }
   /* brand multi-select */
   if (state.selBrands && state.selBrands.length) {
@@ -6905,7 +7030,7 @@ function cartTotals() {
 /* Icons for side-filters (visual cue, not mandatory) */
 const SIDE_FILTER_ICONS = {
   all: '◎', buds: '🌿', ground: '🧂',
-  cartridge: '🛢️', disposable: '🖊️', pod: '🔌',
+  cartridge: '🛢️', disposable_300: '🖊️', disposable: '🖊️', pod: '🔌',
   '2': '②', '15': '⑮', '20': '⑳', '40': '㊵',
 };
 function updateSidePanels(opts) {
@@ -7406,10 +7531,14 @@ function renderThemeSheet() {
 function renderStoreSheet() {
   const g = document.getElementById('store-grid');
   g.innerHTML = '';
-  for (const s of STORES) {
+  const activeStore = currentStore();
+  const activeBrand = BRAND_BY_ID[(activeStore && activeStore.brandId) || state.selBrandId];
+  const stores = activeBrand ? activeBrand.stores.map(s => ({ ...s, brandId: activeBrand.id })) : STORES;
+  for (const s of stores) {
+    if (s.id === 'tbd') continue;
     const el = document.createElement('div');
     el.className = 'store-opt' + (state.storeId === s.id ? ' selected' : '');
-    el.innerHTML = `<div class="store-opt-name">${s.name}</div><div class="store-opt-sub">#${s.id}</div>`;
+    el.innerHTML = `<div class="store-opt-name">${s.name}</div><div class="store-opt-sub">${esc(s.city || activeBrand?.name || '')} · #${s.id}</div>`;
     el.addEventListener('click', () => {
       document.getElementById('store-sheet').classList.remove('open');
       applyStore(s.id);
@@ -7694,6 +7823,7 @@ function wireEvents() {
   document.getElementById('store-sheet').addEventListener('click', e => {
     if (e.target.id === 'store-sheet') e.currentTarget.classList.remove('open');
   });
+  document.getElementById('banner').addEventListener('click', () => window.location.reload());
 
   document.getElementById('sub-skip').addEventListener('click', () => { state.selSubs = []; goNext(); });
   document.getElementById('sub-go').addEventListener('click',   () => goNext());
