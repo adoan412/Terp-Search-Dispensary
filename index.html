@@ -4871,12 +4871,59 @@ const BRANDS = [
       { id: '4365', name: 'Bethel Park',  slug: 'organic-remedies-bethel-park-pa',  city: 'Bethel Park, PA' },
     ],
   },
-  { id: 'rise',      name: 'Rise',                short: 'RS',  color: '#ff7a59', glyph: '🔥', active: false, provider: 'jane',
-    stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
-  { id: 'restore',   name: 'Restore',             short: 'RE',  color: '#3f8f5b', glyph: '✚', active: false, provider: 'custom',
-    stores: [{ id: 'tbd', name: 'Coming soon', city: 'requested on Reddit' }] },
-  { id: 'liberty',   name: 'Liberty',             short: 'LB',  color: '#2f6fd6', glyph: '★', active: false, provider: 'custom',
-    stores: [{ id: 'tbd', name: 'Coming soon', city: 'requested on Reddit' }] },
+  { id: 'rise',      name: 'Rise',                short: 'RS',  color: '#ff7a59', glyph: '🔥', active: true,  provider: 'jane',
+    /* Source URLs follow risecannabis.com/dispensaries/pennsylvania/{slug}/{store_id}/medical-menu.
+     * Live-verified against Jane Algolia on 2026-04-26. Monroeville's current
+     * SEO page exposes no working store_id yet, so it is intentionally omitted. */
+    stores: [
+      { id: '1547', name: 'Carlisle',        slug: 'carlisle',        city: 'Carlisle, PA' },
+      { id: '1867', name: 'Chambersburg',    slug: 'chambersburg',    city: 'Chambersburg, PA' },
+      { id: '1575', name: 'Cranberry',       slug: 'cranberry',       city: 'Cranberry Township, PA' },
+      { id: '1961', name: 'Duncansville',    slug: 'duncansville',    city: 'Duncansville, PA' },
+      { id: '392',  name: 'Erie on Lake',    slug: 'erie-lake',       city: 'Erie, PA' },
+      { id: '2607', name: 'Erie on Peach',   slug: 'erie-peach',      city: 'Erie, PA' },
+      { id: '5202', name: 'Grove City',      slug: 'grove-city',      city: 'Grove City, PA' },
+      { id: '1551', name: 'Hermitage',       slug: 'hermitage',       city: 'Hermitage, PA' },
+      { id: '4601', name: 'King of Prussia', slug: 'king-of-prussia', city: 'King of Prussia, PA' },
+      { id: '1549', name: 'Latrobe',         slug: 'latrobe',         city: 'Latrobe, PA' },
+      { id: '6520', name: 'Lebanon',         slug: 'lebanon',         city: 'Lebanon, PA' },
+      { id: '2863', name: 'Meadville',       slug: 'meadville',       city: 'Meadville, PA' },
+      { id: '1550', name: 'Mechanicsburg',   slug: 'mechanicsburg',   city: 'Mechanicsburg, PA' },
+      { id: '1545', name: 'New Castle',      slug: 'new-castle',      city: 'New Castle, PA' },
+      { id: '5383', name: 'Philadelphia',    slug: 'philadelphia',    city: 'Philadelphia, PA' },
+      { id: '1544', name: 'Steelton',        slug: 'steelton',        city: 'Steelton, PA' },
+      { id: '3404', name: 'Warminster',      slug: 'warminster',      city: 'Warminster, PA' },
+      { id: '1548', name: 'York',            slug: 'york',            city: 'York, PA' },
+    ] },
+  { id: 'restore',   name: 'Restore',             short: 'RE',  color: '#3f8f5b', glyph: '✚', active: false, provider: 'hytiva',
+    /* Restore migrated off Jane to Hytiva sometime before 2026-04-26.
+     * Live menu page (e.g. restoredispensaries.com/doylestown-menu/) loads
+     * https://e.hytiva.com/v1/js/menu.js and reads
+     * https://api.hytiva.com/v1/dispensaries/<id>. The iheartjane embed
+     * markup in the WP source is stale — Jane really did delete the old
+     * store_ids (probed 1467 → nbHits=0 across all kinds).
+     *
+     * Disabled until a PROVIDERS.hytiva adapter is built. Doylestown's
+     * Hytiva dispensary id is captured below; the other four still need
+     * to be scraped from each location's menu page (open in browser →
+     * Network tab → look for api.hytiva.com/v1/dispensaries/<id>). */
+    stores: [
+      { id: '8920930', name: 'Doylestown',  slug: 'doylestown',  city: 'Doylestown, PA' },
+      { id: 'tbd',     name: 'Elkins Park', slug: 'elkins-park', city: 'Elkins Park, PA' },
+      { id: 'tbd',     name: 'Fishtown',    slug: 'fishtown',    city: 'Philadelphia, PA' },
+      { id: 'tbd',     name: 'Lancaster',   slug: 'lancaster',   city: 'Lancaster, PA' },
+      { id: 'tbd',     name: 'Pottstown',   slug: 'pottstown',   city: 'Pottstown, PA' },
+    ] },
+  { id: 'liberty',   name: 'Liberty',             short: 'LB',  color: '#2f6fd6', glyph: '★', active: true,  provider: 'dutchie',
+    /* Source pages: libertycannabis.com/shop/{slug}/.
+     * Static page-source verified on 2026-04-26. Bensalem, Norristown,
+     * and Philadelphia expose Dutchie cNames but not the 24-char
+     * dispensary IDs this adapter needs, so they stay omitted for now. */
+    stores: [
+      { id: '5e9491bc8c76410099c8fa05', name: 'Aliquippa',  slug: 'aliquippa',          city: 'Aliquippa, PA' },
+      { id: '60523818a6b5d500e0fb2e31', name: 'Cranberry',  slug: 'cranberry-township', city: 'Cranberry Township, PA' },
+      { id: '63dab2d8ab202100548dbaf5', name: 'Pittsburgh', slug: 'pittsburgh',         city: 'Pittsburgh, PA' },
+    ] },
   { id: 'trulieve',  name: 'Trulieve',            short: 'TL',  color: '#00a991', glyph: '🌱', active: true,  provider: 'dutchie',
     stores: [
       { id: '5fcd803c0d0a250106ded129', name: 'Camp Hill',                          city: 'Camp Hill, PA',          slug: 'camp-hill' },
@@ -5512,7 +5559,7 @@ function dutchieToJaneShape(p) {
  * keeps one brand's API drift from cascading into another. */
 const PROVIDERS = {
   /* Jane / iheartjane — shared Algolia creds, per-store filter.
-   * Active for Organic Remedies, Verilife, Beyond/Hello. */
+   * Active for Organic Remedies, Rise, Restore, Verilife, Beyond/Hello. */
   jane: {
     label: 'iHeartJane',
     async fetchProducts(storeId) {
@@ -5557,7 +5604,7 @@ const PROVIDERS = {
     },
   },
 
-  /* Dutchie embedded-menu adapter — used by Trulieve PA stores.
+  /* Dutchie embedded-menu adapter — used by Trulieve and verified Liberty PA stores.
    *
    * API: GET https://dutchie.com/api-4/graphql with operationName=FilteredProducts
    *      and Apollo persistedQuery hash. The hash is stable across sessions and
