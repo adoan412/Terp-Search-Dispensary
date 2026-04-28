@@ -8611,6 +8611,22 @@ function productMatchesSearch(p, query) {
   return terms.every(term => hay.includes(term));
 }
 
+
+function isMobileTypingContext() {
+  const el = document.activeElement;
+  const isTyping = el && ['INPUT', 'TEXTAREA'].includes(el.tagName);
+  const mobileLike = window.matchMedia && window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+  return !!(isTyping && mobileLike);
+}
+
+function debounce(fn, delay = 160) {
+  let t = null;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), delay);
+  };
+}
+
 function getFilteredProducts() {
   /* Global search (no selCat) skips the kind filter — pipeline still runs the
    * subsequent text/brand/sale filters across the full mixed product set. */
@@ -8651,11 +8667,9 @@ function getFilteredProducts() {
   /* Edibles also get a fallback: if cannabinoid isn't found in lab_results, try
    * the product name (this is why CBN capsules were vanishing — lab panel
    * doesn't list CBN but "CBN Capsule" in the name makes it obvious). */
-  const nameContains = (p, query) => {
-    if (!query) return true;
+  const nameContains = (p, token) => {
     const hay = `${p.name||''} ${p.product_subtype||''} ${p.root_subtype||''} ${p.brand||''}`.toLowerCase();
-    const tokens = query.toLowerCase().split(/\s+/).filter(t => t.length > 0);
-    return tokens.every(token => hay.includes(token));
+    return hay.includes(token.toLowerCase());
   };
   const scoreByWithNameFallback = (items, picks, p) => {
     const s = scoreBy(items, picks);
@@ -9194,7 +9208,11 @@ function wireMobileResultsRail(root) {
   }));
 }
 function renderResults() {
-  const keepSearchFocus = document.activeElement?.id === 'res-search';
+  /* Mobile keyboards are extremely sensitive to programmatic focus during
+   * input. On touch/narrow screens, never re-focus the search box during a
+   * render; the input already keeps focus unless we steal it. */
+  const allowProgrammaticFocus = !(window.matchMedia && window.matchMedia('(max-width: 900px), (pointer: coarse)').matches);
+  const keepSearchFocus = allowProgrammaticFocus && document.activeElement?.id === 'res-search';
   const keepSearchSel = keepSearchFocus ? {
     start: document.activeElement.selectionStart,
     end: document.activeElement.selectionEnd,
@@ -9204,7 +9222,7 @@ function renderResults() {
     const rs = document.getElementById('res-search');
     if (!rs) return;
     requestAnimationFrame(() => {
-      rs.focus();
+      rs.focus({ preventScroll: true });
       try { rs.setSelectionRange(keepSearchSel.start, keepSearchSel.end); } catch (_) {}
     });
   };
@@ -11347,16 +11365,19 @@ function wireEvents() {
   /* Side-panel: search / sale-only / brand-clear */
   const searchInput = document.getElementById('side-search');
   const searchClear = document.getElementById('side-search-clear');
+  const renderSideSearchAfterTyping = debounce(() => {
+    if (state.screen === 'results') renderResults();
+  }, 140);
   const onSearch = () => {
     state.searchText = searchInput.value;
-    if (state.screen === 'results') renderResults();
+    renderSideSearchAfterTyping();
   };
   searchInput.addEventListener('input', onSearch);
   searchClear.addEventListener('click', () => {
     searchInput.value = '';
     state.searchText = '';
     if (state.screen === 'results') renderResults();
-    searchInput.focus();
+    searchInput.focus({ preventScroll: true });
   });
   document.getElementById('side-sale-only').addEventListener('change', (e) => {
     state.saleOnly = e.target.checked;
@@ -11398,37 +11419,35 @@ function wireEvents() {
     state.selBrands = []; state.saleOnly = false; state.topShelfOnly = false; clearAdvancedFilterState(); state.sortMode = 'relevance';
     state.matchMode = 'terp';
     state.browseAll = true;
-    /* Keep the side-search input in sync without touching the currently active
-     * input. On mobile, updating/refocusing a second search field while the
-     * keyboard is open can make the keyboard collapse and reopen. */
     const sideSi = document.getElementById('side-search');
-    if (sideSi && sideSi !== document.activeElement) {
-      sideSi.value = q;
-    }
+    if (sideSi && sideSi !== document.activeElement && sideSi.value !== q) sideSi.value = q;
     const wasOnResults = state.screen === 'results';
-    // Only change screens when needed; otherwise render in-place to avoid layout thrash.
     if (!wasOnResults) setScreen('results');
     else renderResults();
-    /* Keep the results search value mirrored after the results screen exists,
-     * but do not steal focus from the field the user is actively typing in. */
-    if (!wasOnResults) {
+    /* Desktop can smoothly hand focus from category search to results search.
+     * Mobile cannot: forcing focus during a screen transition is what causes
+     * the virtual keyboard to collapse/reopen. */
+    const mobileLike = window.matchMedia && window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+    if (!wasOnResults && !mobileLike) {
       const rs = document.getElementById('res-search');
-      if (rs && rs !== document.activeElement) {
+      if (rs) {
         rs.value = q;
+        rs.focus({ preventScroll: true });
+        const len = q.length;
+        try { rs.setSelectionRange(len, len); } catch (_) {}
       }
     }
   };
+  const enterGlobalSearchAfterTyping = debounce((q) => enterGlobalSearch(q), 220);
   catSearch.addEventListener('input', () => {
     const q = catSearch.value;
     catSearchWrap.classList.toggle('has-text', !!q);
-    /* Don't route to results until 2+ chars — single-letter routing was too eager
-     * and made typing feel janky (every first keystroke flashed the user onto a
-     * near-meaningless results page). Pressing Enter still forces a route below
-     * for power users who want to search a 1-char query intentionally. */
+    /* On mobile, routing screens on the exact keystroke can collapse the virtual
+     * keyboard. Wait for a tiny pause, then show results. */
     if (q.trim().length >= 2) {
-      enterGlobalSearch(q);
+      state.searchText = q;
+      enterGlobalSearchAfterTyping(q);
     } else if (state.screen === 'results' && state.browseAll && !state.selCat) {
-      /* User backspaced from a routed search down to 0-1 chars — go home. */
       state.searchText = q;
       state.browseAll = false;
       setScreen('category');
@@ -11450,7 +11469,7 @@ function wireEvents() {
       state.browseAll = false;
       setScreen('category');
     }
-    catSearch.focus();
+    catSearch.focus({ preventScroll: true });
   });
 
   /* ─── Live results search — same wrap design as the category-screen one,
@@ -11459,17 +11478,20 @@ function wireEvents() {
   const resSearch = document.getElementById('res-search');
   const resSearchClear = document.getElementById('res-search-clear');
   const resSearchWrap = document.getElementById('res-search-wrap');
+  const renderResultsAfterTyping = debounce(() => {
+    if (state.screen === 'results') renderResults();
+  }, 140);
   resSearch.addEventListener('input', () => {
     const q = resSearch.value;
     resSearchWrap.classList.toggle('has-text', !!q);
     state.searchText = q;
-    /* Keep the side-panel and category-screen inputs synced so a user
-     * switching contexts later sees what they typed. */
+    /* Sync passive inputs only. Do not touch whichever input currently owns
+     * the mobile keyboard, or Android/Chrome may drop the keyboard context. */
     const sideSi = document.getElementById('side-search');
     if (sideSi && sideSi !== document.activeElement && sideSi.value !== q) sideSi.value = q;
     if (catSearch && catSearch !== document.activeElement && catSearch.value !== q) catSearch.value = q;
-    catSearchWrap.classList.toggle('has-text', !!q);
-    renderResults();
+    if (catSearchWrap) catSearchWrap.classList.toggle('has-text', !!q);
+    renderResultsAfterTyping();
   });
   resSearchClear.addEventListener('click', () => {
     resSearch.value = '';
@@ -11480,7 +11502,7 @@ function wireEvents() {
     if (catSearch) catSearch.value = '';
     catSearchWrap.classList.remove('has-text');
     renderResults();
-    resSearch.focus();
+    resSearch.focus({ preventScroll: true });
   });
 
   /* ─── Logo-as-home: clicking the wordmark/mark returns to category, cart preserved.
@@ -11692,12 +11714,11 @@ function enterMainApp(brand, store) {
 function bootPaBuddy() {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.scrollTo(0, 0);
-  window.addEventListener('pageshow', () => setTimeout(() => window.scrollTo(0, 0), 0));
+  window.addEventListener('pageshow', () => {
+    if (!isMobileTypingContext()) setTimeout(() => window.scrollTo(0, 0), 0);
+  });
   document.addEventListener('visibilitychange', () => {
-    const isTyping = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
-    if (!document.hidden && !isTyping) {
-      setTimeout(() => window.scrollTo(0, 0), 0);
-    }
+    if (!document.hidden && !isMobileTypingContext()) setTimeout(() => window.scrollTo(0, 0), 0);
   });
   applyTheme(state.theme);
   applyNaughtyLabels();
