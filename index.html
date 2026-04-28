@@ -1996,6 +1996,333 @@
     .store-btn .name { display: none; }
   }
 
+  .mobile-bottom-nav, .mobile-sheet-overlay { display: none; }
+  @media (max-width: 640px) {
+    body { background: #f7f7f3; }
+    .app { min-height: 100vh; background: #f7f7f3; color: #080808; }
+    .header {
+      position: sticky; top: 0; z-index: 35;
+      background: rgba(255,255,252,.96);
+      color: #080808;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      backdrop-filter: blur(10px);
+    }
+    .brand-title, .banner, .store-btn, .icon-btn { color: #080808; }
+    #home-btn, #cart-btn { display: none; }
+    .h-right { gap: 6px; }
+    .banner-wrap { display: none; }
+    .layout { display: block; background: #f7f7f3; }
+    .main-frame {
+      min-height: calc(100vh - 62px);
+      background: #f7f7f3;
+      box-shadow: none;
+      padding-bottom: 92px;
+    }
+    .side-left, .side-right { display: none !important; }
+    .screen { padding: 18px 16px 36px; }
+    .screen-head { text-align: left; margin-bottom: 16px; }
+    .screen-step { color: #5d6f62; letter-spacing: .18em; }
+    .screen-title { color: #080808; font-size: 26px; line-height: .98; letter-spacing: -.02em; }
+    .screen-sub { color: #626262; }
+    .provider-note {
+      text-align: left;
+      background: #fff8df;
+      border-color: #e0bd49;
+      color: #2a2308;
+    }
+    .cat-search-wrap { margin-bottom: 12px; }
+    .cat-search-wrap input {
+      background: #fff;
+      color: #111;
+      border-color: #d7d7d2;
+      border-radius: 999px;
+      min-height: 44px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
+    }
+    .tile, .browse-chip, .chip {
+      background: #fff;
+      color: #111;
+      border-color: #d9d9d4;
+      box-shadow: 0 8px 20px rgba(0,0,0,.06);
+    }
+    .tile.selected, .chip.hot {
+      background: #edf7ee;
+      color: #245f33;
+      border-color: #7dbb87;
+    }
+    .results-wrap { max-width: none; }
+    .results-summary {
+      justify-content: flex-start;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      scrollbar-width: none;
+    }
+    .results-summary::-webkit-scrollbar { display: none; }
+    .mobile-results-rail {
+      position: sticky;
+      top: 61px;
+      z-index: 28;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin: -4px -16px 14px;
+      padding: 10px 16px;
+      background: rgba(247,247,243,.95);
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
+      scrollbar-width: none;
+      backdrop-filter: blur(12px);
+    }
+    .mobile-results-rail::-webkit-scrollbar { display: none; }
+    .mobile-rail-btn {
+      flex: 0 0 auto;
+      min-height: 42px;
+      border: 1px solid #d8d8d2;
+      border-radius: 999px;
+      background: #fff;
+      color: #111;
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .02em;
+      box-shadow: 0 8px 16px rgba(0,0,0,.06);
+    }
+    .mobile-rail-btn.icon { width: 46px; padding: 0; font-size: 18px; }
+    .mobile-rail-btn.active { background: #173521; color: #bde08b; border-color: #173521; }
+    .mobile-rail-btn.count { background: #eef4ec; color: #2d6f3c; border-color: #b9d8bd; }
+    .chip { white-space: nowrap; color: #444; }
+    .product-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .mobile-product-card {
+      position: relative;
+      background: #fff;
+      color: #080808;
+      border: 1px solid #d9d9d4;
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 18px 34px rgba(0,0,0,.10);
+      overflow: hidden;
+    }
+    .mobile-product-card.in-cart { border-color: #3e7d48; box-shadow: 0 0 0 2px #dceee0, 0 18px 34px rgba(0,0,0,.10); }
+    .m-card-top { display: grid; grid-template-columns: 112px 1fr; gap: 12px; align-items: start; }
+    .m-card-img, .m-card-img-ph {
+      width: 112px; aspect-ratio: 1;
+      border-radius: 14px;
+      background: #f0f1ed;
+      object-fit: cover;
+      border: 1px solid #e4e4df;
+    }
+    .m-card-img-ph { display:flex; align-items:center; justify-content:center; font-size:32px; color:#a8aea6; }
+    .m-card-brand { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; color: #111; margin-bottom: 3px; }
+    .m-card-name { font-size: 17px; font-weight: 950; line-height: 1.05; letter-spacing: -.02em; color: #050505; margin-bottom: 8px; }
+    .m-card-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+    .m-card-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid #deded8;
+      border-bottom: 1px solid #deded8;
+      margin: 10px 0;
+    }
+    .m-stat { padding: 9px 10px 8px 0; }
+    .m-stat + .m-stat { padding-left: 12px; border-left: 1px solid #deded8; }
+    .m-stat-value { display: block; font-size: 23px; font-weight: 950; line-height: 1; letter-spacing: -.03em; color: #c45b2a; }
+    .m-stat-value.terp { color: #2f7741; }
+    .m-stat-label { display: block; margin-top: 4px; font-size: 9px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; color: #111; }
+    .m-stat-meter { display: block; height: 7px; margin-top: 7px; border-radius: 999px; background: #ecece8; overflow: hidden; }
+    .m-stat-fill { display: block; height: 100%; border-radius: inherit; background: #c45b2a; width: 0%; }
+    .m-stat-fill.terp { background: #2f7741; }
+    .m-terp-bars { display: grid; gap: 6px; padding: 8px; border: 1px solid #e3e3de; border-radius: 12px; background: #fbfbf8; margin-bottom: 10px; }
+    .m-terp-row { display: grid; grid-template-columns: 86px 1fr 44px; gap: 8px; align-items: center; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .05em; color: #111; }
+    .m-terp-track { height: 7px; border-radius: 999px; background: #ecece8; overflow: hidden; }
+    .m-terp-fill { display: block; height: 100%; border-radius: inherit; background: #427b4b; min-width: 4px; }
+    .m-terp-row.match .m-terp-fill { background: var(--accent); }
+    .m-terp-val { text-align: right; color: #333; font-size: 10px; }
+    .m-chip-line { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .m-chip { font-size: 10px; font-weight: 800; color: #3b3b3b; background: #eeeeea; border-radius: 999px; padding: 4px 8px; }
+    .m-chip.match { background: #dff0e3; color: #246034; }
+    .m-card-bottom { display: grid; grid-template-columns: 1fr minmax(130px, 45%); gap: 10px; align-items: center; }
+    .m-price-now { font-size: 25px; font-weight: 950; letter-spacing: -.03em; color: #070707; }
+    .m-price-was { margin-left: 5px; color: #8d8d86; text-decoration: line-through; font-size: 13px; }
+    .m-price-unit { display: block; color: #111; font-size: 10px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+    .m-add-btn, .m-compare-btn {
+      min-height: 48px;
+      border: 0;
+      border-radius: 16px;
+      background: #070707;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      box-shadow: 0 12px 22px rgba(0,0,0,.14);
+    }
+    .m-compare-btn {
+      position: absolute; top: 10px; right: 10px;
+      width: 34px; min-height: 34px;
+      border-radius: 50%;
+      padding: 0;
+      letter-spacing: 0;
+      font-size: 18px;
+      background: rgba(255,255,255,.94);
+      color: #111;
+      border: 1px solid #d9d9d4;
+      box-shadow: 0 8px 16px rgba(0,0,0,.10);
+    }
+    .m-compare-btn.active { background: #2f7741; color: #fff; border-color: #2f7741; }
+    .m-qty { min-height: 48px; display: inline-flex; justify-content: space-between; align-items: center; border-radius: 16px; border: 1px solid #deded8; background: #f6f6f2; overflow: hidden; }
+    .m-qty button { width: 44px; height: 48px; border: 0; background: transparent; font-size: 20px; font-weight: 900; color: #111; }
+    .m-qty span { min-width: 32px; text-align: center; font-size: 15px; font-weight: 950; }
+    .mobile-bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: max(10px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      z-index: 48;
+      width: min(360px, calc(100% - 34px));
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 18px 44px rgba(0,0,0,.20);
+      backdrop-filter: blur(16px);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    .mobile-nav-btn { position: relative; min-height: 50px; border: 0; background: transparent; color: #777; border-radius: 999px; display: grid; place-items: center; gap: 1px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .05em; }
+    .mobile-nav-btn[data-mobile-nav="compare"] { display: none; }
+    .mobile-nav-btn .ico { font-size: 18px; line-height: 1; }
+    .mobile-nav-btn.active { background: #2f7741; color: #fff; }
+    .mobile-nav-count { position: absolute; right: 8px; top: 4px; min-width: 17px; height: 17px; padding: 0 5px; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 10px; line-height: 17px; font-weight: 900; }
+    .mobile-sheet-overlay {
+      position: fixed; inset: 0; z-index: 60;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(5px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+    }
+    .mobile-sheet-overlay.open { opacity: 1; pointer-events: auto; display: block; }
+    .mobile-sheet {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      max-height: min(86vh, 760px);
+      overflow: auto;
+      background: #fff;
+      color: #080808;
+      border-radius: 28px 28px 0 0;
+      padding: 18px 18px calc(24px + env(safe-area-inset-bottom));
+      box-shadow: 0 -18px 50px rgba(0,0,0,.24);
+      transform: translateY(100%);
+      transition: transform .22s ease;
+    }
+    .mobile-sheet-overlay.open .mobile-sheet { transform: translateY(0); }
+    .mobile-sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid #e7e7e2; margin-bottom: 0; }
+    .mobile-sheet-kicker { font-size: 10px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; color: #8b8b95; }
+    .mobile-sheet-title { font-size: 22px; font-weight: 950; line-height: 1; letter-spacing: -.02em; }
+    .mobile-sheet-close { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #deded8; background: #fff; color: #111; font-size: 22px; }
+    .mobile-filter-layout { display: grid; grid-template-columns: 112px minmax(0, 1fr); margin: 0 -18px calc(-24px - env(safe-area-inset-bottom)); min-height: min(68vh, 620px); }
+    .mobile-filter-tabs { background: #f1f2ee; border-right: 1px solid #e1e1dc; padding: 10px 0 calc(28px + env(safe-area-inset-bottom)); }
+    .mobile-filter-tab {
+      width: 100%;
+      min-height: 56px;
+      border: 0;
+      border-left: 4px solid transparent;
+      background: transparent;
+      color: #444;
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+    .mobile-filter-tab.active { background: #fff; color: #2f7741; border-left-color: #2f7741; }
+    .mobile-filter-panels { padding: 16px 16px calc(30px + env(safe-area-inset-bottom)); overflow: auto; }
+    .mobile-filter-panel { display: none; }
+    .mobile-filter-panel.active { display: block; }
+    .mobile-filter-section { margin: 16px 0; }
+    .mobile-filter-section:first-child { margin-top: 0; }
+    .mobile-filter-title { margin-bottom: 8px; font-size: 11px; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; color: #777; }
+    .mobile-filter-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .mobile-pill-btn { border: 1px solid #dcdcd7; background: #f7f7f3; color: #111; border-radius: 999px; padding: 10px 13px; font-size: 12px; font-weight: 900; }
+    .mobile-pill-btn.active { background: #2f7741; color: #fff; border-color: #2f7741; }
+    .mobile-filter-input, .mobile-filter-select { width: 100%; min-height: 44px; border-radius: 14px; border: 1px solid #dcdcd7; background: #f7f7f3; color: #111; padding: 0 12px; font-size: 14px; font-weight: 700; box-sizing: border-box; }
+    .mobile-toggle-row { display:flex; gap: 8px; flex-wrap: wrap; }
+    .mobile-pick-item { display: grid; grid-template-columns: 58px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #eeeeea; }
+    .mobile-pick-img, .mobile-pick-img-ph { width:58px; height:58px; border-radius: 14px; object-fit: cover; background:#f0f0ec; display:flex; align-items:center; justify-content:center; }
+    .mobile-pick-name { font-size: 13px; font-weight: 950; line-height: 1.15; }
+    .mobile-pick-meta { margin-top: 3px; color:#777; font-size:11px; font-weight:700; }
+    .mobile-pick-price { text-align:right; font-size: 13px; font-weight: 950; }
+    .mobile-total-box { display:flex; align-items:flex-end; justify-content:space-between; margin: 16px -4px 12px; padding: 16px 4px 8px; border-top: 1px solid #e8e8e4; }
+    .mobile-total-label { font-size: 11px; font-weight: 900; color:#8b8b95; letter-spacing:.12em; text-transform:uppercase; }
+    .mobile-total-value { font-size: 34px; font-weight: 950; letter-spacing:-.04em; }
+    .mobile-qr { text-align:center; padding: 12px 0; }
+    .mobile-qr .qr-canvas { border-color:#e4e4df; }
+    .mobile-ready-btn { width: 100%; min-height: 68px; border: 0; border-radius: 24px; background: #050505; color: #fff; font-size: 16px; font-weight: 950; letter-spacing: .08em; text-transform: uppercase; box-shadow: 0 18px 36px rgba(0,0,0,.18); }
+    .mobile-compare-products { display:grid; grid-template-columns: repeat(var(--cmp-cols, 2), minmax(0, 1fr)); gap:8px; margin-bottom:16px; }
+    .mobile-compare-item { background:#fff; border:1px solid #e2e2dd; border-radius:16px; padding:10px; text-align:center; min-width:0; }
+    .mobile-compare-img { width:100%; aspect-ratio:1; border-radius:12px; object-fit:cover; background:#f0f0ec; }
+    .mobile-compare-name { font-size:10px; font-weight:950; margin-top:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mobile-compare-row { margin:14px 0; }
+    .mobile-compare-label { font-size:12px; font-weight:950; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+    .mobile-compare-bars { display:grid; gap:6px; }
+    .mobile-compare-barline { display:grid; grid-template-columns:54px 1fr 54px; gap:8px; align-items:center; font-size:11px; font-weight:900; }
+    .mobile-compare-swatch { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:5px; }
+    .mobile-compare-track { height:8px; border-radius:999px; background:#eee; overflow:hidden; }
+    .mobile-compare-fill { display:block; height:100%; border-radius:inherit; background:#2f7741; min-width:3px; }
+    .sheet.compare-sheet {
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: auto;
+      max-width: none !important;
+      max-height: 88vh;
+      transform: translateY(100%);
+      border-radius: 28px 28px 0 0;
+      background: #fff;
+      color: #080808;
+      padding: 18px 18px calc(24px + env(safe-area-inset-bottom));
+    }
+    .sheet-overlay.open .sheet.compare-sheet {
+      transform: translateY(0);
+    }
+    .sheet.compare-sheet h3 { color: #080808; }
+    .sheet.compare-sheet .compare-pct-toggle { display: none; }
+    #theme-sheet .sheet, #store-sheet .sheet {
+      width: calc(100% - 20px);
+      max-width: none;
+      max-height: min(82vh, 620px);
+      overflow: auto;
+      border-radius: 24px 24px 0 0;
+      padding: 18px 16px calc(22px + env(safe-area-inset-bottom));
+    }
+    #theme-sheet .sheet h3, #store-sheet .sheet h3 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-align: left;
+      color: var(--text);
+    }
+    #theme-sheet .theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sheet-x {
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .compare-bar { bottom: 82px; max-width: calc(100% - 22px); }
+    .github-link, .tip-link, .credit-link, .codex-link { display: none !important; }
+  }
+
   /* ═════════════════════════════════════════════════════
      PA BUDDY FINDER — splash / brand picker / location picker
      ═══════════════════════════════════════════════════ */
@@ -2557,7 +2884,7 @@
 <div class="sheet-overlay" id="theme-sheet">
   <div class="sheet" onclick="event.stopPropagation()">
     <div class="sheet-handle"></div>
-    <h3>Pick a color theme</h3>
+    <h3><span>Pick a color theme</span><button type="button" class="sheet-x" data-sheet-close="theme-sheet" aria-label="Close">×</button></h3>
     <div class="theme-grid" id="theme-grid"></div>
   </div>
 </div>
@@ -2566,7 +2893,7 @@
 <div class="sheet-overlay" id="store-sheet">
   <div class="sheet" onclick="event.stopPropagation()">
     <div class="sheet-handle"></div>
-    <h3>Switch store</h3>
+    <h3><span>Switch store</span><button type="button" class="sheet-x" data-sheet-close="store-sheet" aria-label="Close">×</button></h3>
     <div class="store-grid" id="store-grid"></div>
   </div>
 </div>
@@ -2587,6 +2914,40 @@
     <div class="sheet-handle"></div>
     <h3><span>Compare side-by-side</span><button type="button" class="compare-pct-toggle" id="compare-pct-toggle" title="Show / hide exact %">% values</button></h3>
     <div id="compare-body"></div>
+  </div>
+</div>
+
+<!-- Phone bottom navigation + sheets -->
+<nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Phone navigation">
+  <button type="button" class="mobile-nav-btn" data-mobile-nav="home"><span class="ico">⌂</span><span>Home</span></button>
+  <button type="button" class="mobile-nav-btn" data-mobile-nav="filters"><span class="ico">✣</span><span>Filters</span></button>
+  <button type="button" class="mobile-nav-btn" data-mobile-nav="compare"><span class="ico">▥</span><span>Compare</span><span class="mobile-nav-count" id="mobile-compare-count" style="display:none">0</span></button>
+  <button type="button" class="mobile-nav-btn" data-mobile-nav="picklist"><span class="ico">🛒</span><span>Pick-list</span><span class="mobile-nav-count" id="mobile-cart-count" style="display:none">0</span></button>
+</nav>
+
+<div class="mobile-sheet-overlay" id="mobile-filter-sheet">
+  <div class="mobile-sheet" onclick="event.stopPropagation()">
+    <div class="mobile-sheet-head">
+      <div>
+        <div class="mobile-sheet-kicker">Narrow it down</div>
+        <div class="mobile-sheet-title">Filters</div>
+      </div>
+      <button type="button" class="mobile-sheet-close" data-mobile-close="mobile-filter-sheet" aria-label="Close">×</button>
+    </div>
+    <div id="mobile-filter-body"></div>
+  </div>
+</div>
+
+<div class="mobile-sheet-overlay" id="mobile-pick-sheet">
+  <div class="mobile-sheet" onclick="event.stopPropagation()">
+    <div class="mobile-sheet-head">
+      <div>
+        <div class="mobile-sheet-kicker">Ready for the counter</div>
+        <div class="mobile-sheet-title">Your pick-list</div>
+      </div>
+      <button type="button" class="mobile-sheet-close" data-mobile-close="mobile-pick-sheet" aria-label="Close">×</button>
+    </div>
+    <div id="mobile-pick-body"></div>
   </div>
 </div>
 
@@ -6461,7 +6822,158 @@ function chosenSize(p) {
   if (state.selSize) return p._sizes.find(s => s.key === state.selSize) || null;
   return p._sizes.slice().sort((a,b) => (a.price ?? 1e9) - (b.price ?? 1e9))[0] || null;
 }
+function isMobileUI() {
+  return window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+}
+function productImage(p) {
+  return (p.image_urls && p.image_urls[0]) || (p.photos && p.photos[0]?.urls?.original) || null;
+}
+function cardCompoundList(p) {
+  const useCannab = state.selCat === 'edible' || state.matchMode === 'cannab';
+  const raw = useCannab ? p._cannabs : p._terps;
+  const sel = useCannab ? state.selCannabs : state.selTerps;
+  return (raw || []).slice().sort((a, b) => {
+    const aM = sel.includes(a.name) ? 1 : 0;
+    const bM = sel.includes(b.name) ? 1 : 0;
+    if (aM !== bM) return bM - aM;
+    return (b.value ?? -1) - (a.value ?? -1);
+  });
+}
+function mobileProductBadges(p, sz) {
+  const strain = (p.category || '').toLowerCase();
+  const strainBdg = {sativa:['Sativa','sativa'],indica:['Indica','indica'],hybrid:['Hybrid','hybrid'],cbd:['CBD','cbd']}[strain];
+  const badges = [];
+  const thc = Number.isFinite(p.percent_thc) ? p.percent_thc : null;
+  const tterp = Number.isFinite(p._totalTerps) ? p._totalTerps : null;
+  if (!state.selCat) {
+    const kt = CATEGORY_TILES.find(c => c.kind === p.kind);
+    if (kt) badges.push(`<span class="bdg bdg-kind">${kt.icon} ${kt.label}</span>`);
+  }
+  if (strainBdg) badges.push(`<span class="bdg bdg-${strainBdg[1]}">${strainBdg[0]}</span>`);
+  if (sz && sz.onSale) badges.push(`<span class="bdg bdg-sale">SALE</span>`);
+  if (p._mc) {
+    const denom = (state.selCat === 'edible' || state.matchMode === 'cannab') ? state.selCannabs.length : state.selTerps.length;
+    badges.push(`<span class="bdg bdg-match">${p._mc}/${denom}</span>`);
+  }
+  if (thc != null && thc > 0) badges.push(`<span class="bdg bdg-thc${thc >= 28 ? ' hi' : ''}">${thc.toFixed(1)}% THC</span>`);
+  if (tterp != null && tterp > 0) badges.push(`<span class="bdg bdg-tterp${tterp >= 2 ? ' hi' : ''}">${tterp.toFixed(2)}% terps</span>`);
+  return badges.join('');
+}
+function renderMobileProductCard(p) {
+  const sz = chosenSize(p);
+  const key = `${p.objectID}_${sz?.key || 'x'}`;
+  const inCart = state.cart.get(key);
+  const inCompare = state.compare.has(p.objectID);
+  const img = productImage(p);
+  const thc = Number.isFinite(p.percent_thc) ? p.percent_thc : null;
+  const tterp = Number.isFinite(p._totalTerps) ? p._totalTerps : null;
+  const thcMeter = thc != null ? Math.max(3, Math.min(100, Math.round((thc / 40) * 100))) : 0;
+  const terpCap = ({ flower: 4, vape: 12, extract: 16 }[p.kind] || 4);
+  const terpMeter = tterp != null ? Math.max(3, Math.min(100, Math.round((tterp / terpCap) * 100))) : 0;
+  const szLbl = sz ? getSizeLabel(sz.key, p.kind, state.naughty) : '';
+  const compounds = cardCompoundList(p);
+  const selected = (state.selCat === 'edible' || state.matchMode === 'cannab') ? state.selCannabs : state.selTerps;
+  const measured = compounds.filter(t => Number.isFinite(t.value) && !t._synthetic).slice(0, 3);
+  const maxCompound = Math.max(0.01, ...measured.map(t => t.value || 0));
+  const terpHTML = measured.length ? `<div class="m-terp-bars">${measured.map(t => {
+    const isMatch = selected.includes(t.name);
+    const pct = Math.max(4, Math.min(100, Math.round(((t.value || 0) / maxCompound) * 100)));
+    return `<div class="m-terp-row${isMatch ? ' match' : ''}">
+      <span>${esc(t.name).slice(0, 10)}</span>
+      <span class="m-terp-track"><span class="m-terp-fill" style="width:${pct}%"></span></span>
+      <span class="m-terp-val">${t.value.toFixed(2)}%</span>
+    </div>`;
+  }).join('')}</div>` : (compounds.length ? `<div class="m-chip-line">${compounds.slice(0, 5).map(t => {
+    const isMatch = selected.includes(t.name);
+    return `<span class="m-chip${isMatch ? ' match' : ''}">${esc(t.name)}</span>`;
+  }).join('')}</div>` : '');
 
+  const priceHTML = sz ? `<div>
+    <span class="m-price-now">$${sz.price.toFixed(2)}</span>
+    ${sz.onSale ? `<span class="m-price-was">$${sz.full.toFixed(2)}</span>` : ''}
+    <span class="m-price-unit">${esc(szLbl)}</span>
+  </div>` : `<div class="m-price-unit">Not available</div>`;
+
+  const card = document.createElement('div');
+  card.className = 'mobile-product-card' + (inCart ? ' in-cart' : '');
+  card.innerHTML = `
+    <button type="button" class="m-compare-btn${inCompare ? ' active' : ''}" data-act="compare" aria-label="${inCompare ? 'Remove from compare' : 'Add to compare'}">${inCompare ? '✓' : '+'}</button>
+    <div class="m-card-top">
+      ${img ? `<img class="m-card-img" src="${img}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'m-card-img-ph',textContent:'🌿'}))">` : `<div class="m-card-img-ph">🌿</div>`}
+      <div>
+        <div class="m-card-brand">${esc(p.brand || '')}</div>
+        <div class="m-card-name">${esc(p.name || '—')}</div>
+        <div class="m-card-badges">${mobileProductBadges(p, sz)}</div>
+      </div>
+    </div>
+    <div class="m-card-stats">
+      <div class="m-stat"><span class="m-stat-value">${thc != null ? thc.toFixed(1) + '%' : '—'}</span><span class="m-stat-label">THC</span><span class="m-stat-meter"><span class="m-stat-fill" style="width:${thcMeter}%"></span></span></div>
+      <div class="m-stat"><span class="m-stat-value terp">${tterp != null ? tterp.toFixed(2) + '%' : '—'}</span><span class="m-stat-label">Total terps</span><span class="m-stat-meter"><span class="m-stat-fill terp" style="width:${terpMeter}%"></span></span></div>
+    </div>
+    ${terpHTML}
+    <div class="m-card-bottom">
+      ${priceHTML}
+      <div class="m-card-action"></div>
+    </div>
+  `;
+  card.querySelector('[data-act="compare"]').addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleCompare(p);
+  });
+  const action = card.querySelector('.m-card-action');
+  if (!sz) {
+    action.innerHTML = `<button type="button" class="m-add-btn" disabled>Unavailable</button>`;
+  } else if (inCart) {
+    const wrap = document.createElement('div');
+    wrap.className = 'm-qty';
+    wrap.innerHTML = `<button type="button" data-act="dec">−</button><span>${inCart.qty}</span><button type="button" data-act="inc">+</button>`;
+    wrap.querySelector('[data-act="dec"]').addEventListener('click', () => { updateQty(key, inCart.qty - 1); renderResults(); });
+    wrap.querySelector('[data-act="inc"]').addEventListener('click', () => { updateQty(key, inCart.qty + 1); renderResults(); });
+    action.appendChild(wrap);
+  } else {
+    const add = Object.assign(document.createElement('button'), { className: 'm-add-btn', textContent: '+ Add to cart' });
+    add.addEventListener('click', () => { addToCart(p, sz); renderResults(); });
+    action.appendChild(add);
+  }
+  return card;
+}
+
+function renderMobileResultsRail(count) {
+  const sortLabels = { relevance: 'Best match', thc_desc: 'THC high', price_asc: 'Price low', terps_desc: 'Terps high' };
+  const cat = CATEGORY_TILES.find(c => c.kind === state.selCat);
+  const bits = [
+    `<button type="button" class="mobile-rail-btn icon" data-mobile-rail="filters" aria-label="Filters">☰</button>`,
+    `<button type="button" class="mobile-rail-btn count" data-mobile-rail="filters">${count} result${count === 1 ? '' : 's'}</button>`,
+    `<button type="button" class="mobile-rail-btn${state.saleOnly ? ' active' : ''}" data-mobile-rail="sale">On sale</button>`,
+  ];
+  if (topShelfRule(state.selCat)) bits.push(`<button type="button" class="mobile-rail-btn${state.topShelfOnly ? ' active' : ''}" data-mobile-rail="top">Top Shelf</button>`);
+  bits.push(`<button type="button" class="mobile-rail-btn" data-mobile-rail="sort">${sortLabels[state.sortMode] || 'Sort'}</button>`);
+  if (cat) bits.push(`<button type="button" class="mobile-rail-btn active" data-mobile-rail="filters">${cat.icon} ${esc(cat.label)}</button>`);
+  for (const s of state.selSubs) {
+    const cfg = SUBTYPE_CONFIG[state.selCat];
+    const opt = cfg?.options.find(o => o.id === s);
+    if (opt) bits.push(`<button type="button" class="mobile-rail-btn active" data-mobile-rail="filters">${opt.icon} ${esc(opt.label)}</button>`);
+  }
+  return `<div class="mobile-results-rail">${bits.join('')}</div>`;
+}
+function wireMobileResultsRail(root) {
+  root.querySelectorAll('[data-mobile-rail]').forEach(btn => btn.addEventListener('click', () => {
+    const act = btn.getAttribute('data-mobile-rail');
+    if (act === 'filters') openMobileSheet('mobile-filter-sheet');
+    else if (act === 'sale') {
+      state.saleOnly = !state.saleOnly;
+      renderResults(); updateSidePanels();
+    } else if (act === 'top') {
+      state.topShelfOnly = !state.topShelfOnly;
+      renderResults(); updateSidePanels();
+    } else if (act === 'sort') {
+      const cycle = ['relevance', 'thc_desc', 'terps_desc', 'price_asc'];
+      const idx = cycle.indexOf(state.sortMode);
+      state.sortMode = cycle[(idx + 1) % cycle.length] || 'relevance';
+      renderResults(); updateSidePanels();
+    }
+  }));
+}
 function renderResults() {
   /* Persistent live search bar at the top of results — only in browseAll mode.
    * The cat-search input is on the category screen and gets hidden the moment
@@ -6525,7 +7037,8 @@ function renderResults() {
     chips.push(`<span class="chip">${labels[state.sortMode] || 'Sorted'}</span>`);
   }
   chips.push(`<span class="chip">${list.length} result${list.length === 1 ? '' : 's'}</span>`);
-  summaryEl.innerHTML = chips.join('');
+  summaryEl.innerHTML = isMobileUI() ? renderMobileResultsRail(list.length) : chips.join('');
+  if (isMobileUI()) wireMobileResultsRail(summaryEl);
 
   const listEl = document.getElementById('res-list');
   if (!list.length) {
@@ -6536,7 +7049,7 @@ function renderResults() {
   }
   const grid = document.createElement('div');
   grid.className = 'product-grid';
-  for (const p of list) grid.appendChild(renderProductCard(p));
+  for (const p of list) grid.appendChild(isMobileUI() ? renderMobileProductCard(p) : renderProductCard(p));
   listEl.innerHTML = '';
   listEl.appendChild(grid);
 }
@@ -6783,7 +7296,8 @@ function renderCompareBar() {
 }
 function openCompareDrawer() {
   if (state.compare.size < 2) return;
-  renderCompareDrawer();
+  if (isMobileUI()) renderMobileCompareSheet();
+  else renderCompareDrawer();
   document.getElementById('compare-sheet').classList.add('open');
 }
 function closeCompareDrawer() {
@@ -7026,6 +7540,238 @@ function cartTotals() {
   return { salePrice, fullPrice, saved: fullPrice - salePrice, count };
 }
 
+function mobileCloseSheets() {
+  document.querySelectorAll('.mobile-sheet-overlay.open').forEach(el => el.classList.remove('open'));
+}
+function openMobileSheet(id) {
+  if (!isMobileUI()) return;
+  if (id === 'mobile-filter-sheet') renderMobileFilters();
+  if (id === 'mobile-pick-sheet') renderMobilePickListSheet();
+  mobileCloseSheets();
+  const el = document.getElementById(id);
+  if (el) el.classList.add('open');
+  renderMobileNav();
+}
+function renderMobileNav() {
+  const nav = document.getElementById('mobile-bottom-nav');
+  if (!nav) return;
+  const { count } = cartTotals();
+  const cartCount = document.getElementById('mobile-cart-count');
+  const compareCount = document.getElementById('mobile-compare-count');
+  if (cartCount) {
+    cartCount.style.display = count ? '' : 'none';
+    cartCount.textContent = count;
+  }
+  if (compareCount) {
+    compareCount.style.display = state.compare.size ? '' : 'none';
+    compareCount.textContent = state.compare.size;
+  }
+  nav.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+    const key = btn.getAttribute('data-mobile-nav');
+    btn.classList.toggle('active',
+      (key === 'home' && state.screen === 'category') ||
+      (key === 'compare' && state.compare.size >= 2) ||
+      (key === 'picklist' && count > 0)
+    );
+  });
+}
+function renderMobileFilters() {
+  const body = document.getElementById('mobile-filter-body');
+  if (!body) return;
+  const bits = [];
+  const cat = CATEGORY_TILES.find(c => c.kind === state.selCat);
+  bits.push(`<div class="mobile-filter-section"><div class="mobile-filter-title">Current pick</div><div class="mobile-filter-row">`);
+  bits.push(cat ? `<button type="button" class="mobile-pill-btn active" data-mobile-jump="category">${cat.icon} ${cat.label}</button>` : `<button type="button" class="mobile-pill-btn" data-mobile-jump="category">Pick category</button>`);
+  for (const s of state.selSubs) {
+    const cfg = SUBTYPE_CONFIG[state.selCat];
+    const opt = cfg?.options.find(o => o.id === s);
+    if (opt) bits.push(`<button type="button" class="mobile-pill-btn active" data-mobile-remove-sub="${esc(s)}">${opt.icon} ${opt.label} ×</button>`);
+  }
+  if (state.selSize) bits.push(`<button type="button" class="mobile-pill-btn active" data-mobile-clear-size>${getSizeLabel(state.selSize, state.selCat, state.naughty)} ×</button>`);
+  bits.push(`</div></div>`);
+  const sf = SIDE_FILTERS[state.selCat];
+  if (sf && state.screen === 'results') {
+    const base = state.products.filter(p => p.kind === state.selCat);
+    bits.push(`<div class="mobile-filter-section"><div class="mobile-filter-title">${esc(sf.title)}</div><div class="mobile-filter-row">`);
+    for (const opt of sf.options) {
+      const n = opt.match ? base.filter(opt.match).length : base.length;
+      const ico = SIDE_FILTER_ICONS[opt.id] || '•';
+      bits.push(`<button type="button" class="mobile-pill-btn${state.sideFilter === opt.id ? ' active' : ''}" data-mobile-side="${esc(opt.id)}">${ico} ${esc(opt.label)} ${n}</button>`);
+    }
+    bits.push(`</div></div>`);
+  }
+  bits.push(`<div class="mobile-filter-section"><div class="mobile-filter-title">Search</div><input class="mobile-filter-input" id="mobile-filter-search" type="search" value="${esc(state.searchText || '')}" placeholder="Search strain or brand"></div>`);
+  bits.push(`<div class="mobile-filter-section"><div class="mobile-filter-title">Quick filters</div><div class="mobile-toggle-row">
+    <button type="button" class="mobile-pill-btn${state.saleOnly ? ' active' : ''}" data-mobile-toggle="sale">On sale</button>
+    ${topShelfRule(state.selCat) ? `<button type="button" class="mobile-pill-btn${state.topShelfOnly ? ' active' : ''}" data-mobile-toggle="top">Top shelf</button>` : ''}
+  </div></div>`);
+  bits.push(`<div class="mobile-filter-section"><div class="mobile-filter-title">Sort</div><select class="mobile-filter-select" id="mobile-filter-sort">
+    <option value="relevance"${state.sortMode === 'relevance' ? ' selected' : ''}>Best match</option>
+    <option value="thc_desc"${state.sortMode === 'thc_desc' ? ' selected' : ''}>THC high to low</option>
+    <option value="price_asc"${state.sortMode === 'price_asc' ? ' selected' : ''}>Price low to high</option>
+    <option value="terps_desc"${state.sortMode === 'terps_desc' ? ' selected' : ''}>Terps high to low</option>
+  </select></div>`);
+  const savedBrands = state.selBrands; state.selBrands = [];
+  const upstream = getFilteredProducts();
+  state.selBrands = savedBrands;
+  const counts = new Map();
+  for (const p of upstream) counts.set(p.brand || '—', (counts.get(p.brand || '—') || 0) + 1);
+  const brands = [...counts.entries()].sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 24);
+  if (brands.length) {
+    bits.push(`<div class="mobile-filter-section"><div class="mobile-filter-title">Brand</div><div class="mobile-filter-row">`);
+    for (const [brand, n] of brands) bits.push(`<button type="button" class="mobile-pill-btn${state.selBrands.includes(brand) ? ' active' : ''}" data-mobile-brand="${esc(brand)}">${esc(brand)} ${n}</button>`);
+    if (state.selBrands.length) bits.push(`<button type="button" class="mobile-pill-btn" data-mobile-clear-brands>Clear brands</button>`);
+    bits.push(`</div></div>`);
+  }
+  body.innerHTML = bits.join('');
+  const filterSections = [...body.querySelectorAll('.mobile-filter-section')];
+  if (filterSections.length) {
+    const layout = document.createElement('div');
+    layout.className = 'mobile-filter-layout';
+    const tabs = document.createElement('div');
+    tabs.className = 'mobile-filter-tabs';
+    const panels = document.createElement('div');
+    panels.className = 'mobile-filter-panels';
+    const activeId = filterSections.some((_, i) => `section-${i}` === state.mobileFilterTab) ? state.mobileFilterTab : 'section-0';
+    state.mobileFilterTab = activeId;
+    filterSections.forEach((section, i) => {
+      const id = `section-${i}`;
+      const title = section.querySelector('.mobile-filter-title')?.textContent || `Filter ${i + 1}`;
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'mobile-filter-tab' + (id === activeId ? ' active' : '');
+      tab.setAttribute('data-mobile-filter-tab', id);
+      tab.textContent = title;
+      const panel = document.createElement('div');
+      panel.className = 'mobile-filter-panel' + (id === activeId ? ' active' : '');
+      panel.setAttribute('data-mobile-filter-panel', id);
+      panel.appendChild(section);
+      tabs.appendChild(tab);
+      panels.appendChild(panel);
+    });
+    layout.appendChild(tabs);
+    layout.appendChild(panels);
+    body.innerHTML = '';
+    body.appendChild(layout);
+    body.querySelectorAll('[data-mobile-filter-tab]').forEach(tab => tab.addEventListener('click', () => {
+      state.mobileFilterTab = tab.getAttribute('data-mobile-filter-tab');
+      renderMobileFilters();
+    }));
+  }
+  body.querySelectorAll('[data-mobile-jump]').forEach(btn => btn.addEventListener('click', () => { mobileCloseSheets(); setScreen(btn.getAttribute('data-mobile-jump')); }));
+  body.querySelectorAll('[data-mobile-remove-sub]').forEach(btn => btn.addEventListener('click', () => {
+    const s = btn.getAttribute('data-mobile-remove-sub');
+    state.selSubs = state.selSubs.filter(x => x !== s);
+    if (state.screen === 'results') renderResults();
+    updateSidePanels(); renderMobileFilters();
+  }));
+  const clearSize = body.querySelector('[data-mobile-clear-size]');
+  if (clearSize) clearSize.addEventListener('click', () => { state.selSize = null; if (state.screen === 'results') renderResults(); updateSidePanels(); renderMobileFilters(); });
+  body.querySelectorAll('[data-mobile-side]').forEach(btn => btn.addEventListener('click', () => { state.sideFilter = btn.getAttribute('data-mobile-side'); renderResults(); updateSidePanels(); renderMobileFilters(); }));
+  const search = body.querySelector('#mobile-filter-search');
+  if (search) search.addEventListener('input', () => { state.searchText = search.value; if (state.screen === 'results') renderResults(); });
+  body.querySelectorAll('[data-mobile-toggle]').forEach(btn => btn.addEventListener('click', () => {
+    const t = btn.getAttribute('data-mobile-toggle');
+    if (t === 'sale') state.saleOnly = !state.saleOnly;
+    if (t === 'top') state.topShelfOnly = !state.topShelfOnly;
+    if (state.screen === 'results') renderResults();
+    updateSidePanels(); renderMobileFilters();
+  }));
+  const sort = body.querySelector('#mobile-filter-sort');
+  if (sort) sort.addEventListener('change', () => { state.sortMode = sort.value || 'relevance'; if (state.screen === 'results') renderResults(); updateSidePanels(); });
+  body.querySelectorAll('[data-mobile-brand]').forEach(btn => btn.addEventListener('click', () => {
+    const brand = btn.getAttribute('data-mobile-brand');
+    if (state.selBrands.includes(brand)) state.selBrands = state.selBrands.filter(x => x !== brand);
+    else state.selBrands = [...state.selBrands, brand];
+    renderResults(); updateSidePanels(); renderMobileFilters();
+  }));
+  const clearBrands = body.querySelector('[data-mobile-clear-brands]');
+  if (clearBrands) clearBrands.addEventListener('click', () => { state.selBrands = []; renderResults(); updateSidePanels(); renderMobileFilters(); });
+}
+function renderMobilePickListSheet() {
+  const body = document.getElementById('mobile-pick-body');
+  if (!body) return;
+  if (!state.cart.size) {
+    body.innerHTML = `<div class="state-box"><div class="icon">🛒</div><p>Your pick-list is empty.</p><p class="sub">Add a product and it will show here.</p></div>`;
+    return;
+  }
+  const rows = [];
+  for (const [key, item] of state.cart.entries()) {
+    const img = item.img ? `<img class="mobile-pick-img" src="${item.img}" alt="">` : `<div class="mobile-pick-img-ph">🌿</div>`;
+    rows.push(`<div class="mobile-pick-item">
+      ${img}
+      <div>
+        <div class="mobile-pick-name">${esc(item.name)}</div>
+        <div class="mobile-pick-meta">${esc(item.brand)} · ${getSizeLabel(item.sizeKey, item.kind, false)}</div>
+        <div class="m-qty" data-mobile-cart-key="${esc(key)}"><button type="button" data-act="dec">−</button><span>${item.qty}</span><button type="button" data-act="inc">+</button></div>
+      </div>
+      <div class="mobile-pick-price">$${(item.price * item.qty).toFixed(2)}</div>
+    </div>`);
+  }
+  const { salePrice, saved, count } = cartTotals();
+  body.innerHTML = `
+    <div>${rows.join('')}</div>
+    <div class="mobile-total-box">
+      <div><div class="mobile-total-label">Total amount</div><div class="mobile-total-value">$${salePrice.toFixed(2)}</div></div>
+      <div style="text-align:right;font-size:12px;font-weight:900;color:#2f7741">${saved > 0 ? `Saved $${saved.toFixed(2)}` : `${count} item${count === 1 ? '' : 's'}`}</div>
+    </div>
+    <div class="mobile-qr"><div class="qr-label">Scan to share pick-list</div><div class="qr-canvas" id="mobile-qr-canvas"></div></div>
+    <button type="button" class="mobile-ready-btn" id="mobile-ready-btn">Ready to show</button>
+  `;
+  const qr = qrcode(0, 'M');
+  qr.addData(buildCartText());
+  qr.make();
+  const qrEl = document.getElementById('mobile-qr-canvas');
+  if (qrEl) qrEl.innerHTML = qr.createImgTag(5, 10);
+  body.querySelectorAll('[data-mobile-cart-key]').forEach(wrap => {
+    const key = wrap.getAttribute('data-mobile-cart-key');
+    wrap.querySelector('[data-act="dec"]').addEventListener('click', () => {
+      const item = state.cart.get(key);
+      if (item) updateQty(key, item.qty - 1);
+      renderMobilePickListSheet(); if (state.screen === 'results') renderResults();
+    });
+    wrap.querySelector('[data-act="inc"]').addEventListener('click', () => {
+      const item = state.cart.get(key);
+      if (item) updateQty(key, item.qty + 1);
+      renderMobilePickListSheet(); if (state.screen === 'results') renderResults();
+    });
+  });
+  const ready = document.getElementById('mobile-ready-btn');
+  if (ready) ready.addEventListener('click', mobileCloseSheets);
+}
+function renderMobileCompareSheet() {
+  const body = document.getElementById('compare-body');
+  const products = [...state.compare.values()];
+  if (products.length < 2) { body.innerHTML = `<div class="compare-empty">Pick 2-3 products to compare.</div>`; return; }
+  const colors = ['#050505', '#53b47b', '#d89a24'];
+  const productHTML = products.map((p, i) => {
+    const img = productImage(p);
+    return `<div class="mobile-compare-item">${img ? `<img class="mobile-compare-img" src="${img}" alt="">` : `<div class="mobile-compare-img">🌿</div>`}<div class="mobile-compare-name"><span class="mobile-compare-swatch" style="background:${colors[i]}"></span>${esc(p.name || '—')}</div></div>`;
+  }).join('');
+  const metricRow = (label, values, suffix = '%') => {
+    const max = Math.max(0.01, ...values);
+    return `<div class="mobile-compare-row"><div class="mobile-compare-label">${esc(label)}</div><div class="mobile-compare-bars">${values.map((v, i) => `
+      <div class="mobile-compare-barline"><span><span class="mobile-compare-swatch" style="background:${colors[i]}"></span>${i + 1}</span><span class="mobile-compare-track"><span class="mobile-compare-fill" style="width:${Math.max(3, Math.round((v / max) * 100))}%;background:${colors[i]}"></span></span><span>${Number.isFinite(v) && v > 0 ? v.toFixed(2) + suffix : '—'}</span></div>`).join('')}</div></div>`;
+  };
+  const compoundNames = new Map();
+  for (const p of products) for (const t of [...(p._terps || []), ...(p._cannabs || [])]) {
+    if (!t.name || t._synthetic) continue;
+    const k = t.name.toLowerCase();
+    if (!compoundNames.has(k)) compoundNames.set(k, t.name);
+  }
+  const rows = [
+    metricRow('THC %', products.map(p => Number.isFinite(p.percent_thc) ? p.percent_thc : 0)),
+    metricRow('Total terps', products.map(p => Number.isFinite(p._totalTerps) ? p._totalTerps : 0)),
+  ];
+  for (const name of [...compoundNames.values()].slice(0, 8)) {
+    rows.push(metricRow(name, products.map(p => {
+      const item = [...(p._terps || []), ...(p._cannabs || [])].find(t => t.name === name);
+      return item && Number.isFinite(item.value) ? item.value : 0;
+    })));
+  }
+  body.innerHTML = `<div class="mobile-compare-products" style="--cmp-cols:${products.length}">${productHTML}</div>${rows.join('')}`;
+}
+
 /* ─── Side panels: left (current pick + filter + jump) + right (live cart) ── */
 /* Icons for side-filters (visual cue, not mandatory) */
 const SIDE_FILTER_ICONS = {
@@ -7240,6 +7986,9 @@ function updateSidePanels(opts) {
   const col = document.getElementById('cart-column');
   if (count >= 4) col.classList.add('locked');
   else col.classList.remove('locked');
+  renderMobileNav();
+  if (document.getElementById('mobile-pick-sheet')?.classList.contains('open')) renderMobilePickListSheet();
+  if (document.getElementById('mobile-filter-sheet')?.classList.contains('open')) renderMobileFilters();
 }
 
 /* Render the live cart ticket list (newest-first visually via column-reverse).
@@ -7823,6 +8572,11 @@ function wireEvents() {
   document.getElementById('store-sheet').addEventListener('click', e => {
     if (e.target.id === 'store-sheet') e.currentTarget.classList.remove('open');
   });
+  document.querySelectorAll('[data-sheet-close]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById(btn.getAttribute('data-sheet-close'))?.classList.remove('open');
+    });
+  });
   document.getElementById('banner').addEventListener('click', () => window.location.reload());
 
   document.getElementById('sub-skip').addEventListener('click', () => { state.selSubs = []; goNext(); });
@@ -8044,6 +8798,58 @@ function wireEvents() {
   cmpBody.addEventListener('touchstart', e => { if (e.target.closest('.matrix-cell, .matrix-label')) startPeek(); }, { passive: true });
   cmpBody.addEventListener('touchend', endPeek);
   cmpBody.addEventListener('touchcancel', endPeek);
+
+  document.querySelectorAll('[data-mobile-nav]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const act = btn.getAttribute('data-mobile-nav');
+      if (act === 'home') {
+        mobileCloseSheets();
+        state.selCat = null; state.selSubs = []; state.selSize = null;
+        state.selTerps = []; state.selCannabs = []; state.selExtract = null;
+        state.sideFilter = 'all'; state.matchMode = 'terp';
+        state.searchText = ''; state.selBrands = [];
+        state.saleOnly = false; state.topShelfOnly = false;
+        state.sortMode = 'relevance'; state.browseAll = false;
+        setScreen('category');
+      } else if (act === 'filters') {
+        openMobileSheet('mobile-filter-sheet');
+      } else if (act === 'picklist') {
+        openMobileSheet('mobile-pick-sheet');
+      } else if (act === 'compare') {
+        if (state.compare.size < 2) setToast('fail', 'Pick at least 2 products to compare.');
+        else openCompareDrawer();
+      }
+    });
+  });
+  document.querySelectorAll('[data-mobile-close]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-mobile-close');
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('open');
+      renderMobileNav();
+    });
+  });
+  document.querySelectorAll('.mobile-sheet-overlay').forEach(sheet => {
+    sheet.addEventListener('click', e => {
+      if (e.target === sheet) {
+        sheet.classList.remove('open');
+        renderMobileNav();
+      }
+    });
+  });
+  let lastMobile = isMobileUI();
+  window.addEventListener('resize', () => {
+    const nowMobile = isMobileUI();
+    if (nowMobile !== lastMobile) {
+      lastMobile = nowMobile;
+      if (state.screen === 'results') renderResults();
+      if (document.getElementById('compare-sheet').classList.contains('open')) {
+        if (nowMobile) renderMobileCompareSheet();
+        else renderCompareDrawer();
+      }
+      updateSidePanels();
+    }
+  });
 }
 
 /* ─── PA Buddy Finder — splash / brand / location boot flow ──
