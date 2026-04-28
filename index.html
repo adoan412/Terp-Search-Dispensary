@@ -5928,8 +5928,19 @@ const BRANDS = [
   },
   { id: 'zen',       name: 'Zen Leaf',            short: 'ZL',  color: '#6c63ff', glyph: '☯', active: false, provider: 'sweed',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
-  { id: 'ethos',     name: 'Ethos',               short: 'ET',  color: '#e55934', glyph: '◆', active: false, provider: 'custom',
-    stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
+  { id: 'ethos',     name: 'Ethos',               short: 'ET',  color: '#e55934', glyph: '◆', active: true,  provider: 'dutchie',
+    /* Source: PA Ethos Dutchie dispensary IDs captured 2026-04-28.
+     * Uses the existing Dutchie adapter; matching is limited to effects,
+     * THC/CBD, and total terpenes rather than detailed per-terpene labs. */
+    stores: [
+      { id: '5fad9a6840352500ba68def0', name: 'Hazleton',               city: 'Hazleton, PA',       slug: 'ethos-hazleton' },
+      { id: '5f2de49198211000abef8b99', name: 'Montgomeryville',        city: 'Montgomeryville, PA', slug: 'ethos-montgomeryville' },
+      { id: '607f5e79490cc600c0d588d1', name: 'Northeast Philadelphia', city: 'Philadelphia, PA',    slug: 'ethos-northeast-philadelphia' },
+      { id: '621900cebbc5580e15476deb', name: 'Pittsburgh North',       city: 'Pittsburgh, PA',      slug: 'ethos-harmarville' },
+      { id: '607dc27bfde18500b5e8dd52', name: 'Pittsburgh South',       city: 'Pittsburgh, PA',      slug: 'ethos-pleasant-hills' },
+      { id: '5fa0829005bb2400cfc4b694', name: 'Pittsburgh West',        city: 'Pittsburgh, PA',      slug: 'ethos-north-fayette' },
+      { id: '5f4ef2d0b28822768a8a574c', name: 'Wilkes-Barre',           city: 'Wilkes-Barre, PA',    slug: 'ethos-wilkes-barre' },
+    ] },
 ];
 const BRAND_BY_ID = Object.fromEntries(BRANDS.map(b => [b.id, b]));
 /* Flat STORES list kept for downstream code that still expects it */
@@ -6674,7 +6685,7 @@ const PROVIDERS = {
     },
   },
 
-  /* Sweed (Zen Leaf) and bespoke custom stacks (Sunnyside, Ethos):
+  /* Sweed (Zen Leaf) and bespoke custom stacks (Sunnyside):
    * not fingerprinted yet. Same graceful-failure pattern as Dutchie —
    * the UI will show a "menu temporarily unavailable" state rather than
    * white-screening if anyone flips their active flag prematurely. */
