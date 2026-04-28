@@ -5796,7 +5796,7 @@ const DUTCHIE_PERSISTED_HASH = '98b4aaef79a84ae804b64d550f98dd64d7ba0aa6d836eb6b
  * If both relays go down, adapter
  * failure cascades to loadMenu's friendly "menu temporarily unavailable"
  * state — patients won't see a white screen. */
-const DUTCHIE_ORACLE_PROXY_BASE = 'http://129.80.9.166:8787';
+const DUTCHIE_ORACLE_PROXY_BASE = 'https://api.pabuddy.org';
 const DUTCHIE_PROXY_BASE = localStorage.getItem('pa_buddy_dutchie_proxy') || DUTCHIE_ORACLE_PROXY_BASE;
 const DUTCHIE_PROXY = url => 'https://corsproxy.io/?' + encodeURIComponent(url);
 const DUTCHIE_ENDPOINT = 'https://dutchie.com/api-4/graphql';
