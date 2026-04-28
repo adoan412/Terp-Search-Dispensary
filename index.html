@@ -8651,9 +8651,11 @@ function getFilteredProducts() {
   /* Edibles also get a fallback: if cannabinoid isn't found in lab_results, try
    * the product name (this is why CBN capsules were vanishing — lab panel
    * doesn't list CBN but "CBN Capsule" in the name makes it obvious). */
-  const nameContains = (p, token) => {
+  const nameContains = (p, query) => {
+    if (!query) return true;
     const hay = `${p.name||''} ${p.product_subtype||''} ${p.root_subtype||''} ${p.brand||''}`.toLowerCase();
-    return hay.includes(token.toLowerCase());
+    const tokens = query.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+    return tokens.every(token => hay.includes(token));
   };
   const scoreByWithNameFallback = (items, picks, p) => {
     const s = scoreBy(items, picks);
@@ -11396,23 +11398,23 @@ function wireEvents() {
     state.selBrands = []; state.saleOnly = false; state.topShelfOnly = false; clearAdvancedFilterState(); state.sortMode = 'relevance';
     state.matchMode = 'terp';
     state.browseAll = true;
-    /* Keep the side-search input in sync so the user can keep typing on the
-     * results screen without re-typing what they had on the category screen. */
+    /* Keep the side-search input in sync without touching the currently active
+     * input. On mobile, updating/refocusing a second search field while the
+     * keyboard is open can make the keyboard collapse and reopen. */
     const sideSi = document.getElementById('side-search');
-    if (sideSi) sideSi.value = q;
+    if (sideSi && sideSi !== document.activeElement) {
+      sideSi.value = q;
+    }
     const wasOnResults = state.screen === 'results';
+    // Only change screens when needed; otherwise render in-place to avoid layout thrash.
     if (!wasOnResults) setScreen('results');
     else renderResults();
-    /* Hand focus to the persistent results-screen search so the user keeps
-     * typing without interruption. Only when transitioning IN — if they were
-     * already on results editing the res-search, leave focus alone. */
+    /* Keep the results search value mirrored after the results screen exists,
+     * but do not steal focus from the field the user is actively typing in. */
     if (!wasOnResults) {
       const rs = document.getElementById('res-search');
-      if (rs) {
+      if (rs && rs !== document.activeElement) {
         rs.value = q;
-        rs.focus();
-        const len = q.length;
-        try { rs.setSelectionRange(len, len); } catch (_) {}
       }
     }
   };
@@ -11464,8 +11466,8 @@ function wireEvents() {
     /* Keep the side-panel and category-screen inputs synced so a user
      * switching contexts later sees what they typed. */
     const sideSi = document.getElementById('side-search');
-    if (sideSi && sideSi.value !== q) sideSi.value = q;
-    if (catSearch && catSearch.value !== q) catSearch.value = q;
+    if (sideSi && sideSi !== document.activeElement && sideSi.value !== q) sideSi.value = q;
+    if (catSearch && catSearch !== document.activeElement && catSearch.value !== q) catSearch.value = q;
     catSearchWrap.classList.toggle('has-text', !!q);
     renderResults();
   });
@@ -11692,7 +11694,10 @@ function bootPaBuddy() {
   window.scrollTo(0, 0);
   window.addEventListener('pageshow', () => setTimeout(() => window.scrollTo(0, 0), 0));
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) setTimeout(() => window.scrollTo(0, 0), 0);
+    const isTyping = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName);
+    if (!document.hidden && !isTyping) {
+      setTimeout(() => window.scrollTo(0, 0), 0);
+    }
   });
   applyTheme(state.theme);
   applyNaughtyLabels();
