@@ -2081,6 +2081,17 @@
   }
   .sheet-overlay.open .sheet { transform: translate(-50%, 0); }
   .sheet-handle { width: 44px; height: 5px; background: var(--border); border-radius: 3px; margin: 0 auto 14px; }
+  .sheet-x {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface-alt);
+    color: var(--text);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+  }
 
   /* Terpene breakdown sheet shared by desktop and phone cards */
   .terp-breakdown-sheet {
@@ -2152,6 +2163,16 @@
   }
   .tbd-about { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
   .tbd-about strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 13px; }
+  .tbd-close {
+    position: sticky;
+    top: 0;
+    margin-left: auto;
+    margin-bottom: 8px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   /* ─── Compare drawer + floating bar ───────────────────────
    * Connoisseur/regular path: pick 2-3 products, slide them into a drawer to
@@ -2674,6 +2695,12 @@
     }
     .brand-title, .banner, .store-btn, .icon-btn { color: var(--text); }
     #home-btn, #cart-btn { display: none; }
+    .brand-copy { display: none; }
+    .brand {
+      width: 34px;
+      min-width: 34px;
+      overflow: hidden;
+    }
     .h-right { gap: 6px; }
     .banner-wrap {
       display: block;
@@ -4218,6 +4245,52 @@
     color: var(--selected-text);
     background: var(--selected-bg);
   }
+  [data-theme="earth"] .cat-search-wrap input,
+  [data-theme="sunset"] .cat-search-wrap input,
+  [data-theme="lavender"] .cat-search-wrap input,
+  [data-theme="ocean"] .cat-search-wrap input,
+  [data-theme="mono"] .cat-search-wrap input,
+  [data-theme="bauhaus"] .cat-search-wrap input,
+  [data-theme="memphis"] .cat-search-wrap input,
+  [data-theme="swiss"] .cat-search-wrap input,
+  [data-theme="vignelli"] .cat-search-wrap input,
+  [data-theme="rams"] .cat-search-wrap input,
+  [data-theme="earth"] .loadout-sheet .sheet,
+  [data-theme="sunset"] .loadout-sheet .sheet,
+  [data-theme="lavender"] .loadout-sheet .sheet,
+  [data-theme="ocean"] .loadout-sheet .sheet,
+  [data-theme="mono"] .loadout-sheet .sheet,
+  [data-theme="bauhaus"] .loadout-sheet .sheet,
+  [data-theme="memphis"] .loadout-sheet .sheet,
+  [data-theme="swiss"] .loadout-sheet .sheet,
+  [data-theme="vignelli"] .loadout-sheet .sheet,
+  [data-theme="rams"] .loadout-sheet .sheet,
+  [data-theme="earth"] .mobile-sheet,
+  [data-theme="sunset"] .mobile-sheet,
+  [data-theme="lavender"] .mobile-sheet,
+  [data-theme="ocean"] .mobile-sheet,
+  [data-theme="mono"] .mobile-sheet,
+  [data-theme="bauhaus"] .mobile-sheet,
+  [data-theme="memphis"] .mobile-sheet,
+  [data-theme="swiss"] .mobile-sheet,
+  [data-theme="vignelli"] .mobile-sheet,
+  [data-theme="rams"] .mobile-sheet {
+    background: var(--surface);
+    color: var(--text);
+  }
+  [data-theme="earth"] .cat-search-wrap input,
+  [data-theme="sunset"] .cat-search-wrap input,
+  [data-theme="lavender"] .cat-search-wrap input,
+  [data-theme="ocean"] .cat-search-wrap input,
+  [data-theme="mono"] .cat-search-wrap input,
+  [data-theme="bauhaus"] .cat-search-wrap input,
+  [data-theme="memphis"] .cat-search-wrap input,
+  [data-theme="swiss"] .cat-search-wrap input,
+  [data-theme="vignelli"] .cat-search-wrap input,
+  [data-theme="rams"] .cat-search-wrap input {
+    border-color: var(--border);
+    box-shadow: var(--shadow-sm);
+  }
   [data-theme="earth"] .active-chip-row .chip.hot,
   [data-theme="sunset"] .active-chip-row .chip.hot,
   [data-theme="lavender"] .active-chip-row .chip.hot,
@@ -4736,6 +4809,7 @@
 <div class="sheet-overlay" id="terp-breakdown-sheet" onclick="closeTerpBreakdown()">
   <div class="sheet terp-breakdown-sheet" onclick="event.stopPropagation()">
     <div class="sheet-handle"></div>
+    <button type="button" class="sheet-x tbd-close" id="terp-breakdown-close" aria-label="Close terpene report">×</button>
     <div id="terp-breakdown-body"></div>
   </div>
 </div>
@@ -8851,7 +8925,9 @@ function renderLoadout(hostId) {
   const cat = CATEGORY_TILES.find(c => c.kind === state.selCat);
   const selectedTerps = state.selTerps.map((t, i) => ({ name: t, value: Math.max(1, 5 - i) }));
   const selectedCannabs = state.selCannabs.map((t, i) => ({ name: t, value: Math.max(1, 5 - i) }));
-  const profileItems = (state.selCat === 'edible' || state.matchMode === 'cannab') ? selectedCannabs : selectedTerps;
+  const profileItems = selectedTerps.length
+    ? selectedTerps
+    : ((state.selCat === 'edible' || state.matchMode === 'cannab') ? selectedCannabs : selectedTerps);
   const brand = state.selBrands[0] || null;
   const slots = [
     { id: 'product', label: 'Product', value: state.selCat, sub: cat ? cat.label : 'Any', visual: `<span class="loadout-icon">${cat ? cat.icon : '⌁'}</span>` },
@@ -8881,6 +8957,22 @@ function renderLoadout(hostId) {
 function refreshLoadouts() {
   renderLoadout('cat-loadout');
   renderLoadout('res-loadout');
+}
+let _searchRenderTimer = null;
+let _catSearchRouteTimer = null;
+function scheduleResultsRender() {
+  clearTimeout(_searchRenderTimer);
+  _searchRenderTimer = setTimeout(() => {
+    _searchRenderTimer = null;
+    if (state.screen === 'results') renderResults();
+  }, 120);
+}
+function scheduleGlobalSearchRoute(run) {
+  clearTimeout(_catSearchRouteTimer);
+  _catSearchRouteTimer = setTimeout(() => {
+    _catSearchRouteTimer = null;
+    run();
+  }, 260);
 }
 function clearLoadoutFilters() {
   state.selCat = null;
@@ -8959,11 +9051,10 @@ function applyLoadoutChoice(slot, val) {
     state.selCat = val === '__any__' ? null : val;
     state.selSubs = [];
     state.selSize = null;
-    state.selTerps = [];
-    state.selCannabs = [];
     state.selExtract = null;
     state.sideFilter = 'all';
-    state.matchMode = 'terp';
+    if (state.selCat === 'edible') state.matchMode = 'cannab';
+    else if (state.matchMode === 'cannab' && state.selTerps.length) state.matchMode = 'terp';
     state.browseAll = true;
   } else if (slot === 'terps') {
     if (val === '__any__') {
@@ -9193,17 +9284,17 @@ function wireMobileResultsRail(root) {
 }
 function renderResults() {
   const keepSearchFocus = document.activeElement?.id === 'res-search';
-  const keepSearchSel = keepSearchFocus ? {
-    start: document.activeElement.selectionStart,
-    end: document.activeElement.selectionEnd,
-  } : null;
   const restoreSearchFocus = () => {
     if (!keepSearchFocus) return;
     const rs = document.getElementById('res-search');
     if (!rs) return;
     requestAnimationFrame(() => {
-      rs.focus();
-      try { rs.setSelectionRange(keepSearchSel.start, keepSearchSel.end); } catch (_) {}
+      if (document.activeElement !== rs) {
+        try { rs.focus({ preventScroll: true }); }
+        catch (_) { rs.focus(); }
+        const len = rs.value.length;
+        try { rs.setSelectionRange(len, len); } catch (_) {}
+      }
     });
   };
   /* Persistent live search bar at the top of results — only in browseAll mode.
@@ -9214,11 +9305,13 @@ function renderResults() {
   const resSearchInp = document.getElementById('res-search');
   if (resSearchWrap && resSearchInp) {
     resSearchWrap.style.display = '';
-    if (resSearchInp.value !== (state.searchText || '')) resSearchInp.value = state.searchText || '';
+    if (document.activeElement !== resSearchInp && resSearchInp.value !== (state.searchText || '')) {
+      resSearchInp.value = state.searchText || '';
+    }
     resSearchWrap.classList.toggle('has-text', !!resSearchInp.value);
   }
   const list = getFilteredProducts();
-  refreshLoadouts();
+  if (!keepSearchFocus) refreshLoadouts();
   const summaryEl = document.getElementById('res-summary');
   const chips = [];
   const cat = CATEGORY_TILES.find(c => c.kind === state.selCat);
@@ -11255,7 +11348,7 @@ function openTerpBreakdown(p) {
   }));
 }
 
-function closeTerpBreakdown() {
+  function closeTerpBreakdown() {
   document.getElementById('terp-breakdown-sheet').classList.remove('open');
 }
 
@@ -11301,6 +11394,7 @@ function wireEvents() {
   document.getElementById('loadout-sheet-close').addEventListener('click', () => {
     document.getElementById('loadout-sheet').classList.remove('open');
   });
+  document.getElementById('terp-breakdown-close')?.addEventListener('click', closeTerpBreakdown);
   document.querySelectorAll('[data-sheet-close]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.getElementById(btn.getAttribute('data-sheet-close'))?.classList.remove('open');
@@ -11347,10 +11441,11 @@ function wireEvents() {
   const searchClear = document.getElementById('side-search-clear');
   const onSearch = () => {
     state.searchText = searchInput.value;
-    if (state.screen === 'results') renderResults();
+    if (state.screen === 'results') scheduleResultsRender();
   };
   searchInput.addEventListener('input', onSearch);
   searchClear.addEventListener('click', () => {
+    clearTimeout(_searchRenderTimer);
     searchInput.value = '';
     state.searchText = '';
     if (state.screen === 'results') renderResults();
@@ -11389,6 +11484,7 @@ function wireEvents() {
   const catSearchClear = document.getElementById('cat-search-clear');
   const catSearchWrap = document.getElementById('cat-search-wrap');
   const enterGlobalSearch = (q) => {
+    clearTimeout(_catSearchRouteTimer);
     state.searchText = q;
     state.selCat = null;
     state.selSubs = []; state.selSize = null; state.selTerps = [];
@@ -11402,7 +11498,7 @@ function wireEvents() {
     if (sideSi) sideSi.value = q;
     const wasOnResults = state.screen === 'results';
     if (!wasOnResults) setScreen('results');
-    else renderResults();
+    else scheduleResultsRender();
     /* Hand focus to the persistent results-screen search so the user keeps
      * typing without interruption. Only when transitioning IN — if they were
      * already on results editing the res-search, leave focus alone. */
@@ -11424,23 +11520,26 @@ function wireEvents() {
      * near-meaningless results page). Pressing Enter still forces a route below
      * for power users who want to search a 1-char query intentionally. */
     if (q.trim().length >= 2) {
-      enterGlobalSearch(q);
+      scheduleGlobalSearchRoute(() => enterGlobalSearch(catSearch.value));
     } else if (state.screen === 'results' && state.browseAll && !state.selCat) {
       /* User backspaced from a routed search down to 0-1 chars — go home. */
       state.searchText = q;
       state.browseAll = false;
       setScreen('category');
     } else {
+      clearTimeout(_catSearchRouteTimer);
       state.searchText = q;
     }
   });
   catSearch.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && catSearch.value.trim()) {
       e.preventDefault();
+      clearTimeout(_catSearchRouteTimer);
       enterGlobalSearch(catSearch.value);
     }
   });
   catSearchClear.addEventListener('click', () => {
+    clearTimeout(_catSearchRouteTimer);
     catSearch.value = '';
     catSearchWrap.classList.remove('has-text');
     state.searchText = '';
@@ -11467,9 +11566,10 @@ function wireEvents() {
     if (sideSi && sideSi.value !== q) sideSi.value = q;
     if (catSearch && catSearch.value !== q) catSearch.value = q;
     catSearchWrap.classList.toggle('has-text', !!q);
-    renderResults();
+    scheduleResultsRender();
   });
   resSearchClear.addEventListener('click', () => {
+    clearTimeout(_searchRenderTimer);
     resSearch.value = '';
     resSearchWrap.classList.remove('has-text');
     state.searchText = '';
