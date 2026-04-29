@@ -7195,7 +7195,20 @@ const BRANDS = [
       { id: '4365', name: 'Bethel Park',  slug: 'organic-remedies-bethel-park-pa',  city: 'Bethel Park, PA' },
     ],
   },
-  { id: 'rise',      name: 'Rise',                short: 'RS',  color: '#ff7a59', glyph: '🔥', active: true,  provider: 'jane',
+  { id: 'vytal',     name: 'Vytal Options',       short: 'VO',  color: '#207d73', glyph: 'VO', active: true,  provider: 'jane',
+    /* Source URLs follow vytaloptions.com/locations/{slug}/menu/.
+     * Public menu source exposes Jane frameless_embed_runtime_config storeId.
+     * Extracted from live Vytal PA menu pages on 2026-04-29. */
+    stores: [
+      { id: '6079', name: 'Fogelsville',     slug: 'fogelsville',     city: 'Fogelsville, PA' },
+      { id: '6078', name: 'Harrisburg',      slug: 'harrisburg',      city: 'Harrisburg, PA' },
+      { id: '6080', name: 'Kennett Square',  slug: 'kennett-square',  city: 'Kennett Square, PA' },
+      { id: '6081', name: 'Lancaster',       slug: 'lancaster',       city: 'Lancaster, PA' },
+      { id: '6082', name: 'Lansdale',        slug: 'lansdale',        city: 'Lansdale, PA' },
+      { id: '6083', name: 'State College',   slug: 'state-college',   city: 'State College, PA' },
+    ],
+  },
+  { id: 'rise',      name: 'Rise',                short: 'RS',  color: '#ff7a59', glyph: 'RS', active: true,  provider: 'jane',
     /* Source URLs follow risecannabis.com/dispensaries/pennsylvania/{slug}/{store_id}/medical-menu.
      * Live-verified against Jane/RISE pages on 2026-04-29. Monroeville's current
      * SEO page exposes no working store_id yet, so it is intentionally omitted. */
@@ -7219,7 +7232,7 @@ const BRANDS = [
       { id: '3404', name: 'Warminster',      slug: 'warminster',      city: 'Warminster, PA' },
       { id: '1548', name: 'York',            slug: 'york',            city: 'York, PA' },
     ] },
-  { id: 'restore',   name: 'Restore',             short: 'RE',  color: '#3f8f5b', glyph: '✚', active: false, provider: 'hytiva',
+  { id: 'restore',   name: 'Restore',             short: 'RE',  color: '#3f8f5b', glyph: '✚', active: true, provider: 'hytiva',
     /* Restore migrated off Jane to Hytiva sometime before 2026-04-26.
      * Live menu page (e.g. restoredispensaries.com/doylestown-menu/) loads
      * https://e.hytiva.com/v1/js/menu.js and reads
@@ -7227,16 +7240,11 @@ const BRANDS = [
      * markup in the WP source is stale — Jane really did delete the old
      * store_ids (probed 1467 → nbHits=0 across all kinds).
      *
-     * Disabled until a PROVIDERS.hytiva adapter is built. Doylestown's
-     * Hytiva dispensary id is captured below; the other four still need
-     * to be scraped from each location's menu page (open in browser →
-     * Network tab → look for api.hytiva.com/v1/dispensaries/<id>). */
+     * Doylestown is enabled through PROVIDERS.hytiva. Elkins Park, Fishtown,
+     * Lancaster, and Pottstown still need Hytiva dispensary ids scraped from
+     * each location's menu page. */
     stores: [
       { id: '8920930', name: 'Doylestown',  slug: 'doylestown',  city: 'Doylestown, PA' },
-      { id: 'tbd',     name: 'Elkins Park', slug: 'elkins-park', city: 'Elkins Park, PA' },
-      { id: 'tbd',     name: 'Fishtown',    slug: 'fishtown',    city: 'Philadelphia, PA' },
-      { id: 'tbd',     name: 'Lancaster',   slug: 'lancaster',   city: 'Lancaster, PA' },
-      { id: 'tbd',     name: 'Pottstown',   slug: 'pottstown',   city: 'Pottstown, PA' },
     ] },
   { id: 'liberty',   name: 'Liberty',             short: 'LB',  color: '#2f6fd6', glyph: '★', active: true,  provider: 'dutchie',
     /* Source pages: libertycannabis.com/shop/{slug}/.
@@ -8295,6 +8303,152 @@ function curaleafToJaneShape(p) {
   return norm;
 }
 
+const HYTIVA_MENU_API = 'https://api.hytiva.com/v1/menu';
+const HYTIVA_IMAGE_BASE = 'https://images.hytiva.com';
+
+function hytivaKind(p) {
+  const cat = String(p?.category || '').toLowerCase();
+  if (cat.includes('pre') && cat.includes('roll')) return null;
+  if (cat.includes('flower')) return 'flower';
+  if (cat.includes('vape') || cat.includes('vapor')) return 'vape';
+  if (cat.includes('extract') || cat.includes('concentrate')) return 'extract';
+  if (cat.includes('edible') || cat.includes('drink') || cat.includes('tincture')) return 'edible';
+  if (cat.includes('topical')) return 'topical';
+  if (cat.includes('accessor')) return 'gear';
+  return null;
+}
+
+function hytivaSizeKey(variant, kind) {
+  if (kind === 'edible' || kind === 'topical' || kind === 'gear') return 'each';
+  const raw = `${variant?.value || ''} ${variant?.title || ''} ${variant?.displayTitle || ''}`.toLowerCase();
+  const mg = Number((raw.match(/(\d+(?:\.\d+)?)\s*mg\b/) || [])[1]);
+  const grams = Number((raw.match(/(\d+(?:\.\d+)?)\s*g\b/) || [])[1]);
+  const value = Number.isFinite(grams) ? grams : (Number.isFinite(mg) ? mg / 1000 : null);
+  if (!Number.isFinite(value)) return 'each';
+  if (value <= 0.35) return 'each';
+  if (value <= 0.6) return 'half_gram';
+  if (value <= 1.25) return 'gram';
+  if (value <= 2.5) return 'two_gram';
+  if (value <= 3.8) return 'eighth_ounce';
+  if (value <= 5) return 'four_point_five_gram';
+  if (value <= 8) return 'quarter_ounce';
+  if (value <= 15) return 'half_ounce';
+  return 'ounce';
+}
+
+function hytivaNumber(value) {
+  if (value == null || value === '') return null;
+  const n = Number(String(value).replace(/[^\d.-]/g, ''));
+  return Number.isFinite(n) ? n : null;
+}
+
+function hytivaCompoundValue(row) {
+  const max = hytivaNumber(row?.max);
+  if (Number.isFinite(max)) return max;
+  return hytivaNumber(row?.min);
+}
+
+function hytivaCanonTerp(row) {
+  const raw = `${row?.systemName || ''} ${row?.title || ''}`
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/alpha/gi, 'alpha-')
+    .replace(/beta/gi, 'beta-')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+  for (const [canon, aliases] of Object.entries(TERP_MAP)) {
+    if (aliases.some(a => raw.includes(a))) return canon;
+  }
+  return null;
+}
+
+function hytivaCanonCannabinoid(row) {
+  const raw = String(row?.systemName || row?.title || '').trim();
+  if (!raw) return null;
+  const clean = raw
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/delta\s*[- ]?\s*/i, 'Delta-')
+    .replace(/\s+/g, '-')
+    .toUpperCase();
+  if (clean === 'D9THC' || clean === 'DELTA-9-THC') return 'THC';
+  return clean;
+}
+
+function hytivaImageUrl(image) {
+  if (!image) return null;
+  const src = String(image);
+  if (/^https?:\/\//i.test(src)) return src;
+  return `${HYTIVA_IMAGE_BASE}/${src.replace(/^\/+/, '')}`;
+}
+
+function hytivaToJaneShape(p) {
+  const kind = hytivaKind(p);
+  if (!kind) return null;
+  const variants = (p.variants || []).filter(v => hytivaNumber(v?.quantity) > 0 || v?.quantity == null);
+  if (!variants.length) return null;
+  const norm = {
+    objectID: `hytiva-${p.id}`,
+    product_id: p.id,
+    name: p.title || '',
+    brand: p.brand || '',
+    kind,
+    category: p.type || p.category || '',
+    percent_thc: null,
+    image_urls: [hytivaImageUrl(p.image)].filter(Boolean),
+    root_subtype: p.category || '',
+    product_subtype: p.category || '',
+    description: '',
+  };
+
+  for (const v of variants) {
+    const key = hytivaSizeKey(v, kind);
+    const full = hytivaNumber(v.originalPrice) || hytivaNumber(v.price);
+    const disc = hytivaNumber(v.price);
+    const hasDisc = disc != null && full != null && disc < full;
+    if (full == null && disc == null) continue;
+    const current = norm['price_' + key];
+    const nextFull = full != null ? full : disc;
+    if (current == null || nextFull < current) norm['price_' + key] = nextFull;
+    if (hasDisc) {
+      const currentDisc = norm['discounted_price_' + key];
+      if (currentDisc == null || disc < currentDisc) norm['discounted_price_' + key] = disc;
+    }
+  }
+
+  const byTerp = {};
+  for (const row of (p.terpenes || [])) {
+    const name = hytivaCanonTerp(row);
+    const value = hytivaCompoundValue(row);
+    if (!name || !Number.isFinite(value) || value <= 0) continue;
+    if (!byTerp[name] || value > byTerp[name].value) byTerp[name] = { name, value };
+  }
+  norm._terps = Object.values(byTerp);
+
+  const byCannab = {};
+  for (const row of (p.cannabinoids || [])) {
+    const name = hytivaCanonCannabinoid(row);
+    const value = hytivaCompoundValue(row);
+    if (!name || !Number.isFinite(value) || value <= 0) continue;
+    if (!byCannab[name] || value > byCannab[name].value) byCannab[name] = { name, value };
+  }
+  norm._cannabs = Object.values(byCannab);
+  const potency = norm._cannabs
+    .filter(c => c.name === 'THC' || c.name === 'THCA' || c.name === 'D9THC' || c.name === 'DELTA-9-THC')
+    .reduce((best, c) => best == null || c.value > best.value ? c : best, null);
+  if (potency) norm.percent_thc = potency.value;
+  norm.lab_results = [{
+    lab_results: [
+      ...norm._terps.map(t => ({ unit_id: t.name, value: t.value })),
+      ...norm._cannabs.map(c => ({ unit_id: c.name, value: c.value })),
+    ],
+  }];
+  norm._sizes = extractSizes(norm);
+  if (!norm._sizes.length) return null;
+  norm._subs = detectSubtypes(norm);
+  norm._totalTerps = norm._terps.reduce((sum, t) => sum + (Number(t.value) || 0), 0);
+  norm._isHytiva = true;
+  return norm;
+}
+
 /* ─── API ───────────────────────────────────────────────
  * Provider adapters return an array of Jane-shaped product objects.
  * Every adapter MUST populate `_terps`, `_cannabs`, `_sizes`, `_subs`
@@ -8437,6 +8591,26 @@ const PROVIDERS = {
   sweed: {
     label: 'Sweed POS',
     async fetchProducts() { const e = new Error('Sweed adapter pending.'); e._adapterMissing = true; throw e; },
+  },
+  hytiva: {
+    label: 'Hytiva',
+    async fetchProducts(storeId) {
+      const res = await fetch(`${HYTIVA_MENU_API}/${storeId}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      });
+      if (!res.ok) throw new Error(`Hytiva HTTP ${res.status}`);
+      const data = await res.json();
+      const list = Array.isArray(data?.data) ? data.data : [];
+      const seen = new Set();
+      const out = [];
+      for (const p of list) {
+        const norm = hytivaToJaneShape(p);
+        if (!norm || seen.has(norm.objectID)) continue;
+        seen.add(norm.objectID);
+        out.push(norm);
+      }
+      return out;
+    },
   },
   curaleaf: {
     label: 'Curaleaf shop',
