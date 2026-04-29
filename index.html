@@ -7181,6 +7181,7 @@ const KINDS   = ['flower','vape','extract','edible','tincture','topical','gear']
  *   'jane'    → search.iheartjane.com Algolia (shared creds, per-store filter)
  *   'dutchie' → dispensary.api.dutchie.com GraphQL (adapter pending live schema capture)
  *   'sweed'   → Zen Leaf's POS stack (not yet implemented)
+ *   'curaleaf'→ Curaleaf's Sweed storefront API
  *   'custom'  → Sunnyside/Ethos bespoke scrapes (not yet implemented)
  * Brands with no known provider yet default to 'jane' so we fail loud, not silent. */
 const BRANDS = [
@@ -7269,6 +7270,28 @@ const BRANDS = [
       { id: '609456326bf69800d1533fc2', name: 'Whitehall',                          city: 'Whitehall, PA',          slug: 'whitehall' },
       { id: '667581d71356d84114cfcc05', name: 'Wilkes-Barre',                       city: 'Wilkes-Barre, PA',       slug: 'wilkes-barre' },
       { id: '62742963973a624cc8dad488', name: 'Zelienople',                         city: 'Zelienople, PA',         slug: 'zelienople' },
+    ] },
+  { id: 'curaleaf',  name: 'Curaleaf',            short: 'CL',  color: '#0b7f3a', glyph: '🍃', active: true,  provider: 'curaleaf',
+    /* Source: curaleaf.com/shop/pennsylvania/<slug>.
+     * Live store ids extracted from public Sweed storefront pages/API on
+     * 2026-04-29. Bradford, City Avenue, Lancaster, and Passyunk redirected
+     * to Curaleaf's age gate without exposing a store payload during launch
+     * verification, so they are intentionally omitted until verified. */
+    stores: [
+      { id: '145', name: 'Allentown',        slug: 'curaleaf-allentown',          city: 'Allentown, PA' },
+      { id: '146', name: 'Altoona',          slug: 'curaleaf-pa-altoona',         city: 'Altoona, PA' },
+      { id: '148', name: 'Brookville',       slug: 'curaleaf-pa-brookville',      city: 'Brookville, PA' },
+      { id: '149', name: 'DuBois',           slug: 'curaleaf-pa-dubois',          city: 'DuBois, PA' },
+      { id: '150', name: 'Erie',             slug: 'curaleaf-pa-erie',            city: 'Erie, PA' },
+      { id: '151', name: 'Gettysburg',       slug: 'curaleaf-pa-gettysburg',      city: 'Gettysburg, PA' },
+      { id: '152', name: 'Greensburg',       slug: 'curaleaf-pa-greensburg',      city: 'Greensburg, PA' },
+      { id: '153', name: 'Harrisburg',       slug: 'curaleaf-pa-harrisburg',      city: 'Harrisburg, PA' },
+      { id: '154', name: 'Horsham',          slug: 'curaleaf-pa-horsham',         city: 'Horsham, PA' },
+      { id: '155', name: 'King of Prussia',  slug: 'curaleaf-pa-king-of-prussia', city: 'King of Prussia, PA' },
+      { id: '157', name: 'Lebanon',          slug: 'curaleaf-pa-lebanon',         city: 'Lebanon, PA' },
+      { id: '158', name: 'Morton',           slug: 'curaleaf-pa-morton',          city: 'Morton, PA' },
+      { id: '161', name: 'State College',    slug: 'curaleaf-pa-state-college',   city: 'State College, PA' },
+      { id: '162', name: 'Wayne',            slug: 'curaleaf-pa-wayne',           city: 'Wayne, PA' },
     ] },
   { id: 'sunnyside', name: 'Sunnyside (Cresco)',  short: 'SU',  color: '#f9c22e', glyph: '☀️', active: false, provider: 'custom',
     stores: [{ id: 'tbd', name: 'Coming soon', city: 'statewide' }] },
@@ -7698,6 +7721,7 @@ const state = {
   theme:   localStorage.getItem('terpfinder_theme')   || 'noir',
   naughty: localStorage.getItem('terpfinder_naughty') === '1',
   storeId: localStorage.getItem('terpfinder_store')   || '4365',
+  menuLoadToken: 0,
 };
 
 /* ─── Dutchie adapter helpers ─────────────────────────────
@@ -7937,6 +7961,340 @@ function dutchieToJaneShape(p) {
   return norm;
 }
 
+const CURALEAF_API = 'https://web-ui-curaleaf.sweedpos.com/_api/Products/GetProductList';
+const CURALEAF_LABS_API = 'https://web-ui-curaleaf.sweedpos.com/_api/Products/GetExtendedLabdata';
+let _curaleafLabParamStyle = null;
+
+function curaleafKind(p) {
+  const cat = `${p?.category?.name || ''} ${p?.subcategory?.name || ''} ${p?.productType?.name || ''}`.toLowerCase();
+  if (cat.includes('flower')) return 'flower';
+  if (cat.includes('vape') || cat.includes('cartridge') || cat.includes('briq')) return 'vape';
+  if (cat.includes('concentrate') || cat.includes('extract') || cat.includes('wax') || cat.includes('rosin') || cat.includes('resin')) return 'extract';
+  if (cat.includes('oral') || cat.includes('troche') || cat.includes('capsule') || cat.includes('edible')) return 'edible';
+  if (cat.includes('topical') || cat.includes('balm') || cat.includes('lotion') || cat.includes('patch')) return 'topical';
+  if (cat.includes('accessor')) return 'gear';
+  return null;
+}
+
+function curaleafSizeKey(variant, kind) {
+  const unit = String(variant?.unitSize?.unitAbbr || '').toUpperCase();
+  const value = Number(variant?.unitSize?.value);
+  const name = String(variant?.name || '').toLowerCase();
+  if (kind === 'edible' || unit === 'MG') return 'each';
+  const grams = Number.isFinite(value) && unit === 'G' ? value : null;
+  const raw = grams ?? Number((name.match(/(\d+(?:\.\d+)?)\s*g\b/) || [])[1]);
+  if (!Number.isFinite(raw)) return 'each';
+  if (raw <= 0.35) return 'each';
+  if (raw <= 0.6) return 'half_gram';
+  if (raw <= 1.25) return 'gram';
+  if (raw <= 2.5) return 'two_gram';
+  if (raw <= 3.8) return 'eighth_ounce';
+  if (raw <= 5) return 'four_point_five_gram';
+  if (raw <= 8) return 'quarter_ounce';
+  if (raw <= 15) return 'half_ounce';
+  return 'ounce';
+}
+
+function curaleafLabNumber(test) {
+  const values = Array.isArray(test?.value) ? test.value : [test?.value];
+  for (const raw of values) {
+    const n = Number(raw);
+    if (Number.isFinite(n)) return n;
+  }
+  return null;
+}
+
+function curaleafBestLab(p, key) {
+  let best = null;
+  for (const v of (p?.variants || [])) {
+    const n = curaleafLabNumber(v?.labTests && v.labTests[key]);
+    if (Number.isFinite(n) && (best == null || n > best)) best = n;
+  }
+  return best;
+}
+
+function curaleafSyntheticTerps(p) {
+  const out = [];
+  const seen = new Set();
+  for (const t of (p?.strain?.terpenes || [])) {
+    const raw = String(t?.name || '').toLowerCase();
+    for (const [canon, aliases] of Object.entries(TERP_MAP)) {
+      if (!seen.has(canon) && aliases.some(a => raw === a || raw.includes(a))) {
+        seen.add(canon);
+        out.push({ name: canon, value: null, _synthetic: true });
+      }
+    }
+  }
+  return out;
+}
+
+function curaleafPositivePrice(value) {
+  if (Array.isArray(value)) {
+    let best = null;
+    for (const item of value) {
+      const n = curaleafPositivePrice(item);
+      if (n != null && (best == null || n < best)) best = n;
+    }
+    return best;
+  }
+  if (value && typeof value === 'object') {
+    const priceKeys = ['price', 'Price', 'amount', 'Amount', 'value', 'Value', 'regularPrice', 'basePrice', 'unitPrice', 'medicalPrice'];
+    let best = null;
+    for (const key of priceKeys) {
+      const n = curaleafPositivePrice(value[key]);
+      if (n != null && (best == null || n < best)) best = n;
+    }
+    for (const [key, item] of Object.entries(value)) {
+      if (!/price|amount|tier/i.test(key)) continue;
+      const n = curaleafPositivePrice(item);
+      if (n != null && (best == null || n < best)) best = n;
+    }
+    return best;
+  }
+  const n = Number(value);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+function curaleafTraceId() {
+  return (globalThis.crypto && globalThis.crypto.randomUUID)
+    ? globalThis.crypto.randomUUID().replace(/-/g, '')
+    : String(Date.now());
+}
+
+function curaleafLabValue(value) {
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const n = curaleafLabValue(item);
+      if (Number.isFinite(n)) return n;
+    }
+    return null;
+  }
+  if (value && typeof value === 'object') {
+    for (const key of ['value', 'Value', 'max', 'Max', 'min', 'Min', 'percent', 'percentage', 'result', 'amount']) {
+      const n = curaleafLabValue(value[key]);
+      if (Number.isFinite(n)) return n;
+    }
+    return null;
+  }
+  if (value == null || value === '') return null;
+  const n = Number(String(value).replace(/[^\d.-]/g, ''));
+  return Number.isFinite(n) ? n : null;
+}
+
+function curaleafLabName(row) {
+  if (!row || typeof row !== 'object') return '';
+  for (const key of ['name', 'Name', 'label', 'title', 'compoundName', 'compound_name', 'analyte', 'testName', 'displayName']) {
+    const v = row[key];
+    if (typeof v === 'string' && v.trim()) return v.trim();
+  }
+  return '';
+}
+
+function curaleafCollectLabRows(value, out = [], seen = new Set()) {
+  if (!value || typeof value !== 'object' || seen.has(value)) return out;
+  seen.add(value);
+  if (Array.isArray(value)) {
+    for (const item of value) curaleafCollectLabRows(item, out, seen);
+    return out;
+  }
+  const name = curaleafLabName(value);
+  const labValue = curaleafLabValue(value);
+  if (name && Number.isFinite(labValue)) out.push({ name, value: labValue });
+  for (const item of Object.values(value)) curaleafCollectLabRows(item, out, seen);
+  return out;
+}
+
+function curaleafCleanCompound(name) {
+  return String(name || '')
+    .replace(/[%()]/g, ' ')
+    .replace(/\b(total|per\s+package|package|result|percent|percentage)\b/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function curaleafCanonTerp(name) {
+  const clean = curaleafCleanCompound(name).toLowerCase()
+    .replace(/[β]/g, 'b')
+    .replace(/[α]/g, 'a')
+    .replace(/\s+/g, '-');
+  for (const [canon, aliases] of Object.entries(TERP_MAP)) {
+    if (aliases.some(a => clean === a || clean.includes(a))) return canon;
+  }
+  return null;
+}
+
+function curaleafCanonCannabinoid(name) {
+  const clean = String(name || '').toLowerCase()
+    .replace(/delta\s*/g, 'delta')
+    .replace(/[^a-z0-9]/g, '');
+  if (clean.includes('totalthc') || clean === 'thc' || clean === 'delta9thc' || clean === 'thca') return 'THC';
+  if (clean.includes('totalcbd') || clean === 'cbd' || clean === 'cbda') return 'CBD';
+  if (clean === 'cbg' || clean === 'cbga') return 'CBG';
+  if (clean === 'cbn') return 'CBN';
+  if (clean === 'cbc') return 'CBC';
+  if (clean === 'thcv' || clean === 'thcva') return 'THCV';
+  return null;
+}
+
+function curaleafLabsFromPayload(payload) {
+  const rows = curaleafCollectLabRows(payload);
+  const terpsByName = {};
+  const cannabsByName = {};
+  let totalTerps = null;
+  for (const row of rows) {
+    if (!Number.isFinite(row.value) || row.value < 0) continue;
+    if (/^total\s*terp/i.test(row.name)) {
+      if (totalTerps == null || row.value > totalTerps) totalTerps = row.value;
+      continue;
+    }
+    const terp = curaleafCanonTerp(row.name);
+    if (terp) {
+      if (!terpsByName[terp] || row.value > terpsByName[terp].value) {
+        terpsByName[terp] = { name: terp, value: row.value };
+      }
+      continue;
+    }
+    const cannab = curaleafCanonCannabinoid(row.name);
+    if (cannab && row.value > 0 && (!cannabsByName[cannab] || row.value > cannabsByName[cannab].value)) {
+      cannabsByName[cannab] = { name: cannab, value: row.value };
+    }
+  }
+  const terps = Object.values(terpsByName);
+  if (totalTerps == null && terps.length) {
+    totalTerps = terps.reduce((sum, t) => sum + (Number(t.value) || 0), 0);
+  }
+  const cannabs = Object.values(cannabsByName);
+  if (!terps.length && !cannabs.length && totalTerps == null) return null;
+  return { terps, cannabs, totalTerps };
+}
+
+function curaleafLabBodies(product, variant) {
+  const stockType = variant?.stockType || 'Default';
+  const productId = product?.id;
+  const variantId = variant?.id;
+  return [
+    { productId, variantId, stockType, saleType: 'Medical' },
+    { id: variantId, productId, stockType, saleType: 'Medical' },
+    { variantId, stockType, saleType: 'Medical' },
+    { productId, stockType, saleType: 'Medical' },
+  ];
+}
+
+async function curaleafFetchExtendedLabs(storeId, product) {
+  const variants = (product?.variants || []).filter(v => Number(v?.availableQty) > 0 || v?.availableQty == null);
+  const variant = variants[0] || (product?.variants || [])[0];
+  if (!product?.id || !variant?.id) return null;
+  const candidates = curaleafLabBodies(product, variant);
+  const order = _curaleafLabParamStyle == null
+    ? candidates.map((_, i) => i)
+    : [_curaleafLabParamStyle, ...candidates.map((_, i) => i).filter(i => i !== _curaleafLabParamStyle)];
+  for (const style of order) {
+    try {
+      const res = await fetch(CURALEAF_LABS_API, {
+        method: 'POST',
+        headers: {
+          StoreId: String(storeId),
+          TraceId: curaleafTraceId(),
+          SSR: 'false',
+          Accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(candidates[style]),
+      });
+      if (!res.ok) continue;
+      const labs = curaleafLabsFromPayload(await res.json());
+      if (labs) {
+        _curaleafLabParamStyle = style;
+        return labs;
+      }
+    } catch (err) {
+      /* Lab details are optional; inventory should still load. */
+    }
+  }
+  return null;
+}
+
+async function curaleafHydrateLabPage(storeId, list) {
+  const targets = (list || []).filter(p => {
+    const kind = curaleafKind(p);
+    return kind === 'flower' || kind === 'vape' || kind === 'extract';
+  });
+  const batchSize = 6;
+  for (let i = 0; i < targets.length; i += batchSize) {
+    await Promise.all(targets.slice(i, i + batchSize).map(async p => {
+      const labs = await curaleafFetchExtendedLabs(storeId, p);
+      if (labs) p._curaleafLabs = labs;
+    }));
+  }
+}
+
+function curaleafToJaneShape(p) {
+  const kind = curaleafKind(p);
+  if (!kind) return null;
+  const variants = (p.variants || []).filter(v => Number(v?.availableQty) > 0 || v?.availableQty == null);
+  if (!variants.length) return null;
+  const detailLabs = p._curaleafLabs || null;
+  const norm = {
+    objectID: `curaleaf-${p.id}`,
+    product_id: p.id,
+    name: p.customName || p.name || '',
+    brand: p.brand?.name || '',
+    kind,
+    category: p.strain?.prevalence?.name || p.category?.name || '',
+    percent_thc: curaleafBestLab(p, 'thc'),
+    image_urls: [...(p.images || []), ...variants.flatMap(v => v.images || [])].filter(Boolean),
+    root_subtype: p.subcategory?.name || p.productType?.name || '',
+    product_subtype: p.productType?.name || p.subcategory?.name || '',
+    description: p.description || '',
+  };
+  for (const v of variants) {
+    const key = curaleafSizeKey(v, kind);
+    const full = curaleafPositivePrice(v.price) || curaleafPositivePrice(v.tierPricing);
+    const disc = curaleafPositivePrice(v.promoPrice) || curaleafPositivePrice(v.salePrice) || curaleafPositivePrice(v.specialPrice);
+    const hasFull = full != null;
+    const hasDisc = disc != null && (!hasFull || disc < full);
+    if (!hasFull && !hasDisc) continue;
+    const current = norm['price_' + key];
+    const nextFull = hasFull ? full : disc;
+    if (current == null || nextFull < current) norm['price_' + key] = nextFull;
+    if (hasDisc) {
+      const currentDisc = norm['discounted_price_' + key];
+      if (currentDisc == null || disc < currentDisc) norm['discounted_price_' + key] = disc;
+    }
+  }
+  norm._terps = detailLabs?.terps?.length ? detailLabs.terps : curaleafSyntheticTerps(p);
+  norm._cannabs = [];
+  const thc = curaleafBestLab(p, 'thc');
+  const cbd = curaleafBestLab(p, 'cbd');
+  if (Number.isFinite(thc) && thc > 0) norm._cannabs.push({ name: 'THC', value: thc });
+  if (Number.isFinite(cbd) && cbd > 0) norm._cannabs.push({ name: 'CBD', value: cbd });
+  if (detailLabs?.cannabs?.length) {
+    const byName = Object.fromEntries(norm._cannabs.map(c => [c.name, c]));
+    for (const c of detailLabs.cannabs) {
+      if (!byName[c.name] || c.value > byName[c.name].value) byName[c.name] = c;
+    }
+    norm._cannabs = Object.values(byName);
+  }
+  if (!Number.isFinite(norm.percent_thc)) {
+    const detailThc = norm._cannabs.find(c => c.name === 'THC');
+    if (detailThc) norm.percent_thc = detailThc.value;
+  }
+  if (detailLabs) {
+    norm.lab_results = [{
+      lab_results: [
+        ...(detailLabs.terps || []).map(t => ({ unit_id: t.name, value: t.value })),
+        ...(detailLabs.cannabs || []).map(c => ({ unit_id: c.name, value: c.value })),
+      ],
+    }];
+  }
+  norm._sizes = extractSizes(norm);
+  if (!norm._sizes.length) return null;
+  norm._subs = detectSubtypes(norm);
+  norm._totalTerps = Number.isFinite(detailLabs?.totalTerps) ? detailLabs.totalTerps : null;
+  norm._isCuraleaf = true;
+  return norm;
+}
+
 /* ─── API ───────────────────────────────────────────────
  * Provider adapters return an array of Jane-shaped product objects.
  * Every adapter MUST populate `_terps`, `_cannabs`, `_sizes`, `_subs`
@@ -8080,6 +8438,51 @@ const PROVIDERS = {
     label: 'Sweed POS',
     async fetchProducts() { const e = new Error('Sweed adapter pending.'); e._adapterMissing = true; throw e; },
   },
+  curaleaf: {
+    label: 'Curaleaf shop',
+    async fetchProducts(storeId) {
+      const pageSize = 100;
+      const out = [];
+      const seen = new Set();
+      let page = 1;
+      let total = null;
+      while (page <= 20) {
+        const body = {
+          saleType: 'Medical',
+          filters: {},
+          page,
+          pageSize,
+          platformOs: 'Web',
+        };
+        const res = await fetch(CURALEAF_API, {
+          method: 'POST',
+          headers: {
+            StoreId: String(storeId),
+            TraceId: curaleafTraceId(),
+            SSR: 'false',
+            Accept: '*/*',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error(`Curaleaf HTTP ${res.status}`);
+        const data = await res.json();
+        const list = Array.isArray(data.list) ? data.list : [];
+        total = Number.isFinite(Number(data.total)) ? Number(data.total) : total;
+        await curaleafHydrateLabPage(storeId, list);
+        for (const p of list) {
+          const norm = curaleafToJaneShape(p);
+          if (!norm || seen.has(norm.objectID)) continue;
+          seen.add(norm.objectID);
+          out.push(norm);
+        }
+        if (!list.length || list.length < pageSize) break;
+        if (total != null && page * pageSize >= total) break;
+        page += 1;
+      }
+      return out;
+    },
+  },
   custom: {
     label: 'custom stack',
     async fetchProducts() { const e = new Error('Custom adapter pending.'); e._adapterMissing = true; throw e; },
@@ -8111,6 +8514,9 @@ function ensureLoadingScreen() {
 }
 
 async function loadMenu() {
+  const token = ++state.menuLoadToken;
+  const storeId = state.storeId;
+  const storeName = currentStore().name;
   ensureLoadingScreen();
   setToast('loading', `Connecting to ${currentStore().name}…`);
   const loadingSub = document.getElementById('loading-sub');
@@ -8120,7 +8526,9 @@ async function loadMenu() {
   const provKey = brandProviderKey();
   const provider = PROVIDERS[provKey] || PROVIDERS.jane;
   try {
-    state.products = await provider.fetchProducts(state.storeId);
+    const products = await provider.fetchProducts(storeId);
+    if (token !== state.menuLoadToken || storeId !== state.storeId) return;
+    state.products = products;
     /* Resilience: if an adapter returns an empty list we surface it
      * clearly rather than dumping the patient into an empty category
      * screen with no explanation. A menu with zero products is almost
@@ -8133,6 +8541,7 @@ async function loadMenu() {
     renderCategoryGrid();
     setScreen('category');
   } catch (e) {
+    if (token !== state.menuLoadToken || storeId !== state.storeId) return;
     console.error(e);
     const pending = e && (e._adapterMissing || e._emptyMenu);
     setToast('fail', pending ? `Menu temporarily unavailable.` : `Could not reach menu. ${e?.message || ''}`);
@@ -8274,6 +8683,8 @@ function applyStore(id) {
   state.selBrandId = currentStore().brandId || state.selBrandId;
   localStorage.setItem('terpfinder_store', id);
   document.getElementById('store-name').textContent = currentStore().name;
+  const tag = document.getElementById('banner-tag');
+  if (tag) tag.textContent = `${currentStore().city || currentStore().name} Â· counter tool`;
   /* wipe state + reload menu */
   state.products = []; state.cart.clear(); state.sizeOverrides.clear();
   state.selCat = null; state.selSubs = []; state.selSize = null;
