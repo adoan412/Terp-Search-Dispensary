@@ -1088,10 +1088,21 @@ async function dutchieHydrateOnePage(storeId, rawPairs) {
         method: 'POST',
         headers: {
           ...BROWSER_HEADERS,
-          'Content-Type':            'application/json',
-          'x-apollo-operation-name': 'IndividualFilteredProduct',
-          'Origin':                  'https://dutchie.com',
-          'Referer':                 'https://dutchie.com/',
+          // Match the live Dutchie Marketplace web client as captured from a
+          // browser session. Adding apollographql-client-name + x-api-version
+          // identifies us as the official SPA, which Cloudflare's bot filter
+          // appears to weight more leniently than a generic POST.
+          'Content-Type':                'application/json',
+          'Accept':                      '*/*',
+          'apollographql-client-name':   'Marketplace (production)',
+          'x-apollo-operation-name':     'IndividualFilteredProduct',
+          'x-api-version':               '20260123',
+          'User-Agent':                  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0',
+          'Sec-Ch-Ua':                   '"Microsoft Edge";v="147", "Not.A/Brand";v="8", "Chromium";v="147"',
+          'Sec-Fetch-Site':              'same-origin',
+          'Origin':                      'https://dutchie.com',
+          'Referer':                     'https://dutchie.com/',
+          'priority':                    'u=1, i',
         },
         body: JSON.stringify(body),
       }, 30_000);
