@@ -1,0 +1,9 @@
+{
+  "name": "pa-buddy-finder",
+  "version": "1.0.0",
+  "description": "PA dispensary catalog builder for PaBuddy.org",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build:catalog": "node scripts/build-catalog.js"
+  }
+}

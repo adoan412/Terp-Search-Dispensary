@@ -1,0 +1,271 @@
+[
+  {
+    "id": "organic",
+    "name": "Organic Remedies",
+    "short": "OR",
+    "color": "#8bc541",
+    "provider": "jane",
+    "active": true,
+    "stores": [
+      { "id": "4139", "name": "Paoli",        "city": "Paoli, PA" },
+      { "id": "1877", "name": "Enola",        "city": "Enola, PA" },
+      { "id": "1876", "name": "York",         "city": "York, PA" },
+      { "id": "3906", "name": "McKnight Rd",  "city": "Pittsburgh, PA" },
+      { "id": "1878", "name": "Chambersburg", "city": "Chambersburg, PA" },
+      { "id": "4365", "name": "Bethel Park",  "city": "Bethel Park, PA" }
+    ]
+  },
+  {
+    "id": "vytal",
+    "name": "Vytal Options",
+    "short": "VO",
+    "color": "#207d73",
+    "provider": "jane",
+    "active": true,
+    "stores": [
+      { "id": "6079", "name": "Fogelsville",    "city": "Fogelsville, PA" },
+      { "id": "6078", "name": "Harrisburg",     "city": "Harrisburg, PA" },
+      { "id": "6080", "name": "Kennett Square", "city": "Kennett Square, PA" },
+      { "id": "6081", "name": "Lancaster",      "city": "Lancaster, PA" },
+      { "id": "6082", "name": "Lansdale",       "city": "Lansdale, PA" },
+      { "id": "6083", "name": "State College",  "city": "State College, PA" }
+    ]
+  },
+  {
+    "id": "rise",
+    "name": "Rise",
+    "short": "RS",
+    "color": "#ff7a59",
+    "provider": "jane",
+    "active": true,
+    "stores": [
+      { "id": "1547", "name": "Carlisle",        "city": "Carlisle, PA" },
+      { "id": "1867", "name": "Chambersburg",    "city": "Chambersburg, PA" },
+      { "id": "1575", "name": "Cranberry",       "city": "Cranberry Township, PA" },
+      { "id": "1961", "name": "Duncansville",    "city": "Duncansville, PA" },
+      { "id": "392",  "name": "Erie on Lake",    "city": "Erie, PA" },
+      { "id": "2607", "name": "Erie on Peach",   "city": "Erie, PA" },
+      { "id": "5202", "name": "Grove City",      "city": "Grove City, PA" },
+      { "id": "1551", "name": "Hermitage",       "city": "Hermitage, PA" },
+      { "id": "1552", "name": "King of Prussia", "city": "King of Prussia, PA" },
+      { "id": "1549", "name": "Latrobe",         "city": "Latrobe, PA" },
+      { "id": "6520", "name": "Lebanon",         "city": "Lebanon, PA" },
+      { "id": "2863", "name": "Meadville",       "city": "Meadville, PA" },
+      { "id": "1550", "name": "Mechanicsburg",   "city": "Mechanicsburg, PA" },
+      { "id": "1545", "name": "New Castle",      "city": "New Castle, PA" },
+      { "id": "5383", "name": "Philadelphia",    "city": "Philadelphia, PA" },
+      { "id": "1544", "name": "Steelton",        "city": "Steelton, PA" },
+      { "id": "3404", "name": "Warminster",      "city": "Warminster, PA" },
+      { "id": "1548", "name": "York",            "city": "York, PA" }
+    ]
+  },
+  {
+    "id": "restore",
+    "name": "Restore",
+    "short": "RE",
+    "color": "#3f8f5b",
+    "provider": "hytiva",
+    "active": true,
+    "stores": [
+      { "id": "172835",  "name": "Allentown",   "city": "Allentown, PA" },
+      { "id": "8920930", "name": "Doylestown",  "city": "Doylestown, PA" },
+      { "id": "8920932", "name": "Elkins Park", "city": "Elkins Park, PA" },
+      { "id": "172827",  "name": "Fishtown",    "city": "Philadelphia, PA" },
+      { "id": "8921346", "name": "Lancaster",   "city": "East Petersburg, PA" },
+      { "id": "8921425", "name": "Pottstown",   "city": "Pottstown, PA" },
+      { "id": "173199",  "name": "Scranton",    "city": "Scranton, PA" },
+      { "id": "173200",  "name": "Wilkes-Barre","city": "Wilkes-Barre, PA" },
+      { "id": "8921431", "name": "Yeadon",      "city": "Yeadon, PA" }
+    ]
+  },
+  {
+    "id": "liberty",
+    "name": "Liberty",
+    "short": "LB",
+    "color": "#2f6fd6",
+    "provider": "dutchie",
+    "active": true,
+    "stores": [
+      { "id": "5e9491bc8c76410099c8fa05", "name": "Aliquippa",   "city": "Aliquippa, PA" },
+      { "id": "3TJq5LSGc9j76WKx4",        "name": "Bensalem",    "city": "Bensalem, PA" },
+      { "id": "60523818a6b5d500e0fb2e31", "name": "Cranberry",   "city": "Cranberry Township, PA" },
+      { "id": "Tfr3uEztEfzqLT2xB",        "name": "Norristown",  "city": "Norristown, PA" },
+      { "id": "27eaLRYjHyMPZqigT",        "name": "Philadelphia","city": "Philadelphia, PA" },
+      { "id": "63dab2d8ab202100548dbaf5", "name": "Pittsburgh",  "city": "Pittsburgh, PA" }
+    ]
+  },
+  {
+    "id": "trulieve",
+    "name": "Trulieve",
+    "short": "TL",
+    "color": "#00a991",
+    "provider": "dutchie",
+    "active": true,
+    "stores": [
+      { "id": "5fcd803c0d0a250106ded129", "name": "Camp Hill",                         "city": "Camp Hill, PA" },
+      { "id": "628414ba169240008cb1b334", "name": "Coatesville",                       "city": "Coatesville, PA" },
+      { "id": "5fcd8074fa3cf100cb2b7098", "name": "Cranberry Township",                "city": "Cranberry Township, PA" },
+      { "id": "5ed197666ccfd20132a5d574", "name": "East York",                         "city": "East York, PA" },
+      { "id": "5fcd8098bdf7ed00ebdb7320", "name": "Harrisburg",                        "city": "Harrisburg, PA" },
+      { "id": "5fcd80bede6523010411865e", "name": "Johnstown",                         "city": "Johnstown, PA" },
+      { "id": "6274290112704c0237179a91", "name": "King of Prussia",                   "city": "King of Prussia, PA" },
+      { "id": "6453cc9ec5742b0055cb3531", "name": "Limerick",                          "city": "Limerick, PA" },
+      { "id": "627428c500f2d04cdad66a81", "name": "Philadelphia",                      "city": "Philadelphia, PA" },
+      { "id": "6169ba6f97abf100ab976dd6", "name": "Philadelphia – Center City",        "city": "Philadelphia, PA" },
+      { "id": "60d24e689655f600b5ca1bc2", "name": "Philadelphia – Washington Sq West", "city": "Philadelphia, PA" },
+      { "id": "627429962262fd6c7c3dbbb2", "name": "Pittsburgh – Squirrel Hill",        "city": "Pittsburgh, PA" },
+      { "id": "6090306bd43b6e00c28cf0e5", "name": "Pittsburgh – North Shore",          "city": "Pittsburgh, PA" },
+      { "id": "5fcd815e51b1c000ec2f25a3", "name": "Reading",                           "city": "Reading, PA" },
+      { "id": "5fcd8116cf099200b819fd12", "name": "Reading – Fifth",                   "city": "Reading, PA" },
+      { "id": "5fcd8181656f8f00bc07dc8b", "name": "Scranton",                          "city": "Scranton, PA" },
+      { "id": "6272e32719bbdc008a71bb98", "name": "Washington",                        "city": "Washington, PA" },
+      { "id": "609456326bf69800d1533fc2", "name": "Whitehall",                         "city": "Whitehall, PA" },
+      { "id": "667581d71356d84114cfcc05", "name": "Wilkes-Barre",                      "city": "Wilkes-Barre, PA" },
+      { "id": "62742963973a624cc8dad488", "name": "Zelienople",                        "city": "Zelienople, PA" }
+    ]
+  },
+  {
+    "id": "curaleaf",
+    "name": "Curaleaf",
+    "short": "CL",
+    "color": "#0b7f3a",
+    "provider": "curaleaf",
+    "active": true,
+    "stores": [
+      { "id": "145", "name": "Allentown",       "city": "Allentown, PA" },
+      { "id": "146", "name": "Altoona",         "city": "Altoona, PA" },
+      { "id": "148", "name": "Brookville",      "city": "Brookville, PA" },
+      { "id": "149", "name": "DuBois",          "city": "DuBois, PA" },
+      { "id": "150", "name": "Erie",            "city": "Erie, PA" },
+      { "id": "151", "name": "Gettysburg",      "city": "Gettysburg, PA" },
+      { "id": "152", "name": "Greensburg",      "city": "Greensburg, PA" },
+      { "id": "153", "name": "Harrisburg",      "city": "Harrisburg, PA" },
+      { "id": "154", "name": "Horsham",         "city": "Horsham, PA" },
+      { "id": "155", "name": "King of Prussia", "city": "King of Prussia, PA" },
+      { "id": "157", "name": "Lebanon",         "city": "Lebanon, PA" },
+      { "id": "158", "name": "Morton",          "city": "Morton, PA" },
+      { "id": "161", "name": "State College",   "city": "State College, PA" },
+      { "id": "162", "name": "Wayne",           "city": "Wayne, PA" }
+    ]
+  },
+  {
+    "id": "fluent",
+    "name": "Fluent",
+    "short": "FL",
+    "color": "#34c6b4",
+    "provider": "dutchie",
+    "active": true,
+    "stores": [
+      { "id": "68e6d0f5446e7daef4de05ca", "name": "Annville",      "city": "Annville, PA" },
+      { "id": "68e6d2d88566b294860fbcb9", "name": "Hanover",       "city": "Hanover, PA" },
+      { "id": "68e6d351923bd7a68b216b83", "name": "Mechanicsburg", "city": "Mechanicsburg, PA" }
+    ]
+  },
+  {
+    "id": "ethos",
+    "name": "Ethos",
+    "short": "ET",
+    "color": "#e55934",
+    "provider": "dutchie",
+    "active": true,
+    "stores": [
+      { "id": "4bZmK4MfjoypZ8MdN",        "name": "Allentown",              "city": "Allentown, PA" },
+      { "id": "5fad9a6840352500ba68def0", "name": "Hazleton",               "city": "Hazleton, PA" },
+      { "id": "5f2de49198211000abef8b99", "name": "Montgomeryville",        "city": "Montgomeryville, PA" },
+      { "id": "607f5e79490cc600c0d588d1", "name": "Northeast Philadelphia", "city": "Philadelphia, PA" },
+      { "id": "621900cebbc5580e15476deb", "name": "Pittsburgh North",       "city": "Pittsburgh, PA" },
+      { "id": "607dc27bfde18500b5e8dd52", "name": "Pittsburgh South",       "city": "Pittsburgh, PA" },
+      { "id": "5fa0829005bb2400cfc4b694", "name": "Pittsburgh West",        "city": "Pittsburgh, PA" },
+      { "id": "5f4ef2d0b28822768a8a574c", "name": "Wilkes-Barre",           "city": "Wilkes-Barre, PA" }
+    ]
+  },
+  {
+    "id": "ascend",
+    "name": "Ascend",
+    "short": "AS",
+    "color": "#1d3a8c",
+    "provider": "dutchie",
+    "active": true,
+    "stores": [
+      { "id": "66fef50576b5d1b3703a1890", "name": "Cranberry", "city": "Cranberry Township, PA" },
+      { "id": "66fef58038ff55ae0d700b55", "name": "Monaca",    "city": "Monaca, PA" },
+      { "id": "66fef532110068aee1c6b99d", "name": "Scranton",  "city": "Scranton, PA" },
+      { "id": "66fef5589eb852714bc99c0c", "name": "Wayne",     "city": "Wayne, PA" },
+      { "id": "66c371484a1610802761aa4c", "name": "Whitehall", "city": "Whitehall, PA" }
+    ]
+  },
+  {
+    "id": "ayr",
+    "name": "AYR",
+    "short": "AY",
+    "color": "#1a2147",
+    "provider": "dutchie",
+    "active": true,
+    "stores": [
+      { "id": "613a9411f117b000bee2ce2a", "name": "Bryn Mawr",        "city": "Bryn Mawr, PA" },
+      { "id": "5ff8ee358174a300e11a15cb", "name": "Gibsonia",         "city": "Gibsonia, PA" },
+      { "id": "628fbf469d871500ac3100d6", "name": "Indiana",          "city": "Indiana, PA" },
+      { "id": "613a93ed31607800d9de4f18", "name": "Montgomeryville",  "city": "Montgomeryville, PA" },
+      { "id": "5f8dac128397a700d26ff5bd", "name": "New Castle",       "city": "New Castle, PA" },
+      { "id": "5ff8ee158707e300e97eb9ee", "name": "Plymouth Meeting", "city": "Plymouth Meeting, PA" }
+    ]
+  },
+  {
+    "id": "justice",
+    "name": "Justice Grown",
+    "short": "JG",
+    "color": "#0f9b66",
+    "provider": "dutchie",
+    "active": true,
+    "stores": [
+      { "id": "5f07ab86d0b0134ca75fa12b", "name": "Dickson City", "city": "Dickson City, PA" }
+    ]
+  },
+  {
+    "id": "verilife",
+    "name": "Verilife",
+    "short": "VL",
+    "color": "#3c6e71",
+    "provider": "jane",
+    "active": true,
+    "stores": [
+      { "id": "2587", "name": "Chester",          "city": "Chester, PA" },
+      { "id": "3846", "name": "Lancaster",        "city": "Lancaster, PA" },
+      { "id": "3839", "name": "Plymouth Meeting", "city": "Plymouth Meeting, PA" },
+      { "id": "3851", "name": "Pottstown",        "city": "Pottstown, PA" },
+      { "id": "3850", "name": "Quakertown",       "city": "Quakertown, PA" },
+      { "id": "2701", "name": "Shamokin",         "city": "Shamokin, PA" },
+      { "id": "5835", "name": "South Philly",     "city": "Philadelphia, PA" },
+      { "id": "4415", "name": "State College",    "city": "State College, PA" },
+      { "id": "3052", "name": "Williamsport",     "city": "Williamsport, PA" }
+    ]
+  },
+  {
+    "id": "beyond",
+    "name": "Beyond / Hello",
+    "short": "BH",
+    "color": "#d65dd5",
+    "provider": "jane",
+    "active": true,
+    "stores": [
+      { "id": "1852", "name": "Ardmore",              "city": "Ardmore, PA" },
+      { "id": "1132", "name": "Bethlehem",            "city": "Bethlehem, PA" },
+      { "id": "1635", "name": "Bristol",              "city": "Bristol, PA" },
+      { "id": "1115", "name": "Dickson City",         "city": "Dickson City, PA" },
+      { "id": "3298", "name": "Easton",               "city": "Easton, PA" },
+      { "id": "2935", "name": "Irwin",                "city": "Irwin, PA" },
+      { "id": "1638", "name": "Johnstown",            "city": "Johnstown, PA" },
+      { "id": "3299", "name": "Linwood",              "city": "Linwood, PA" },
+      { "id": "3263", "name": "Mount Pocono",         "city": "Mount Pocono, PA" },
+      { "id": "3300", "name": "Philly - Lancaster",   "city": "Philadelphia, PA" },
+      { "id": "1636", "name": "Philly - Center City", "city": "Philadelphia, PA" },
+      { "id": "1637", "name": "Philly - N. Liberties","city": "Philadelphia, PA" },
+      { "id": "3301", "name": "Pittsburgh",           "city": "Pittsburgh, PA" },
+      { "id": "3368", "name": "Pottsville",           "city": "Pottsville, PA" },
+      { "id": "1978", "name": "Reading",              "city": "Reading, PA" },
+      { "id": "1639", "name": "Scranton",             "city": "Scranton, PA" },
+      { "id": "3371", "name": "Stroudsburg",          "city": "Stroudsburg, PA" },
+      { "id": "1640", "name": "West Chester",         "city": "West Chester, PA" }
+    ]
+  }
+]

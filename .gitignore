@@ -1,0 +1,16 @@
+node_modules/
+build-log.txt
+
+# Last-good backup is local-only — used by the builder for regression
+# protection, never shipped to GitHub.
+data/catalog-pa.last-good.json
+
+# Claude Code local settings
+.claude/
+
+# Stray files from mis-typed shell commands
+/node
+/npm
+/set
+/pa-buddy-finder@*
+
