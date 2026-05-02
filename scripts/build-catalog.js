@@ -280,26 +280,6 @@ function dutchieSizeKey(option) {
   return 'each';
 }
 
-const DUTCHIE_EFFECT_TO_TERP = {
-  sleepy:'Myrcene',relaxed:'Myrcene',calm:'Linalool',happy:'Limonene',
-  euphoric:'Limonene',uplifted:'Limonene',energetic:'Terpinolene',
-  creative:'Terpinolene',inspired:'Terpinolene',focused:'Pinene',
-  clearMind:'Pinene',painRelief:'Caryophyllene',
-};
-function dutchieSynthTerps(effects) {
-  if (!effects || typeof effects !== 'object') return [];
-  const byTerp = {};
-  for (const [k, v] of Object.entries(effects)) {
-    if (typeof v !== 'number' || v <= 0) continue;
-    const terp = DUTCHIE_EFFECT_TO_TERP[k];
-    if (!terp) continue;
-    const synth = v / 10;
-    if (!byTerp[terp] || synth > byTerp[terp].value)
-      byTerp[terp] = { name: terp, value: synth, _synthetic: true };
-  }
-  return Object.values(byTerp);
-}
-
 function dutchieTerpName(row) {
   const raw = String(
     (row && (row.name || row.systemName || row.title)) ||
@@ -407,7 +387,7 @@ function dutchieToJaneShape(p) {
     }
   }
   const realTerps = dutchieRealTerps(p);
-  norm._terps = realTerps.length ? realTerps : dutchieSynthTerps(p.effects);
+  norm._terps = realTerps;
   norm._cannabs = [];
   if (Number.isFinite(norm.percent_thc) && norm.percent_thc > 0)
     norm._cannabs.push({ name: 'THC', value: norm.percent_thc });
@@ -1076,58 +1056,80 @@ async function dutchieHydrateOnePage(storeId, rawPairs) {
   });
   if (!needHydration.length) return;
   console.log(`  Hydrating ${needHydration.length} Dutchie products with real terps...`);
-  let done = 0;
+  // Counters so we can see in CI whether IndividualFilteredProduct is reaching us
+  // or being silently blocked by Cloudflare. Previously this loop swallowed every
+  // error and we shipped synthetic terps without anyone noticing.
+  let okWithTerps = 0;
+  let okNoTerps   = 0;
+  let httpErr     = 0;
+  let netErr      = 0;
+  let lastErrMsg  = '';
   await pooled(needHydration, DUTCHIE_DETAIL_CONCURRENCY, async ({ raw, norm }) => {
-    try {
-      const body = {
-        operationName: 'IndividualFilteredProduct',
-        variables: {
-          includeEnterpriseSpecials: false,
-          productsFilter: {
-            cName: raw.cName,
-            dispensaryId: storeId,
-            removeProductsBelowOptionThresholds: false,
-            isKioskMenu: false,
-            bypassKioskThresholds: false,
-            bypassOnlineThresholds: true,
-            Status: 'All',
-            platformType: 'ONLINE_MENU',
-          },
+    const body = {
+      operationName: 'IndividualFilteredProduct',
+      variables: {
+        includeEnterpriseSpecials: false,
+        productsFilter: {
+          cName: raw.cName,
+          dispensaryId: storeId,
+          removeProductsBelowOptionThresholds: false,
+          isKioskMenu: false,
+          bypassKioskThresholds: false,
+          bypassOnlineThresholds: true,
+          Status: 'All',
+          platformType: 'ONLINE_MENU',
         },
-        extensions: { persistedQuery: { version: 1, sha256Hash: DUTCHIE_DETAIL_HASH } },
-      };
-      // Use oracle for detail too, since direct Dutchie has CORS (not relevant in Node, but oracle is faster)
-      let detail = null;
-      try {
-        const dr = await fetchWithTimeout(DUTCHIE_GQL, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json', 'x-apollo-operation-name': 'IndividualFilteredProduct' },
-          body: JSON.stringify(body),
-        }, 30_000);
-        if (dr.ok) {
-          const dj = await dr.json();
-          const fp = dj?.data?.filteredProducts || dj?.filteredProducts;
-          detail = (fp?.products || [])[0] || null;
-        }
-      } catch {}
-      if (detail) {
-        const realTerps = dutchieRealTerps(detail);
-        if (realTerps.length) {
-          norm._terps = realTerps;
-          norm._totalTerps = realTerps.reduce((s, t) => s + (Number(t.value)||0), 0);
-          norm.lab_results = [{ lab_results: [
-            ...realTerps.map(t => ({ unit_id: t.name, value: t.value })),
-            ...(norm._cannabs||[]).map(c => ({ unit_id: c.name, value: c.value })),
-          ]}];
-        }
+      },
+      extensions: { persistedQuery: { version: 1, sha256Hash: DUTCHIE_DETAIL_HASH } },
+    };
+    let detail = null;
+    try {
+      const dr = await fetchWithTimeout(DUTCHIE_GQL, {
+        method: 'POST',
+        headers: {
+          ...BROWSER_HEADERS,
+          'Content-Type':            'application/json',
+          'x-apollo-operation-name': 'IndividualFilteredProduct',
+          'Origin':                  'https://dutchie.com',
+          'Referer':                 'https://dutchie.com/',
+        },
+        body: JSON.stringify(body),
+      }, 30_000);
+      if (!dr.ok) {
+        httpErr++;
+        lastErrMsg = `HTTP ${dr.status}`;
+      } else {
+        const dj = await dr.json();
+        const fp = dj?.data?.filteredProducts || dj?.filteredProducts;
+        detail = (fp?.products || [])[0] || null;
       }
-      done++;
-      if (done % 20 === 0) process.stdout.write(`  ...${done}/${needHydration.length} hydrated\r`);
     } catch (err) {
-      // Individual hydration failures are non-fatal.
+      netErr++;
+      lastErrMsg = err.message || String(err);
+    }
+    if (detail) {
+      const realTerps = dutchieRealTerps(detail);
+      if (realTerps.length) {
+        okWithTerps++;
+        norm._terps = realTerps;
+        norm._totalTerps = realTerps.reduce((s, t) => s + (Number(t.value)||0), 0);
+        norm.lab_results = [{ lab_results: [
+          ...realTerps.map(t => ({ unit_id: t.name, value: t.value })),
+          ...(norm._cannabs||[]).map(c => ({ unit_id: c.name, value: c.value })),
+        ]}];
+      } else {
+        okNoTerps++;
+      }
     }
   });
-  if (done > 0) process.stdout.write('\n');
+  const total = needHydration.length;
+  console.log(
+    `  Hydrate result for ${storeId}: ${okWithTerps}/${total} got real terps` +
+    (okNoTerps ? `, ${okNoTerps} responded without terps` : '') +
+    (httpErr   ? `, ${httpErr} HTTP errors`               : '') +
+    (netErr    ? `, ${netErr} network errors`             : '') +
+    (lastErrMsg ? ` (last: ${lastErrMsg})`                : '')
+  );
 }
 
 async function dutchieAdapter(storeId) {
