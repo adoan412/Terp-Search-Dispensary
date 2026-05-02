@@ -10318,7 +10318,10 @@ function dutchieToJaneShape(p) {
   }
 
   const realTerps = dutchieRealTerps(p);
-  norm._terps = realTerps.length ? realTerps : dutchieSynthTerps(p.effects);
+  /* Real lab-measured terps only — never fall back to effect-derived
+   * synthetic values. If hydration didn't return per-terp data we'd rather
+   * show "no terp data" than mislead patients with mood-derived numbers. */
+  norm._terps = realTerps;
   norm._cannabs = [];
   if (Number.isFinite(norm.percent_thc) && norm.percent_thc > 0) {
     norm._cannabs.push({ name: 'THC', value: norm.percent_thc });
