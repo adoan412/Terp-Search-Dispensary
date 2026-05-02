@@ -9090,7 +9090,7 @@ const APP_MODE = { SINGLE: 'single', MULTI: 'multi' };
  *   npm run build:catalog
  * Then copy data/ to the GitHub Pages repo and commit.
  * ─────────────────────────────────────────────────────────────── */
-const USE_STATIC_CATALOG = localStorage.getItem('paBuddy_staticCatalog') === '1' || false;
+const USE_STATIC_CATALOG = localStorage.getItem('paBuddy_staticCatalog') === '1' || true;
 const STATIC_CATALOG_URL = '/data/catalog-pa.json';
 
 /* Extend state with future multi-store fields. All initial values keep
