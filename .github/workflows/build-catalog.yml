@@ -88,5 +88,6 @@ jobs:
             echo "No catalog changes since last build — skipping commit."
           else
             git commit -m "catalog: automated rebuild $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase origin main
             git push
           fi
