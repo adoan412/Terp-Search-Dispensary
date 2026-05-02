@@ -1,0 +1,91 @@
+name: Build PA Catalog
+
+# Run every day at 10:00 UTC (≈ 6 AM ET / 5 AM CT).
+# Also exposes a "Run workflow" button on the Actions tab for manual triggers.
+on:
+  schedule:
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+
+# Only one build at a time. If a manual run kicks off while the cron is
+# running, GitHub queues it instead of stomping the running build.
+concurrency:
+  group: catalog-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write   # needed to push the rebuilt catalog back to main
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          # The default GITHUB_TOKEN can push back to the same repo with the
+          # contents:write permission above.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build catalog
+        env:
+          DUTCHIE_MODE: proxy_only
+          JANE_MODE: direct
+        run: |
+          node scripts/build-catalog.js | tee build-output.txt
+
+      - name: Show catalog file sizes
+        run: ls -lh data/
+
+      - name: Verify no chunk exceeds GitHub's 100 MB limit
+        run: |
+          set -e
+          fail=0
+          for f in data/catalog-pa-*.json data/catalog-pa.json; do
+            [ -f "$f" ] || continue
+            size=$(stat -c%s "$f")
+            limit=104857600  # 100 MB
+            if [ "$size" -gt "$limit" ]; then
+              echo "::error::$f is $size bytes — exceeds GitHub 100 MB limit."
+              fail=1
+            fi
+          done
+          [ "$fail" = 0 ]
+
+      - name: Verify catalog has products
+        run: |
+          # Pull productCount from catalog-meta.json. If it's zero, fail loudly
+          # so the workflow goes red and you get an email.
+          count=$(node -e "console.log(require('./data/catalog-meta.json').productCount || 0)")
+          echo "Catalog product count: $count"
+          if [ "$count" -lt 10000 ]; then
+            echo "::error::Catalog has only $count products — far below the expected ~60k. Likely an API key rotation or provider outage. Check build-output.txt artifact."
+            exit 1
+          fi
+
+      - name: Upload build log on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build-output.txt
+          retention-days: 30
+
+      - name: Commit and push catalog updates
+        run: |
+          git config user.name  "PaBuddy Catalog Bot"
+          git config user.email "bot@pabuddy.org"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No catalog changes since last build — skipping commit."
+          else
+            git commit -m "catalog: automated rebuild $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi
