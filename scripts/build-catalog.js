@@ -64,6 +64,15 @@ const EXPIRES_HOURS = 24;
 // Default is proxy_only because direct returns Cloudflare 403 from server-side Node.
 const DUTCHIE_MODE = (process.env.DUTCHIE_MODE || 'proxy_only').toLowerCase();
 
+// Dutchie per-product detail hydration mode:
+//   oracle  — Route IndividualFilteredProduct calls through Oracle's
+//             /dutchie/product/:storeId/:cName endpoint. Oracle has a residential
+//             IP that Cloudflare allows; GitHub Actions IPs are blocked.
+//   direct  — Call dutchie.com/api-4/graphql directly. Only works from
+//             residential IPs (local laptop). Gets 403 from GitHub Actions.
+// Default oracle. Override with: DUTCHIE_DETAIL_MODE=direct npm run build:catalog
+const DUTCHIE_DETAIL_MODE = (process.env.DUTCHIE_DETAIL_MODE || 'oracle').toLowerCase();
+
 // Jane (iHeartJane) fetch mode:
 //   direct          — Call search.iheartjane.com directly with browser-like headers.
 //   oracle          — Call api.pabuddy.org/menu/jane/<storeId> (requires Oracle Jane route).
@@ -1047,6 +1056,25 @@ async function dutchieDirectFetch(storeId) {
   return all;
 }
 
+async function dutchieOracleDetailFetch(storeId, cName) {
+  const url = `${ORACLE_BASE}/dutchie/product/${encodeURIComponent(storeId)}/${encodeURIComponent(cName)}`;
+  let res;
+  try {
+    res = await fetchWithTimeout(url);
+  } catch (netErr) {
+    throw new Error(`Oracle detail network error → ${url} → ${netErr.message}`);
+  }
+  if (!res.ok) {
+    const snippet = await readBodySnippet(res);
+    const err = new Error(`Oracle detail HTTP ${res.status} → ${url} | body: ${snippet}`);
+    if ([401, 403, 404, 410].includes(res.status)) err._fatal = true;
+    throw err;
+  }
+  const json = await res.json();
+  // Oracle wraps the product in { data: { product: {...} } }
+  return json?.data?.product || null;
+}
+
 async function dutchieHydrateOnePage(storeId, rawPairs) {
   // Enrich products that have totalTerpenes but no per-terp data via IndividualFilteredProduct.
   const needHydration = rawPairs.filter(({ raw }) => {
@@ -1065,43 +1093,50 @@ async function dutchieHydrateOnePage(storeId, rawPairs) {
   let netErr      = 0;
   let lastErrMsg  = '';
   await pooled(needHydration, DUTCHIE_DETAIL_CONCURRENCY, async ({ raw, norm }) => {
-    const body = {
-      operationName: 'IndividualFilteredProduct',
-      variables: {
-        includeEnterpriseSpecials: false,
-        productsFilter: {
-          cName: raw.cName,
-          dispensaryId: storeId,
-          removeProductsBelowOptionThresholds: false,
-          isKioskMenu: false,
-          bypassKioskThresholds: false,
-          bypassOnlineThresholds: true,
-          Status: 'All',
-          platformType: 'ONLINE_MENU',
-        },
-      },
-      extensions: { persistedQuery: { version: 1, sha256Hash: DUTCHIE_DETAIL_HASH } },
-    };
     let detail = null;
     try {
-      const dr = await fetchWithTimeout(DUTCHIE_GQL, {
-        method: 'POST',
-        headers: {
-          ...BROWSER_HEADERS,
-          'Content-Type':            'application/json',
-          'x-apollo-operation-name': 'IndividualFilteredProduct',
-          'Origin':                  'https://dutchie.com',
-          'Referer':                 'https://dutchie.com/',
-        },
-        body: JSON.stringify(body),
-      }, 30_000);
-      if (!dr.ok) {
-        httpErr++;
-        lastErrMsg = `HTTP ${dr.status}`;
+      if (DUTCHIE_DETAIL_MODE === 'oracle') {
+        // Route through Oracle so requests come from a residential IP, not
+        // GitHub Actions — Cloudflare blocks Actions IPs on direct calls.
+        detail = await dutchieOracleDetailFetch(storeId, raw.cName);
       } else {
-        const dj = await dr.json();
-        const fp = dj?.data?.filteredProducts || dj?.filteredProducts;
-        detail = (fp?.products || [])[0] || null;
+        // Direct Dutchie GraphQL — only works from residential IPs.
+        const body = {
+          operationName: 'IndividualFilteredProduct',
+          variables: {
+            includeEnterpriseSpecials: false,
+            productsFilter: {
+              cName: raw.cName,
+              dispensaryId: storeId,
+              removeProductsBelowOptionThresholds: false,
+              isKioskMenu: false,
+              bypassKioskThresholds: false,
+              bypassOnlineThresholds: true,
+              Status: 'All',
+              platformType: 'ONLINE_MENU',
+            },
+          },
+          extensions: { persistedQuery: { version: 1, sha256Hash: DUTCHIE_DETAIL_HASH } },
+        };
+        const dr = await fetchWithTimeout(DUTCHIE_GQL, {
+          method: 'POST',
+          headers: {
+            ...BROWSER_HEADERS,
+            'Content-Type':            'application/json',
+            'x-apollo-operation-name': 'IndividualFilteredProduct',
+            'Origin':                  'https://dutchie.com',
+            'Referer':                 'https://dutchie.com/',
+          },
+          body: JSON.stringify(body),
+        }, 30_000);
+        if (!dr.ok) {
+          httpErr++;
+          lastErrMsg = `HTTP ${dr.status}`;
+        } else {
+          const dj = await dr.json();
+          const fp = dj?.data?.filteredProducts || dj?.filteredProducts;
+          detail = (fp?.products || [])[0] || null;
+        }
       }
     } catch (err) {
       netErr++;

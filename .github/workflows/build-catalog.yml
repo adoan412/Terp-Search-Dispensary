@@ -36,7 +36,8 @@ jobs:
 
       - name: Build catalog
         env:
-          DUTCHIE_MODE: proxy_then_direct   # try Oracle first, fall back to direct dutchie.com
+          DUTCHIE_MODE: proxy_then_direct      # try Oracle first, fall back to direct dutchie.com
+          DUTCHIE_DETAIL_MODE: oracle          # hydration via Oracle (residential IP bypasses Cloudflare)
           JANE_MODE: direct
         run: |
           node scripts/build-catalog.js | tee build-output.txt
