@@ -1,10 +1,10 @@
 name: Build PA Catalog
 
-# Run every day at 10:00 UTC (≈ 6 AM ET / 5 AM CT).
+# Run every hour.
 # Also exposes a "Run workflow" button on the Actions tab for manual triggers.
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 */1 * * *'
   workflow_dispatch:
 
 # Only one build at a time. If a manual run kicks off while the cron is
