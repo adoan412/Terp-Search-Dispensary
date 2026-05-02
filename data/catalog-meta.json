@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-02T07:40:32.908Z",
-  "expiresAt": "2026-05-03T07:40:32.908Z",
-  "productCount": 62185,
+  "generatedAt": "2026-05-02T09:38:10.856Z",
+  "expiresAt": "2026-05-03T09:38:10.856Z",
+  "productCount": 62177,
   "storeCount": 80,
   "providerCount": 3,
   "failedStoreCount": 49,
@@ -13,7 +13,7 @@
       "storeId": "5e9491bc8c76410099c8fa05",
       "storeName": "Aliquippa",
       "city": "Aliquippa, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5e9491bc8c76410099c8fa05 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5e9491bc8c76410099c8fa05 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "liberty",
@@ -22,7 +22,7 @@
       "storeId": "3TJq5LSGc9j76WKx4",
       "storeName": "Bensalem",
       "city": "Bensalem, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/3TJq5LSGc9j76WKx4 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/3TJq5LSGc9j76WKx4 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "liberty",
@@ -31,7 +31,7 @@
       "storeId": "60523818a6b5d500e0fb2e31",
       "storeName": "Cranberry",
       "city": "Cranberry Township, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/60523818a6b5d500e0fb2e31 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/60523818a6b5d500e0fb2e31 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "liberty",
@@ -40,7 +40,7 @@
       "storeId": "Tfr3uEztEfzqLT2xB",
       "storeName": "Norristown",
       "city": "Norristown, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/Tfr3uEztEfzqLT2xB → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/Tfr3uEztEfzqLT2xB → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "liberty",
@@ -49,7 +49,7 @@
       "storeId": "27eaLRYjHyMPZqigT",
       "storeName": "Philadelphia",
       "city": "Philadelphia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/27eaLRYjHyMPZqigT → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/27eaLRYjHyMPZqigT → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "liberty",
@@ -58,7 +58,7 @@
       "storeId": "63dab2d8ab202100548dbaf5",
       "storeName": "Pittsburgh",
       "city": "Pittsburgh, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/63dab2d8ab202100548dbaf5 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/63dab2d8ab202100548dbaf5 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -67,7 +67,7 @@
       "storeId": "5fcd803c0d0a250106ded129",
       "storeName": "Camp Hill",
       "city": "Camp Hill, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd803c0d0a250106ded129 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd803c0d0a250106ded129 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -76,7 +76,7 @@
       "storeId": "628414ba169240008cb1b334",
       "storeName": "Coatesville",
       "city": "Coatesville, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/628414ba169240008cb1b334 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/628414ba169240008cb1b334 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -85,7 +85,7 @@
       "storeId": "5fcd8074fa3cf100cb2b7098",
       "storeName": "Cranberry Township",
       "city": "Cranberry Township, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd8074fa3cf100cb2b7098 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd8074fa3cf100cb2b7098 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -94,7 +94,7 @@
       "storeId": "5ed197666ccfd20132a5d574",
       "storeName": "East York",
       "city": "East York, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5ed197666ccfd20132a5d574 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5ed197666ccfd20132a5d574 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -103,7 +103,7 @@
       "storeId": "5fcd8098bdf7ed00ebdb7320",
       "storeName": "Harrisburg",
       "city": "Harrisburg, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd8098bdf7ed00ebdb7320 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd8098bdf7ed00ebdb7320 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -112,7 +112,7 @@
       "storeId": "5fcd80bede6523010411865e",
       "storeName": "Johnstown",
       "city": "Johnstown, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd80bede6523010411865e → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd80bede6523010411865e → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -121,7 +121,7 @@
       "storeId": "6274290112704c0237179a91",
       "storeName": "King of Prussia",
       "city": "King of Prussia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/6274290112704c0237179a91 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/6274290112704c0237179a91 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -130,7 +130,7 @@
       "storeId": "6453cc9ec5742b0055cb3531",
       "storeName": "Limerick",
       "city": "Limerick, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/6453cc9ec5742b0055cb3531 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/6453cc9ec5742b0055cb3531 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -139,7 +139,7 @@
       "storeId": "627428c500f2d04cdad66a81",
       "storeName": "Philadelphia",
       "city": "Philadelphia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/627428c500f2d04cdad66a81 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/627428c500f2d04cdad66a81 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -148,7 +148,7 @@
       "storeId": "6169ba6f97abf100ab976dd6",
       "storeName": "Philadelphia – Center City",
       "city": "Philadelphia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/6169ba6f97abf100ab976dd6 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/6169ba6f97abf100ab976dd6 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -157,7 +157,7 @@
       "storeId": "60d24e689655f600b5ca1bc2",
       "storeName": "Philadelphia – Washington Sq West",
       "city": "Philadelphia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/60d24e689655f600b5ca1bc2 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/60d24e689655f600b5ca1bc2 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -166,7 +166,7 @@
       "storeId": "627429962262fd6c7c3dbbb2",
       "storeName": "Pittsburgh – Squirrel Hill",
       "city": "Pittsburgh, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/627429962262fd6c7c3dbbb2 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/627429962262fd6c7c3dbbb2 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -175,7 +175,7 @@
       "storeId": "6090306bd43b6e00c28cf0e5",
       "storeName": "Pittsburgh – North Shore",
       "city": "Pittsburgh, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/6090306bd43b6e00c28cf0e5 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/6090306bd43b6e00c28cf0e5 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -184,7 +184,7 @@
       "storeId": "5fcd815e51b1c000ec2f25a3",
       "storeName": "Reading",
       "city": "Reading, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd815e51b1c000ec2f25a3 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd815e51b1c000ec2f25a3 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -193,7 +193,7 @@
       "storeId": "5fcd8116cf099200b819fd12",
       "storeName": "Reading – Fifth",
       "city": "Reading, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd8116cf099200b819fd12 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd8116cf099200b819fd12 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -202,7 +202,7 @@
       "storeId": "5fcd8181656f8f00bc07dc8b",
       "storeName": "Scranton",
       "city": "Scranton, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd8181656f8f00bc07dc8b → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fcd8181656f8f00bc07dc8b → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -211,7 +211,7 @@
       "storeId": "6272e32719bbdc008a71bb98",
       "storeName": "Washington",
       "city": "Washington, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/6272e32719bbdc008a71bb98 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/6272e32719bbdc008a71bb98 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -220,7 +220,7 @@
       "storeId": "609456326bf69800d1533fc2",
       "storeName": "Whitehall",
       "city": "Whitehall, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/609456326bf69800d1533fc2 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/609456326bf69800d1533fc2 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -229,7 +229,7 @@
       "storeId": "667581d71356d84114cfcc05",
       "storeName": "Wilkes-Barre",
       "city": "Wilkes-Barre, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/667581d71356d84114cfcc05 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/667581d71356d84114cfcc05 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -238,7 +238,7 @@
       "storeId": "62742963973a624cc8dad488",
       "storeName": "Zelienople",
       "city": "Zelienople, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/62742963973a624cc8dad488 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/62742963973a624cc8dad488 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "fluent",
@@ -247,7 +247,7 @@
       "storeId": "68e6d0f5446e7daef4de05ca",
       "storeName": "Annville",
       "city": "Annville, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/68e6d0f5446e7daef4de05ca → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/68e6d0f5446e7daef4de05ca → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "fluent",
@@ -256,7 +256,7 @@
       "storeId": "68e6d2d88566b294860fbcb9",
       "storeName": "Hanover",
       "city": "Hanover, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/68e6d2d88566b294860fbcb9 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/68e6d2d88566b294860fbcb9 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "fluent",
@@ -265,7 +265,7 @@
       "storeId": "68e6d351923bd7a68b216b83",
       "storeName": "Mechanicsburg",
       "city": "Mechanicsburg, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/68e6d351923bd7a68b216b83 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/68e6d351923bd7a68b216b83 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -274,7 +274,7 @@
       "storeId": "4bZmK4MfjoypZ8MdN",
       "storeName": "Allentown",
       "city": "Allentown, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/4bZmK4MfjoypZ8MdN → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/4bZmK4MfjoypZ8MdN → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -283,7 +283,7 @@
       "storeId": "5fad9a6840352500ba68def0",
       "storeName": "Hazleton",
       "city": "Hazleton, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fad9a6840352500ba68def0 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fad9a6840352500ba68def0 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -292,7 +292,7 @@
       "storeId": "5f2de49198211000abef8b99",
       "storeName": "Montgomeryville",
       "city": "Montgomeryville, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5f2de49198211000abef8b99 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5f2de49198211000abef8b99 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -301,7 +301,7 @@
       "storeId": "607f5e79490cc600c0d588d1",
       "storeName": "Northeast Philadelphia",
       "city": "Philadelphia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/607f5e79490cc600c0d588d1 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/607f5e79490cc600c0d588d1 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -310,7 +310,7 @@
       "storeId": "621900cebbc5580e15476deb",
       "storeName": "Pittsburgh North",
       "city": "Pittsburgh, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/621900cebbc5580e15476deb → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/621900cebbc5580e15476deb → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -319,7 +319,7 @@
       "storeId": "607dc27bfde18500b5e8dd52",
       "storeName": "Pittsburgh South",
       "city": "Pittsburgh, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/607dc27bfde18500b5e8dd52 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/607dc27bfde18500b5e8dd52 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -328,7 +328,7 @@
       "storeId": "5fa0829005bb2400cfc4b694",
       "storeName": "Pittsburgh West",
       "city": "Pittsburgh, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5fa0829005bb2400cfc4b694 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5fa0829005bb2400cfc4b694 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -337,7 +337,7 @@
       "storeId": "5f4ef2d0b28822768a8a574c",
       "storeName": "Wilkes-Barre",
       "city": "Wilkes-Barre, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5f4ef2d0b28822768a8a574c → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5f4ef2d0b28822768a8a574c → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ascend",
@@ -346,7 +346,7 @@
       "storeId": "66fef50576b5d1b3703a1890",
       "storeName": "Cranberry",
       "city": "Cranberry Township, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/66fef50576b5d1b3703a1890 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/66fef50576b5d1b3703a1890 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ascend",
@@ -355,7 +355,7 @@
       "storeId": "66fef58038ff55ae0d700b55",
       "storeName": "Monaca",
       "city": "Monaca, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/66fef58038ff55ae0d700b55 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/66fef58038ff55ae0d700b55 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ascend",
@@ -364,7 +364,7 @@
       "storeId": "66fef532110068aee1c6b99d",
       "storeName": "Scranton",
       "city": "Scranton, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/66fef532110068aee1c6b99d → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/66fef532110068aee1c6b99d → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ascend",
@@ -373,7 +373,7 @@
       "storeId": "66fef5589eb852714bc99c0c",
       "storeName": "Wayne",
       "city": "Wayne, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/66fef5589eb852714bc99c0c → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/66fef5589eb852714bc99c0c → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ascend",
@@ -382,7 +382,7 @@
       "storeId": "66c371484a1610802761aa4c",
       "storeName": "Whitehall",
       "city": "Whitehall, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/66c371484a1610802761aa4c → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/66c371484a1610802761aa4c → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ayr",
@@ -391,7 +391,7 @@
       "storeId": "613a9411f117b000bee2ce2a",
       "storeName": "Bryn Mawr",
       "city": "Bryn Mawr, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/613a9411f117b000bee2ce2a → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/613a9411f117b000bee2ce2a → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ayr",
@@ -400,7 +400,7 @@
       "storeId": "5ff8ee358174a300e11a15cb",
       "storeName": "Gibsonia",
       "city": "Gibsonia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5ff8ee358174a300e11a15cb → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5ff8ee358174a300e11a15cb → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ayr",
@@ -409,7 +409,7 @@
       "storeId": "628fbf469d871500ac3100d6",
       "storeName": "Indiana",
       "city": "Indiana, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/628fbf469d871500ac3100d6 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/628fbf469d871500ac3100d6 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ayr",
@@ -418,7 +418,7 @@
       "storeId": "613a93ed31607800d9de4f18",
       "storeName": "Montgomeryville",
       "city": "Montgomeryville, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/613a93ed31607800d9de4f18 → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/613a93ed31607800d9de4f18 → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ayr",
@@ -427,7 +427,7 @@
       "storeId": "5f8dac128397a700d26ff5bd",
       "storeName": "New Castle",
       "city": "New Castle, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5f8dac128397a700d26ff5bd → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5f8dac128397a700d26ff5bd → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ayr",
@@ -436,7 +436,7 @@
       "storeId": "5ff8ee158707e300e97eb9ee",
       "storeName": "Plymouth Meeting",
       "city": "Plymouth Meeting, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5ff8ee158707e300e97eb9ee → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5ff8ee158707e300e97eb9ee → fetch failed); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "justice",
@@ -445,7 +445,7 @@
       "storeId": "5f07ab86d0b0134ca75fa12b",
       "storeName": "Dickson City",
       "city": "Dickson City, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable: Oracle network error → https://api.pabuddy.org/menu/dutchie/5f07ab86d0b0134ca75fa12b → fetch failed"
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5f07ab86d0b0134ca75fa12b → fetch failed); direct returned Dutchie direct HTTP 403."
     }
   ],
   "catalogPath": "data/catalog-pa.json"
