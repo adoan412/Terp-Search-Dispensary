@@ -36,7 +36,7 @@ jobs:
 
       - name: Build catalog
         env:
-          DUTCHIE_MODE: proxy_only
+          DUTCHIE_MODE: proxy_then_direct   # try Oracle first, fall back to direct dutchie.com
           JANE_MODE: direct
         run: |
           node scripts/build-catalog.js | tee build-output.txt
