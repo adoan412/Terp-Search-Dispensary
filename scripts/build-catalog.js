@@ -43,12 +43,14 @@ const DUTCHIE_DETAIL_HASH = '88b78e23cc1bf3985e10ff257600aac2824deabc6831dba71dc
 const KINDS = ['flower','vape','extract','edible','tincture','topical','gear'];
 const SIZE_KEYS = ['each','half_gram','gram','eighth_ounce','two_gram','four_point_five_gram','quarter_ounce','half_ounce','ounce'];
 
-// How many stores to fetch at once (across all providers).
+// How many non-Dutchie stores to fetch at once.
 const STORE_CONCURRENCY  = 4;
+// Max concurrent Dutchie store fetches (kept low to avoid overwhelming Oracle/8787).
+const DUTCHIE_STORE_CONCURRENCY = 2;
 // Max concurrent Dutchie detail-hydration requests per store.
 const DUTCHIE_DETAIL_CONCURRENCY = 5;
-// Stagger between Dutchie top-level fetches (ms) to reduce rate-limit risk.
-const DUTCHIE_STAGGER_MS = 500;
+// Stagger between Dutchie top-level fetches (ms) — larger gap reduces Cloudflare rate-limit risk.
+const DUTCHIE_STAGGER_MS = 2000;
 // Retry delays in ms (3 attempts).
 const RETRY_DELAYS  = [4000, 12000, 30000];
 // Request timeout per attempt (ms).
@@ -1574,11 +1576,23 @@ async function buildCatalog() {
 
   ensureDataDir();
 
+  // Load last-good catalog now so we can recover stale products for stores that fail.
+  const lastGoodForStale = loadLastGood();
+  const prevStoreProducts = new Map();
+  if (lastGoodForStale && Array.isArray(lastGoodForStale.products)) {
+    for (const p of lastGoodForStale.products) {
+      const k = `${p.sourceProvider}:${p.sourceStoreId}`;
+      if (!prevStoreProducts.has(k)) prevStoreProducts.set(k, []);
+      prevStoreProducts.get(k).push(p);
+    }
+    console.log(`[stale] Previous catalog loaded: ${prevStoreProducts.size} store keys available for fallback.\n`);
+  }
+
   const brands = loadStoreConfig();
   const jobs   = buildStoreJobs(brands);
   console.log(`Stores to fetch: ${jobs.length} across ${brands.filter(b => b.active).length} brands\n`);
 
-  // Stagger Dutchie jobs slightly to reduce rate-limit pressure.
+  // Stagger Dutchie jobs to spread Oracle/8787 load and reduce Cloudflare rate-limit risk.
   let dutchieDelay = 0;
   for (const j of jobs) {
     if (j.provider === 'dutchie') {
@@ -1593,7 +1607,7 @@ async function buildCatalog() {
   const failedStores  = [];
   const allProducts   = [];
 
-  await pooled(jobs, STORE_CONCURRENCY, async (job) => {
+  const storeHandler = async (job) => {
     if (job._delay) await sleep(job._delay);
     try {
       const products = await withRetry(() => fetchStore(job), `${job.brandName}/${job.storeName}`);
@@ -1614,12 +1628,45 @@ async function buildCatalog() {
       console.error(`  FAILED: ${job.brandName}/${job.storeName} — ${err.message}`);
       failedStores.push({ ...job, error: err.message });
     }
-  });
+  };
+
+  // Run Dutchie stores at reduced concurrency (protects Oracle/8787 from burst load),
+  // while non-Dutchie providers run at full concurrency in parallel.
+  const dutchieJobs = jobs.filter(j => j.provider === 'dutchie');
+  const otherJobs   = jobs.filter(j => j.provider !== 'dutchie');
+  await Promise.all([
+    pooled(dutchieJobs, DUTCHIE_STORE_CONCURRENCY, storeHandler),
+    pooled(otherJobs,   STORE_CONCURRENCY,          storeHandler),
+  ]);
+
+  // For stores that failed this run, fall back to last-good products tagged as stale.
+  const staleStores = [];
+  for (const fEntry of failedStores) {
+    const k = `${fEntry.provider}:${fEntry.storeId}`;
+    const prev = prevStoreProducts.get(k);
+    if (prev && prev.length > 0) {
+      const staledAt = prev[0].fetchedAt || null;
+      allProducts.push(...prev.map(p => ({ ...p, _stale: true, _staledAt: staledAt })));
+      staleStores.push({
+        brandId: fEntry.brandId, brandName: fEntry.brandName,
+        provider: fEntry.provider, storeId: fEntry.storeId,
+        storeName: fEntry.storeName, city: fEntry.city, storeKey: fEntry.storeKey,
+        staleSince: staledAt, productCount: prev.length, error: fEntry.error,
+      });
+      console.log(`  [stale] ${fEntry.brandName}/${fEntry.storeName}: recovered ${prev.length} products from ${staledAt ? staledAt.slice(0, 10) : 'previous build'}`);
+    }
+  }
+  if (staleStores.length) {
+    console.log(`[stale] Recovered ${staleStores.length} store(s) via stale fallback.\n`);
+  }
+
+  const trulyFailedStores = failedStores.filter(s => !staleStores.some(st => st.storeId === s.storeId));
 
   console.log(`\n========== Build Summary ==========`);
   console.log(`Total stores attempted: ${jobs.length}`);
   console.log(`Successful stores:      ${successStores.length}`);
-  console.log(`Failed stores:          ${failedStores.length}`);
+  console.log(`Stale fallback stores:  ${staleStores.length}`);
+  console.log(`Failed stores:          ${trulyFailedStores.length}`);
   console.log(`Total products:         ${allProducts.length}`);
 
   // Per-provider breakdown.
@@ -1661,17 +1708,19 @@ async function buildCatalog() {
   const expiresAt = new Date(now.getTime() + EXPIRES_HOURS * 3600_000).toISOString();
 
   // Gather provider and store summaries.
-  const providerSet = new Set(successStores.map(s => s.provider));
-  const storeList   = successStores.map(s => ({
-    brandId:   s.brandId,
-    brandName: s.brandName,
-    provider:  s.provider,
-    storeId:   s.storeId,
-    storeName: s.storeName,
-    city:      s.city,
-    storeKey:  s.storeKey,
-    productCount: s.productCount,
-  }));
+  const providerSet = new Set([...successStores, ...staleStores].map(s => s.provider));
+  const storeList   = [
+    ...successStores.map(s => ({
+      brandId: s.brandId, brandName: s.brandName, provider: s.provider,
+      storeId: s.storeId, storeName: s.storeName, city: s.city,
+      storeKey: s.storeKey, productCount: s.productCount,
+    })),
+    ...staleStores.map(s => ({
+      brandId: s.brandId, brandName: s.brandName, provider: s.provider,
+      storeId: s.storeId, storeName: s.storeName, city: s.city,
+      storeKey: s.storeKey, productCount: s.productCount, stale: true,
+    })),
+  ];
 
   const catalog = {
     version:     '1',
@@ -1681,21 +1730,29 @@ async function buildCatalog() {
     providers:   [...providerSet],
     stores:      storeList,
     products:    allProducts,
-    failedStores: failedStores.map(s => ({
+    staleStores: staleStores.map(s => ({
+      brandId: s.brandId, brandName: s.brandName, provider: s.provider,
+      storeId: s.storeId, storeName: s.storeName, city: s.city,
+      staleSince: s.staleSince, productCount: s.productCount,
+    })),
+    failedStores: trulyFailedStores.map(s => ({
       brandId: s.brandId, brandName: s.brandName, provider: s.provider,
       storeId: s.storeId, storeName: s.storeName, city: s.city, error: s.error,
     })),
   };
 
   const meta = {
-    generatedAt:       now.toISOString(),
+    generatedAt:        now.toISOString(),
     expiresAt,
-    productCount:      allProducts.length,
-    storeCount:        successStores.length,
-    providerCount:     providerSet.size,
-    failedStoreCount:  failedStores.length,
-    failedStores:      catalog.failedStores,
-    catalogPath:       'data/catalog-pa.json',
+    productCount:       allProducts.length,
+    storeCount:         successStores.length + staleStores.length,
+    freshStoreCount:    successStores.length,
+    staleStoreCount:    staleStores.length,
+    providerCount:      providerSet.size,
+    failedStoreCount:   trulyFailedStores.length,
+    staleStores:        catalog.staleStores,
+    failedStores:       catalog.failedStores,
+    catalogPath:        'data/catalog-pa.json',
   };
 
   // Catalog is split into one file per provider so no single file exceeds
@@ -1739,6 +1796,7 @@ async function buildCatalog() {
       providerFiles,
       productCount:  (payload.products || []).length,
       stores:        payload.stores,
+      staleStores:   payload.staleStores || [],
       failedStores:  payload.failedStores,
     };
     const indexJson = JSON.stringify(index, null, 2);
@@ -1791,9 +1849,13 @@ async function buildCatalog() {
   if (usingLastGood) console.log(`  (preserved from last good build)`);
   console.log(`\nFinished: ${new Date().toISOString()}`);
   console.log(`\nNext step: copy data/ folder to your GitHub Pages repo and commit.`);
-  if (failedStores.length) {
-    console.log(`\nFull failed-store list (also saved to catalog-meta.json failedStores):`);
-    for (const s of failedStores) console.log(`  - [${s.provider}] ${s.brandName}/${s.storeName}: ${s.error}`);
+  if (staleStores.length) {
+    console.log(`\nStale stores (serving last-good data, also in catalog-meta.json staleStores):`);
+    for (const s of staleStores) console.log(`  ~ [${s.provider}] ${s.brandName}/${s.storeName} (${s.productCount} products, stale since ${s.staleSince ? s.staleSince.slice(0, 10) : '?'})`);
+  }
+  if (trulyFailedStores.length) {
+    console.log(`\nCompletely failed stores (no stale fallback, also in catalog-meta.json failedStores):`);
+    for (const s of trulyFailedStores) console.log(`  - [${s.provider}] ${s.brandName}/${s.storeName}: ${s.error}`);
   }
 }
 
