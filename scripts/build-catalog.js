@@ -58,22 +58,29 @@ const FETCH_TIMEOUT = 90_000;
 // Catalog freshness window (hours).
 const EXPIRES_HOURS = 24;
 
+// Detect whether we are running inside GitHub Actions.
+const IS_CI = !!process.env.GITHUB_ACTIONS;
+
 // Dutchie fetch mode:
 //   proxy_only        — Oracle only. Fail fast if Oracle is down.
-//   direct_only       — Direct dutchie.com GraphQL only. Will likely 403 from Node.
-//   proxy_then_direct — Try Oracle, fall back to direct on Oracle errors.
+//   direct_only       — Direct dutchie.com GraphQL. Works from residential IPs.
+//   proxy_then_direct — Try Oracle first, fall back to direct on Oracle errors.
+// Defaults: CI → proxy_then_direct (GitHub Actions IPs are Cloudflare-blocked),
+//           local → direct_only (residential IP bypasses Cloudflare natively).
 // Override with env var: DUTCHIE_MODE=proxy_only npm run build:catalog
-// Default is proxy_only because direct returns Cloudflare 403 from server-side Node.
-const DUTCHIE_MODE = (process.env.DUTCHIE_MODE || 'proxy_only').toLowerCase();
+const DUTCHIE_MODE = process.env.DUTCHIE_MODE
+  ? process.env.DUTCHIE_MODE.toLowerCase()
+  : (IS_CI ? 'proxy_then_direct' : 'direct_only');
 
 // Dutchie per-product detail hydration mode:
-//   oracle  — Route IndividualFilteredProduct calls through Oracle's
-//             /dutchie/product/:storeId/:cName endpoint. Oracle has a residential
-//             IP that Cloudflare allows; GitHub Actions IPs are blocked.
-//   direct  — Call dutchie.com/api-4/graphql directly. Only works from
-//             residential IPs (local laptop). Gets 403 from GitHub Actions.
-// Default oracle. Override with: DUTCHIE_DETAIL_MODE=direct npm run build:catalog
-const DUTCHIE_DETAIL_MODE = (process.env.DUTCHIE_DETAIL_MODE || 'oracle').toLowerCase();
+//   oracle  — Route through Oracle's /dutchie/product/:storeId/:cName.
+//             Required when running on GitHub Actions (server IP blocked by Cloudflare).
+//   direct  — Call dutchie.com/api-4/graphql directly. Only works from residential IPs.
+// Defaults: CI → oracle, local → direct.
+// Override with: DUTCHIE_DETAIL_MODE=direct npm run build:catalog
+const DUTCHIE_DETAIL_MODE = process.env.DUTCHIE_DETAIL_MODE
+  ? process.env.DUTCHIE_DETAIL_MODE.toLowerCase()
+  : (IS_CI ? 'oracle' : 'direct');
 
 // Jane (iHeartJane) fetch mode:
 //   direct          — Call search.iheartjane.com directly with browser-like headers.
@@ -1581,17 +1588,26 @@ async function buildCatalog() {
 
   ensureDataDir();
 
-  // Load last-good catalog now so we can recover stale products for stores that fail.
-  const lastGoodForStale = loadLastGood();
+  // Build a stale-product map from the previously-committed provider chunk files.
+  // catalog-pa.last-good.json is gitignored so it's not available in CI;
+  // the per-provider chunks are committed every build and survive checkout.
   const prevStoreProducts = new Map();
-  if (lastGoodForStale && Array.isArray(lastGoodForStale.products)) {
-    for (const p of lastGoodForStale.products) {
-      const k = `${p.sourceProvider}:${p.sourceStoreId}`;
-      if (!prevStoreProducts.has(k)) prevStoreProducts.set(k, []);
-      prevStoreProducts.get(k).push(p);
-    }
-    console.log(`[stale] Previous catalog loaded: ${prevStoreProducts.size} store keys available for fallback.\n`);
+  const CHUNK_FILES = ['catalog-pa-dutchie.json','catalog-pa-jane.json',
+                       'catalog-pa-hytiva.json','catalog-pa-curaleaf.json'];
+  for (const fname of CHUNK_FILES) {
+    const fpath = path.join(DATA_DIR, fname);
+    try {
+      if (!fs.existsSync(fpath)) continue;
+      const products = JSON.parse(fs.readFileSync(fpath, 'utf8'));
+      for (const p of products) {
+        const k = `${p.sourceProvider}:${p.sourceStoreId}`;
+        if (!prevStoreProducts.has(k)) prevStoreProducts.set(k, []);
+        prevStoreProducts.get(k).push(p);
+      }
+    } catch { /* chunk missing or unreadable — skip */ }
   }
+  if (prevStoreProducts.size > 0)
+    console.log(`[stale] Loaded ${prevStoreProducts.size} store keys from previous chunks for stale fallback.\n`);
 
   const brands = loadStoreConfig();
   const jobs   = buildStoreJobs(brands);
