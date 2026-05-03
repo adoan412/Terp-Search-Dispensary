@@ -4,7 +4,7 @@ name: Build PA Catalog
 # Also exposes a "Run workflow" button on the Actions tab for manual triggers.
 on:
   schedule:
-    - cron: '0 */1 * * *'
+    - cron: '20 */4 * * *'
   workflow_dispatch:
 
 # Only one build at a time. If a manual run kicks off while the cron is
