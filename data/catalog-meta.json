@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-02T23:17:04.306Z",
-  "expiresAt": "2026-05-03T23:17:04.306Z",
-  "productCount": 74134,
+  "generatedAt": "2026-05-03T00:52:00.987Z",
+  "expiresAt": "2026-05-04T00:52:00.987Z",
+  "productCount": 74164,
   "storeCount": 95,
   "providerCount": 4,
   "failedStoreCount": 34,
@@ -43,15 +43,6 @@
       "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/Tfr3uEztEfzqLT2xB | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
-      "brandId": "trulieve",
-      "brandName": "Trulieve",
-      "provider": "dutchie",
-      "storeId": "5fcd803c0d0a250106ded129",
-      "storeName": "Camp Hill",
-      "city": "Camp Hill, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd803c0d0a250106ded129 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
-    },
-    {
       "brandId": "liberty",
       "brandName": "Liberty",
       "provider": "dutchie",
@@ -73,6 +64,24 @@
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
+      "storeId": "5fcd8074fa3cf100cb2b7098",
+      "storeName": "Cranberry Township",
+      "city": "Cranberry Township, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd8074fa3cf100cb2b7098 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+    },
+    {
+      "brandId": "trulieve",
+      "brandName": "Trulieve",
+      "provider": "dutchie",
+      "storeId": "628414ba169240008cb1b334",
+      "storeName": "Coatesville",
+      "city": "Coatesville, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/628414ba169240008cb1b334 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+    },
+    {
+      "brandId": "trulieve",
+      "brandName": "Trulieve",
+      "provider": "dutchie",
       "storeId": "5ed197666ccfd20132a5d574",
       "storeName": "East York",
       "city": "East York, PA",
@@ -82,10 +91,10 @@
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
-      "storeId": "5fcd8074fa3cf100cb2b7098",
-      "storeName": "Cranberry Township",
-      "city": "Cranberry Township, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd8074fa3cf100cb2b7098 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "storeId": "5fcd803c0d0a250106ded129",
+      "storeName": "Camp Hill",
+      "city": "Camp Hill, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd803c0d0a250106ded129 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -109,19 +118,19 @@
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
-      "storeId": "628414ba169240008cb1b334",
-      "storeName": "Coatesville",
-      "city": "Coatesville, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/628414ba169240008cb1b334 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "storeId": "6453cc9ec5742b0055cb3531",
+      "storeName": "Limerick",
+      "city": "Limerick, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/6453cc9ec5742b0055cb3531 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
-      "storeId": "6453cc9ec5742b0055cb3531",
-      "storeName": "Limerick",
-      "city": "Limerick, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/6453cc9ec5742b0055cb3531 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "storeId": "5fcd8098bdf7ed00ebdb7320",
+      "storeName": "Harrisburg",
+      "city": "Harrisburg, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd8098bdf7ed00ebdb7320 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -145,19 +154,19 @@
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
-      "storeId": "627429962262fd6c7c3dbbb2",
-      "storeName": "Pittsburgh – Squirrel Hill",
-      "city": "Pittsburgh, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/627429962262fd6c7c3dbbb2 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"fetch failed\"}); direct returned Dutchie direct HTTP 403."
+      "storeId": "60d24e689655f600b5ca1bc2",
+      "storeName": "Philadelphia – Washington Sq West",
+      "city": "Philadelphia, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/60d24e689655f600b5ca1bc2 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
-      "storeId": "5fcd8098bdf7ed00ebdb7320",
-      "storeName": "Harrisburg",
-      "city": "Harrisburg, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd8098bdf7ed00ebdb7320 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "storeId": "627429962262fd6c7c3dbbb2",
+      "storeName": "Pittsburgh – Squirrel Hill",
+      "city": "Pittsburgh, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/627429962262fd6c7c3dbbb2 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -172,10 +181,10 @@
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
-      "storeId": "60d24e689655f600b5ca1bc2",
-      "storeName": "Philadelphia – Washington Sq West",
-      "city": "Philadelphia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/60d24e689655f600b5ca1bc2 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "storeId": "5fcd8116cf099200b819fd12",
+      "storeName": "Reading – Fifth",
+      "city": "Reading, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd8116cf099200b819fd12 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -185,15 +194,6 @@
       "storeName": "Reading",
       "city": "Reading, PA",
       "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd815e51b1c000ec2f25a3 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
-    },
-    {
-      "brandId": "trulieve",
-      "brandName": "Trulieve",
-      "provider": "dutchie",
-      "storeId": "5fcd8116cf099200b819fd12",
-      "storeName": "Reading – Fifth",
-      "city": "Reading, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd8116cf099200b819fd12 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"fetch failed\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -211,7 +211,7 @@
       "storeId": "62742963973a624cc8dad488",
       "storeName": "Zelienople",
       "city": "Zelienople, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/62742963973a624cc8dad488 → This operation was aborted); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/62742963973a624cc8dad488 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "fluent",
@@ -220,7 +220,7 @@
       "storeId": "68e6d2d88566b294860fbcb9",
       "storeName": "Hanover",
       "city": "Hanover, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/68e6d2d88566b294860fbcb9 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 500\"}); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/68e6d2d88566b294860fbcb9 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -229,7 +229,7 @@
       "storeId": "4bZmK4MfjoypZ8MdN",
       "storeName": "Allentown",
       "city": "Allentown, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/4bZmK4MfjoypZ8MdN | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/4bZmK4MfjoypZ8MdN | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"fetch failed\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ethos",
@@ -247,7 +247,7 @@
       "storeId": "66fef50576b5d1b3703a1890",
       "storeName": "Cranberry",
       "city": "Cranberry Township, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/66fef50576b5d1b3703a1890 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/66fef50576b5d1b3703a1890 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 500\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ascend",
@@ -256,7 +256,7 @@
       "storeId": "66c371484a1610802761aa4c",
       "storeName": "Whitehall",
       "city": "Whitehall, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/66c371484a1610802761aa4c | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/66c371484a1610802761aa4c | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 500\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ayr",
@@ -274,7 +274,7 @@
       "storeId": "628fbf469d871500ac3100d6",
       "storeName": "Indiana",
       "city": "Indiana, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/628fbf469d871500ac3100d6 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/628fbf469d871500ac3100d6 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 500\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "ayr",
@@ -310,7 +310,7 @@
       "storeId": "5f07ab86d0b0134ca75fa12b",
       "storeName": "Dickson City",
       "city": "Dickson City, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5f07ab86d0b0134ca75fa12b | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5f07ab86d0b0134ca75fa12b | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"fetch failed\"}); direct returned Dutchie direct HTTP 403."
     }
   ],
   "catalogPath": "data/catalog-pa.json"
