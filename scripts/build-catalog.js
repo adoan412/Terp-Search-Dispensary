@@ -1008,24 +1008,28 @@ async function dutchieOracleFetch(storeId) {
 }
 
 async function dutchieDirectFetch(storeId) {
-  const PAGE = 100;
-  const all  = [];
-  let offset = 0;
-  for (let page = 0; page < 30; page++) { // cap at 3000 products/store
+  const perPage = 100;
+  const all     = [];
+  let page       = 1;
+  let totalPages = 999; // updated from queryInfo on first response
+  while (page <= totalPages && page <= 30) { // safety cap: 3000 products/store
     const body = {
       operationName: 'FilteredProducts',
       variables: {
         includeEnterpriseSpecials: false,
         productsFilter: {
           dispensaryId: storeId,
-          removeProductsBelowOptionThresholds: false,
-          isKioskMenu: false,
-          bypassKioskThresholds: false,
-          bypassOnlineThresholds: true,
-          Status: 'All',
-          platformType: 'ONLINE_MENU',
-          paginationInput: { offset, limit: PAGE },
+          pricingType: 'med',
+          strainTypes: [], subcategories: [], types: [],
+          Status: 'Active',
+          useCache: false, isDefaultSort: true,
+          sortBy: 'popular', sortDirection: 1,
+          bypassOnlineThresholds: false, isKioskMenu: false,
+          removeProductsBelowOptionThresholds: true,
+          platformType: 'ONLINE_MENU', preOrderType: null,
         },
+        page,
+        perPage,
       },
       extensions: { persistedQuery: { version: 1, sha256Hash: DUTCHIE_HASH } },
     };
@@ -1042,18 +1046,19 @@ async function dutchieDirectFetch(storeId) {
       body: JSON.stringify(body),
     });
     if (!res.ok) {
-      // 403 = Cloudflare bot block. Will not change on retry.
       const err = new Error(`Dutchie direct HTTP ${res.status}`);
       if ([401, 403, 404].includes(res.status)) err._fatal = true;
       throw err;
     }
     const json = await res.json();
     if (json?.errors?.length) throw new Error('Dutchie GraphQL: ' + json.errors[0].message);
-    const fp   = json?.data?.filteredProducts || json?.filteredProducts;
+    const fp   = json?.data?.filteredProducts || {};
     const hits = fp?.products || [];
     all.push(...hits);
-    if (hits.length < PAGE) break;
-    offset += PAGE;
+    const qi = fp?.queryInfo || {};
+    if (qi.totalCount) totalPages = Math.ceil(qi.totalCount / perPage);
+    if (!hits.length) break;
+    page++;
   }
   return all;
 }
