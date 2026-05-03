@@ -36,9 +36,8 @@ jobs:
 
       - name: Build catalog
         env:
-          # DUTCHIE_MODE and DUTCHIE_DETAIL_MODE auto-detect CI (GITHUB_ACTIONS=true).
-          # CI defaults: proxy_then_direct + oracle detail.
-          # Local defaults: direct_only + direct detail (residential IP, no proxy needed).
+          DUTCHIE_MODE: proxy_then_direct      # try Oracle first, fall back to direct dutchie.com
+          DUTCHIE_DETAIL_MODE: oracle          # hydration via Oracle (residential IP bypasses Cloudflare)
           JANE_MODE: direct
         run: |
           node scripts/build-catalog.js | tee build-output.txt
