@@ -4254,6 +4254,9 @@
   .brand-source-badge.src-web {
     background: rgba(224,180,99,.22); color: #ffe9b5;
   }
+  .brand-source-badge.src-stale {
+    background: rgba(224,140,60,.22); color: #ffd8aa;
+  }
   /* Legacy light-theme overrides are kept for older picker surfaces; the new
    * splash picker pins its own text back to high contrast below. */
   [data-theme="earth"] .brand-name,
@@ -15606,10 +15609,20 @@ function renderBrandPicker() {
     if (b.active && state._staticCatalog) {
       const provider = brandProviderKeyFor(b.id);
       const keys = catalogStoreKeys();
-      const inCatalog = realStores.some(s => keys.has(`${provider}:${s.id}`));
-      sourceBadge = inCatalog
-        ? `<div class="brand-source-badge src-catalog">catalog</div>`
-        : `<div class="brand-source-badge src-web">web access</div>`;
+      const staleSet = state._catalogStaleStoreKeys ||
+        (state._catalogStaleStoreKeys = new Set(
+          (state._staticCatalog.staleStores || []).map(s => `${s.provider}:${s.storeId}`)
+        ));
+      const matchingStores = realStores.filter(s => keys.has(`${provider}:${s.id}`));
+      const inCatalog = matchingStores.length > 0;
+      const allStale = inCatalog && matchingStores.every(s => staleSet.has(`${provider}:${s.id}`));
+      if (allStale) {
+        sourceBadge = `<div class="brand-source-badge src-stale">catalog (stale)</div>`;
+      } else if (inCatalog) {
+        sourceBadge = `<div class="brand-source-badge src-catalog">catalog</div>`;
+      } else {
+        sourceBadge = `<div class="brand-source-badge src-web">web access</div>`;
+      }
     }
 
     tile.innerHTML = `
