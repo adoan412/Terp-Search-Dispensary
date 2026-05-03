@@ -4242,6 +4242,18 @@
     background: rgba(168,224,99,.22); color: #ecffd3;
     text-transform: uppercase;
   }
+  .brand-source-badge {
+    position: absolute; top: 8px; left: 10px;
+    font-size: 9px; font-weight: 900; letter-spacing: .08em;
+    padding: 3px 7px; border-radius: 999px;
+    text-transform: uppercase; pointer-events: none;
+  }
+  .brand-source-badge.src-catalog {
+    background: rgba(99,195,224,.22); color: #cdf0ff;
+  }
+  .brand-source-badge.src-web {
+    background: rgba(224,180,99,.22); color: #ffe9b5;
+  }
   /* Legacy light-theme overrides are kept for older picker surfaces; the new
    * splash picker pins its own text back to high contrast below. */
   [data-theme="earth"] .brand-name,
@@ -11100,6 +11112,17 @@ function staticCatalogHasStore(provider, storeId) {
   return cat.products.some(p => p.sourceProvider === provider && String(p.sourceStoreId) === String(storeId));
 }
 
+/* Lazily-built Set of "provider:storeId" keys present in the loaded catalog.
+ * Built once on first call; fast O(1) lookup for brand-tile source badges. */
+function catalogStoreKeys() {
+  if (!state._catalogStoreKeys) {
+    const cat = state._staticCatalog;
+    if (!cat || !Array.isArray(cat.products)) return new Set();
+    state._catalogStoreKeys = new Set(cat.products.map(p => `${p.sourceProvider}:${p.sourceStoreId}`));
+  }
+  return state._catalogStoreKeys;
+}
+
 async function loadMenu() {
   const token = ++state.menuLoadToken;
   const storeId = state.storeId;
@@ -15579,7 +15602,18 @@ function renderBrandPicker() {
     const countBadge = (state.appMode === APP_MODE.MULTI && selectedCount > 0)
       ? `<div class="brand-selected-count">${selectedCount}</div>` : '';
 
+    let sourceBadge = '';
+    if (b.active && state._staticCatalog) {
+      const provider = brandProviderKeyFor(b.id);
+      const keys = catalogStoreKeys();
+      const inCatalog = realStores.some(s => keys.has(`${provider}:${s.id}`));
+      sourceBadge = inCatalog
+        ? `<div class="brand-source-badge src-catalog">catalog</div>`
+        : `<div class="brand-source-badge src-web">web access</div>`;
+    }
+
     tile.innerHTML = `
+      ${sourceBadge}
       <div class="brand-disc" style="background:${b.color}">${b.glyph}</div>
       <div class="brand-name">${esc(b.name)}</div>
       <div class="brand-meta">${b.active ? `${realStores.length} location${realStores.length === 1 ? '' : 's'}` : 'Coming soon'}</div>
@@ -15721,6 +15755,9 @@ function bootPaBuddy() {
   updateHeaderForMode();
   wireEvents();
   renderBrandPicker();
+  if (USE_STATIC_CATALOG) {
+    loadStaticCatalog().then(() => renderBrandPicker()).catch(() => {});
+  }
   const pickerCompare = document.getElementById('picker-compare');
   const pickerBrowse = document.getElementById('picker-browse');
   if (pickerCompare) {
