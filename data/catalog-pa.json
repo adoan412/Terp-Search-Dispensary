@@ -1,8 +1,8 @@
 {
   "version": "1",
   "state": "PA",
-  "generatedAt": "2026-07-21T07:29:30.614Z",
-  "expiresAt": "2026-07-22T07:29:30.614Z",
+  "generatedAt": "2026-07-21T11:12:37.629Z",
+  "expiresAt": "2026-07-22T11:12:37.629Z",
   "providers": [
     "jane",
     "hytiva",
@@ -12,47 +12,27 @@
   "providerFiles": {
     "jane": {
       "file": "catalog-pa-jane.json",
-      "productCount": 39362,
-      "bytes": 72029769
+      "productCount": 39354,
+      "bytes": 72013578
     },
     "hytiva": {
       "file": "catalog-pa-hytiva.json",
-      "productCount": 7552,
-      "bytes": 8329712
+      "productCount": 7551,
+      "bytes": 8328592
     },
     "curaleaf": {
       "file": "catalog-pa-curaleaf.json",
-      "productCount": 10993,
-      "bytes": 14888851
+      "productCount": 10990,
+      "bytes": 14886303
     },
     "dutchie": {
       "file": "catalog-pa-dutchie.json",
-      "productCount": 18195,
-      "bytes": 20305564
+      "productCount": 18273,
+      "bytes": 20565081
     }
   },
-  "productCount": 76102,
+  "productCount": 76168,
   "stores": [
-    {
-      "brandId": "organic",
-      "brandName": "Organic Remedies",
-      "provider": "jane",
-      "storeId": "3906",
-      "storeName": "McKnight Rd",
-      "city": "Pittsburgh, PA",
-      "storeKey": "jane:3906",
-      "productCount": 1198
-    },
-    {
-      "brandId": "organic",
-      "brandName": "Organic Remedies",
-      "provider": "jane",
-      "storeId": "1877",
-      "storeName": "Enola",
-      "city": "Enola, PA",
-      "storeKey": "jane:1877",
-      "productCount": 1217
-    },
     {
       "brandId": "organic",
       "brandName": "Organic Remedies",
@@ -71,7 +51,17 @@
       "storeName": "York",
       "city": "York, PA",
       "storeKey": "jane:1876",
-      "productCount": 1237
+      "productCount": 1236
+    },
+    {
+      "brandId": "organic",
+      "brandName": "Organic Remedies",
+      "provider": "jane",
+      "storeId": "1877",
+      "storeName": "Enola",
+      "city": "Enola, PA",
+      "storeKey": "jane:1877",
+      "productCount": 1217
     },
     {
       "brandId": "organic",
@@ -81,7 +71,17 @@
       "storeName": "Chambersburg",
       "city": "Chambersburg, PA",
       "storeKey": "jane:1878",
-      "productCount": 1367
+      "productCount": 1365
+    },
+    {
+      "brandId": "organic",
+      "brandName": "Organic Remedies",
+      "provider": "jane",
+      "storeId": "3906",
+      "storeName": "McKnight Rd",
+      "city": "Pittsburgh, PA",
+      "storeKey": "jane:3906",
+      "productCount": 1198
     },
     {
       "brandId": "organic",
@@ -91,7 +91,17 @@
       "storeName": "Bethel Park",
       "city": "Bethel Park, PA",
       "storeKey": "jane:4365",
-      "productCount": 1196
+      "productCount": 1201
+    },
+    {
+      "brandId": "vytal",
+      "brandName": "Vytal Options",
+      "provider": "jane",
+      "storeId": "6078",
+      "storeName": "Harrisburg",
+      "city": "Harrisburg, PA",
+      "storeKey": "jane:6078",
+      "productCount": 1212
     },
     {
       "brandId": "vytal",
@@ -107,11 +117,11 @@
       "brandId": "vytal",
       "brandName": "Vytal Options",
       "provider": "jane",
-      "storeId": "6078",
-      "storeName": "Harrisburg",
-      "city": "Harrisburg, PA",
-      "storeKey": "jane:6078",
-      "productCount": 1213
+      "storeId": "6081",
+      "storeName": "Lancaster",
+      "city": "Lancaster, PA",
+      "storeKey": "jane:6081",
+      "productCount": 1207
     },
     {
       "brandId": "vytal",
@@ -134,36 +144,6 @@
       "productCount": 1231
     },
     {
-      "brandId": "rise",
-      "brandName": "Rise",
-      "provider": "jane",
-      "storeId": "1547",
-      "storeName": "Carlisle",
-      "city": "Carlisle, PA",
-      "storeKey": "jane:1547",
-      "productCount": 795
-    },
-    {
-      "brandId": "vytal",
-      "brandName": "Vytal Options",
-      "provider": "jane",
-      "storeId": "6081",
-      "storeName": "Lancaster",
-      "city": "Lancaster, PA",
-      "storeKey": "jane:6081",
-      "productCount": 1207
-    },
-    {
-      "brandId": "rise",
-      "brandName": "Rise",
-      "provider": "jane",
-      "storeId": "1575",
-      "storeName": "Cranberry",
-      "city": "Cranberry Township, PA",
-      "storeKey": "jane:1575",
-      "productCount": 838
-    },
-    {
       "brandId": "vytal",
       "brandName": "Vytal Options",
       "provider": "jane",
@@ -171,7 +151,17 @@
       "storeName": "State College",
       "city": "State College, PA",
       "storeKey": "jane:6083",
-      "productCount": 1132
+      "productCount": 1133
+    },
+    {
+      "brandId": "rise",
+      "brandName": "Rise",
+      "provider": "jane",
+      "storeId": "1547",
+      "storeName": "Carlisle",
+      "city": "Carlisle, PA",
+      "storeKey": "jane:1547",
+      "productCount": 794
     },
     {
       "brandId": "rise",
@@ -187,6 +177,26 @@
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
+      "storeId": "1575",
+      "storeName": "Cranberry",
+      "city": "Cranberry Township, PA",
+      "storeKey": "jane:1575",
+      "productCount": 837
+    },
+    {
+      "brandId": "rise",
+      "brandName": "Rise",
+      "provider": "jane",
+      "storeId": "1961",
+      "storeName": "Duncansville",
+      "city": "Duncansville, PA",
+      "storeKey": "jane:1961",
+      "productCount": 854
+    },
+    {
+      "brandId": "rise",
+      "brandName": "Rise",
+      "provider": "jane",
       "storeId": "392",
       "storeName": "Erie on Lake",
       "city": "Erie, PA",
@@ -197,11 +207,11 @@
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
-      "storeId": "1961",
-      "storeName": "Duncansville",
-      "city": "Duncansville, PA",
-      "storeKey": "jane:1961",
-      "productCount": 855
+      "storeId": "5202",
+      "storeName": "Grove City",
+      "city": "Grove City, PA",
+      "storeKey": "jane:5202",
+      "productCount": 779
     },
     {
       "brandId": "rise",
@@ -227,31 +237,11 @@
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
-      "storeId": "5202",
-      "storeName": "Grove City",
-      "city": "Grove City, PA",
-      "storeKey": "jane:5202",
-      "productCount": 779
-    },
-    {
-      "brandId": "rise",
-      "brandName": "Rise",
-      "provider": "jane",
       "storeId": "1552",
       "storeName": "King of Prussia",
       "city": "King of Prussia, PA",
       "storeKey": "jane:1552",
       "productCount": 608
-    },
-    {
-      "brandId": "rise",
-      "brandName": "Rise",
-      "provider": "jane",
-      "storeId": "6520",
-      "storeName": "Lebanon",
-      "city": "Lebanon, PA",
-      "storeKey": "jane:6520",
-      "productCount": 656
     },
     {
       "brandId": "rise",
@@ -267,11 +257,11 @@
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
-      "storeId": "1545",
-      "storeName": "New Castle",
-      "city": "New Castle, PA",
-      "storeKey": "jane:1545",
-      "productCount": 775
+      "storeId": "6520",
+      "storeName": "Lebanon",
+      "city": "Lebanon, PA",
+      "storeKey": "jane:6520",
+      "productCount": 655
     },
     {
       "brandId": "rise",
@@ -287,11 +277,11 @@
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
-      "storeId": "1550",
-      "storeName": "Mechanicsburg",
-      "city": "Mechanicsburg, PA",
-      "storeKey": "jane:1550",
-      "productCount": 833
+      "storeId": "1545",
+      "storeName": "New Castle",
+      "city": "New Castle, PA",
+      "storeKey": "jane:1545",
+      "productCount": 775
     },
     {
       "brandId": "rise",
@@ -307,11 +297,21 @@
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
+      "storeId": "1550",
+      "storeName": "Mechanicsburg",
+      "city": "Mechanicsburg, PA",
+      "storeKey": "jane:1550",
+      "productCount": 833
+    },
+    {
+      "brandId": "rise",
+      "brandName": "Rise",
+      "provider": "jane",
       "storeId": "1544",
       "storeName": "Steelton",
       "city": "Steelton, PA",
       "storeKey": "jane:1544",
-      "productCount": 810
+      "productCount": 809
     },
     {
       "brandId": "rise",
@@ -331,7 +331,7 @@
       "storeName": "York",
       "city": "York, PA",
       "storeKey": "jane:1548",
-      "productCount": 821
+      "productCount": 820
     },
     {
       "brandId": "restore",
@@ -391,7 +391,7 @@
       "storeName": "Pottstown",
       "city": "Pottstown, PA",
       "storeKey": "hytiva:8921425",
-      "productCount": 840
+      "productCount": 839
     },
     {
       "brandId": "restore",
@@ -461,7 +461,7 @@
       "storeName": "DuBois",
       "city": "DuBois, PA",
       "storeKey": "curaleaf:149",
-      "productCount": 867
+      "productCount": 866
     },
     {
       "brandId": "curaleaf",
@@ -491,7 +491,7 @@
       "storeName": "Harrisburg",
       "city": "Harrisburg, PA",
       "storeKey": "curaleaf:153",
-      "productCount": 706
+      "productCount": 704
     },
     {
       "brandId": "curaleaf",
@@ -651,7 +651,7 @@
       "storeName": "Bristol",
       "city": "Bristol, PA",
       "storeKey": "jane:1635",
-      "productCount": 703
+      "productCount": 702
     },
     {
       "brandId": "beyond",
@@ -661,7 +661,7 @@
       "storeName": "Dickson City",
       "city": "Dickson City, PA",
       "storeKey": "jane:1115",
-      "productCount": 589
+      "productCount": 587
     },
     {
       "brandId": "beyond",
@@ -721,7 +721,7 @@
       "storeName": "Philly - Lancaster",
       "city": "Philadelphia, PA",
       "storeKey": "jane:3300",
-      "productCount": 574
+      "productCount": 573
     },
     {
       "brandId": "beyond",
@@ -837,26 +837,6 @@
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
-      "storeId": "5fcd8074fa3cf100cb2b7098",
-      "storeName": "Cranberry Township",
-      "city": "Cranberry Township, PA",
-      "storeKey": "dutchie:5fcd8074fa3cf100cb2b7098",
-      "productCount": 982
-    },
-    {
-      "brandId": "trulieve",
-      "brandName": "Trulieve",
-      "provider": "dutchie",
-      "storeId": "6169ba6f97abf100ab976dd6",
-      "storeName": "Philadelphia – Center City",
-      "city": "Philadelphia, PA",
-      "storeKey": "dutchie:6169ba6f97abf100ab976dd6",
-      "productCount": 833
-    },
-    {
-      "brandId": "trulieve",
-      "brandName": "Trulieve",
-      "provider": "dutchie",
       "storeId": "60d24e689655f600b5ca1bc2",
       "storeName": "Philadelphia – Washington Sq West",
       "city": "Philadelphia, PA",
@@ -871,7 +851,7 @@
       "storeName": "Pittsburgh – Squirrel Hill",
       "city": "Pittsburgh, PA",
       "storeKey": "dutchie:627429962262fd6c7c3dbbb2",
-      "productCount": 1036
+      "productCount": 1035
     },
     {
       "brandId": "trulieve",
@@ -921,7 +901,7 @@
       "storeName": "Washington",
       "city": "Washington, PA",
       "storeKey": "dutchie:6272e32719bbdc008a71bb98",
-      "productCount": 1064
+      "productCount": 1063
     },
     {
       "brandId": "trulieve",
@@ -931,7 +911,7 @@
       "storeName": "Whitehall",
       "city": "Whitehall, PA",
       "storeKey": "dutchie:609456326bf69800d1533fc2",
-      "productCount": 948
+      "productCount": 947
     },
     {
       "brandId": "trulieve",
@@ -941,7 +921,7 @@
       "storeName": "Wilkes-Barre",
       "city": "Wilkes-Barre, PA",
       "storeKey": "dutchie:667581d71356d84114cfcc05",
-      "productCount": 818
+      "productCount": 817
     },
     {
       "brandId": "trulieve",
@@ -974,16 +954,6 @@
       "productCount": 587
     },
     {
-      "brandId": "fluent",
-      "brandName": "Fluent",
-      "provider": "dutchie",
-      "storeId": "68e6d351923bd7a68b216b83",
-      "storeName": "Mechanicsburg",
-      "city": "Mechanicsburg, PA",
-      "storeKey": "dutchie:68e6d351923bd7a68b216b83",
-      "productCount": 756
-    },
-    {
       "brandId": "ethos",
       "brandName": "Ethos",
       "provider": "dutchie",
@@ -992,6 +962,16 @@
       "city": "Allentown, PA",
       "storeKey": "dutchie:4bZmK4MfjoypZ8MdN",
       "productCount": 0
+    },
+    {
+      "brandId": "fluent",
+      "brandName": "Fluent",
+      "provider": "dutchie",
+      "storeId": "68e6d351923bd7a68b216b83",
+      "storeName": "Mechanicsburg",
+      "city": "Mechanicsburg, PA",
+      "storeKey": "dutchie:68e6d351923bd7a68b216b83",
+      "productCount": 756
     },
     {
       "brandId": "ethos",
@@ -1137,11 +1117,41 @@
       "brandId": "ayr",
       "brandName": "AYR",
       "provider": "dutchie",
-      "storeId": "628fbf469d871500ac3100d6",
-      "storeName": "Indiana",
-      "city": "Indiana, PA",
-      "storeKey": "dutchie:628fbf469d871500ac3100d6",
-      "productCount": 517
+      "storeId": "613a93ed31607800d9de4f18",
+      "storeName": "Montgomeryville",
+      "city": "Montgomeryville, PA",
+      "storeKey": "dutchie:613a93ed31607800d9de4f18",
+      "productCount": 533
+    },
+    {
+      "brandId": "ayr",
+      "brandName": "AYR",
+      "provider": "dutchie",
+      "storeId": "5f8dac128397a700d26ff5bd",
+      "storeName": "New Castle",
+      "city": "New Castle, PA",
+      "storeKey": "dutchie:5f8dac128397a700d26ff5bd",
+      "productCount": 613
+    },
+    {
+      "brandId": "justice",
+      "brandName": "Justice Grown",
+      "provider": "dutchie",
+      "storeId": "5f07ab86d0b0134ca75fa12b",
+      "storeName": "Dickson City",
+      "city": "Dickson City, PA",
+      "storeKey": "dutchie:5f07ab86d0b0134ca75fa12b",
+      "productCount": 681
+    },
+    {
+      "brandId": "ayr",
+      "brandName": "AYR",
+      "provider": "dutchie",
+      "storeId": "5ff8ee158707e300e97eb9ee",
+      "storeName": "Plymouth Meeting",
+      "city": "Plymouth Meeting, PA",
+      "storeKey": "dutchie:5ff8ee158707e300e97eb9ee",
+      "productCount": 587
     }
   ],
   "staleStores": [],
@@ -1150,19 +1160,19 @@
       "brandId": "liberty",
       "brandName": "Liberty",
       "provider": "dutchie",
-      "storeId": "5e9491bc8c76410099c8fa05",
-      "storeName": "Aliquippa",
-      "city": "Aliquippa, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5e9491bc8c76410099c8fa05 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"This operation was aborted\"}); direct returned Dutchie direct HTTP 403."
+      "storeId": "3TJq5LSGc9j76WKx4",
+      "storeName": "Bensalem",
+      "city": "Bensalem, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/3TJq5LSGc9j76WKx4 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"fetch failed\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "liberty",
       "brandName": "Liberty",
       "provider": "dutchie",
-      "storeId": "3TJq5LSGc9j76WKx4",
-      "storeName": "Bensalem",
-      "city": "Bensalem, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/3TJq5LSGc9j76WKx4 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"This operation was aborted\"}); direct returned Dutchie direct HTTP 403."
+      "storeId": "5e9491bc8c76410099c8fa05",
+      "storeName": "Aliquippa",
+      "city": "Aliquippa, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5e9491bc8c76410099c8fa05 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"This operation was aborted\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "liberty",
@@ -1213,10 +1223,19 @@
       "brandId": "trulieve",
       "brandName": "Trulieve",
       "provider": "dutchie",
+      "storeId": "5fcd8074fa3cf100cb2b7098",
+      "storeName": "Cranberry Township",
+      "city": "Cranberry Township, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5fcd8074fa3cf100cb2b7098 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"fetch failed\"}); direct returned Dutchie direct HTTP 403."
+    },
+    {
+      "brandId": "trulieve",
+      "brandName": "Trulieve",
+      "provider": "dutchie",
       "storeId": "628414ba169240008cb1b334",
       "storeName": "Coatesville",
       "city": "Coatesville, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/628414ba169240008cb1b334 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"This operation was aborted\"}); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/628414ba169240008cb1b334 → This operation was aborted); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -1252,7 +1271,7 @@
       "storeId": "6274290112704c0237179a91",
       "storeName": "King of Prussia",
       "city": "King of Prussia, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/6274290112704c0237179a91 → This operation was aborted); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/6274290112704c0237179a91 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"This operation was aborted\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -1261,7 +1280,16 @@
       "storeId": "6453cc9ec5742b0055cb3531",
       "storeName": "Limerick",
       "city": "Limerick, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/6453cc9ec5742b0055cb3531 → This operation was aborted); direct returned Dutchie direct HTTP 403."
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/6453cc9ec5742b0055cb3531 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"This operation was aborted\"}); direct returned Dutchie direct HTTP 403."
+    },
+    {
+      "brandId": "trulieve",
+      "brandName": "Trulieve",
+      "provider": "dutchie",
+      "storeId": "6169ba6f97abf100ab976dd6",
+      "storeName": "Philadelphia – Center City",
+      "city": "Philadelphia, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/6169ba6f97abf100ab976dd6 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"fetch failed\"}); direct returned Dutchie direct HTTP 403."
     },
     {
       "brandId": "trulieve",
@@ -1270,43 +1298,16 @@
       "storeId": "627428c500f2d04cdad66a81",
       "storeName": "Philadelphia",
       "city": "Philadelphia, PA",
+      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/627428c500f2d04cdad66a81 | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"fetch failed\"}); direct returned Dutchie direct HTTP 403."
+    },
+    {
+      "brandId": "ayr",
+      "brandName": "AYR",
+      "provider": "dutchie",
+      "storeId": "628fbf469d871500ac3100d6",
+      "storeName": "Indiana",
+      "city": "Indiana, PA",
       "error": "Dutchie requires proxy; Oracle unavailable (terminated); direct returned Dutchie direct HTTP 403."
-    },
-    {
-      "brandId": "ayr",
-      "brandName": "AYR",
-      "provider": "dutchie",
-      "storeId": "613a93ed31607800d9de4f18",
-      "storeName": "Montgomeryville",
-      "city": "Montgomeryville, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/613a93ed31607800d9de4f18 → This operation was aborted); direct returned Dutchie direct HTTP 403."
-    },
-    {
-      "brandId": "ayr",
-      "brandName": "AYR",
-      "provider": "dutchie",
-      "storeId": "5f8dac128397a700d26ff5bd",
-      "storeName": "New Castle",
-      "city": "New Castle, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle network error → https://api.pabuddy.org/menu/dutchie/5f8dac128397a700d26ff5bd → This operation was aborted); direct returned Dutchie direct HTTP 403."
-    },
-    {
-      "brandId": "ayr",
-      "brandName": "AYR",
-      "provider": "dutchie",
-      "storeId": "5ff8ee158707e300e97eb9ee",
-      "storeName": "Plymouth Meeting",
-      "city": "Plymouth Meeting, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5ff8ee158707e300e97eb9ee | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"This operation was aborted\"}); direct returned Dutchie direct HTTP 403."
-    },
-    {
-      "brandId": "justice",
-      "brandName": "Justice Grown",
-      "provider": "dutchie",
-      "storeId": "5f07ab86d0b0134ca75fa12b",
-      "storeName": "Dickson City",
-      "city": "Dickson City, PA",
-      "error": "Dutchie requires proxy; Oracle unavailable (Oracle HTTP 502 Bad Gateway → https://api.pabuddy.org/menu/dutchie/5f07ab86d0b0134ca75fa12b | body: {\"error\":\"Upstream fetch failed\",\"detail\":\"Dutchie HTTP 502\"}); direct returned Dutchie direct HTTP 403."
     }
   ]
 }
