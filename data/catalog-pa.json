@@ -1,8 +1,8 @@
 {
   "version": "1",
   "state": "PA",
-  "generatedAt": "2026-11-28T08:09:42.634Z",
-  "expiresAt": "2026-11-29T08:09:42.634Z",
+  "generatedAt": "2026-11-28T17:13:44.564Z",
+  "expiresAt": "2026-11-29T17:13:44.564Z",
   "providers": [
     "jane",
     "hytiva",
@@ -11,41 +11,31 @@
   "providerFiles": {
     "jane": {
       "file": "catalog-pa-jane.json",
-      "productCount": 41196,
-      "bytes": 75533229
+      "productCount": 41042,
+      "bytes": 75267680
     },
     "hytiva": {
       "file": "catalog-pa-hytiva.json",
-      "productCount": 8117,
-      "bytes": 8860097
+      "productCount": 8055,
+      "bytes": 8791720
     },
     "curaleaf": {
       "file": "catalog-pa-curaleaf.json",
-      "productCount": 12771,
-      "bytes": 17675252
+      "productCount": 12707,
+      "bytes": 17604091
     }
   },
-  "productCount": 62084,
+  "productCount": 61804,
   "stores": [
     {
       "brandId": "organic",
       "brandName": "Organic Remedies",
       "provider": "jane",
-      "storeId": "1877",
-      "storeName": "Enola",
-      "city": "Enola, PA",
-      "storeKey": "jane:1877",
-      "productCount": 1159
-    },
-    {
-      "brandId": "organic",
-      "brandName": "Organic Remedies",
-      "provider": "jane",
-      "storeId": "4139",
-      "storeName": "Paoli",
-      "city": "Paoli, PA",
-      "storeKey": "jane:4139",
-      "productCount": 1145
+      "storeId": "1876",
+      "storeName": "York",
+      "city": "York, PA",
+      "storeKey": "jane:1876",
+      "productCount": 1053
     },
     {
       "brandId": "organic",
@@ -55,17 +45,27 @@
       "storeName": "McKnight Rd",
       "city": "Pittsburgh, PA",
       "storeKey": "jane:3906",
-      "productCount": 1102
+      "productCount": 1091
     },
     {
       "brandId": "organic",
       "brandName": "Organic Remedies",
       "provider": "jane",
-      "storeId": "1876",
-      "storeName": "York",
-      "city": "York, PA",
-      "storeKey": "jane:1876",
-      "productCount": 1084
+      "storeId": "4139",
+      "storeName": "Paoli",
+      "city": "Paoli, PA",
+      "storeKey": "jane:4139",
+      "productCount": 1137
+    },
+    {
+      "brandId": "organic",
+      "brandName": "Organic Remedies",
+      "provider": "jane",
+      "storeId": "1877",
+      "storeName": "Enola",
+      "city": "Enola, PA",
+      "storeKey": "jane:1877",
+      "productCount": 1154
     },
     {
       "brandId": "organic",
@@ -75,7 +75,7 @@
       "storeName": "Chambersburg",
       "city": "Chambersburg, PA",
       "storeKey": "jane:1878",
-      "productCount": 1227
+      "productCount": 1221
     },
     {
       "brandId": "organic",
@@ -85,7 +85,7 @@
       "storeName": "Bethel Park",
       "city": "Bethel Park, PA",
       "storeKey": "jane:4365",
-      "productCount": 1148
+      "productCount": 1136
     },
     {
       "brandId": "vytal",
@@ -95,7 +95,7 @@
       "storeName": "Fogelsville",
       "city": "Fogelsville, PA",
       "storeKey": "jane:6079",
-      "productCount": 1118
+      "productCount": 1116
     },
     {
       "brandId": "vytal",
@@ -105,17 +105,7 @@
       "storeName": "Kennett Square",
       "city": "Kennett Square, PA",
       "storeKey": "jane:6080",
-      "productCount": 1098
-    },
-    {
-      "brandId": "vytal",
-      "brandName": "Vytal Options",
-      "provider": "jane",
-      "storeId": "6078",
-      "storeName": "Harrisburg",
-      "city": "Harrisburg, PA",
-      "storeKey": "jane:6078",
-      "productCount": 1045
+      "productCount": 1087
     },
     {
       "brandId": "vytal",
@@ -125,7 +115,17 @@
       "storeName": "Lancaster",
       "city": "Lancaster, PA",
       "storeKey": "jane:6081",
-      "productCount": 1047
+      "productCount": 1038
+    },
+    {
+      "brandId": "vytal",
+      "brandName": "Vytal Options",
+      "provider": "jane",
+      "storeId": "6078",
+      "storeName": "Harrisburg",
+      "city": "Harrisburg, PA",
+      "storeKey": "jane:6078",
+      "productCount": 1040
     },
     {
       "brandId": "vytal",
@@ -135,7 +135,7 @@
       "storeName": "State College",
       "city": "State College, PA",
       "storeKey": "jane:6083",
-      "productCount": 943
+      "productCount": 940
     },
     {
       "brandId": "vytal",
@@ -145,17 +145,7 @@
       "storeName": "Lansdale",
       "city": "Lansdale, PA",
       "storeKey": "jane:6082",
-      "productCount": 1170
-    },
-    {
-      "brandId": "rise",
-      "brandName": "Rise",
-      "provider": "jane",
-      "storeId": "1867",
-      "storeName": "Chambersburg",
-      "city": "Chambersburg, PA",
-      "storeKey": "jane:1867",
-      "productCount": 900
+      "productCount": 1154
     },
     {
       "brandId": "rise",
@@ -165,7 +155,7 @@
       "storeName": "Carlisle",
       "city": "Carlisle, PA",
       "storeKey": "jane:1547",
-      "productCount": 1005
+      "productCount": 999
     },
     {
       "brandId": "rise",
@@ -175,17 +165,17 @@
       "storeName": "Cranberry",
       "city": "Cranberry Township, PA",
       "storeKey": "jane:1575",
-      "productCount": 697
+      "productCount": 699
     },
     {
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
-      "storeId": "1961",
-      "storeName": "Duncansville",
-      "city": "Duncansville, PA",
-      "storeKey": "jane:1961",
-      "productCount": 932
+      "storeId": "1867",
+      "storeName": "Chambersburg",
+      "city": "Chambersburg, PA",
+      "storeKey": "jane:1867",
+      "productCount": 908
     },
     {
       "brandId": "rise",
@@ -195,7 +185,7 @@
       "storeName": "Erie on Lake",
       "city": "Erie, PA",
       "storeKey": "jane:392",
-      "productCount": 821
+      "productCount": 824
     },
     {
       "brandId": "rise",
@@ -205,27 +195,17 @@
       "storeName": "Erie on Peach",
       "city": "Erie, PA",
       "storeKey": "jane:2607",
-      "productCount": 918
+      "productCount": 940
     },
     {
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
-      "storeId": "1552",
-      "storeName": "King of Prussia",
-      "city": "King of Prussia, PA",
-      "storeKey": "jane:1552",
-      "productCount": 537
-    },
-    {
-      "brandId": "rise",
-      "brandName": "Rise",
-      "provider": "jane",
-      "storeId": "5202",
-      "storeName": "Grove City",
-      "city": "Grove City, PA",
-      "storeKey": "jane:5202",
-      "productCount": 787
+      "storeId": "1961",
+      "storeName": "Duncansville",
+      "city": "Duncansville, PA",
+      "storeKey": "jane:1961",
+      "productCount": 931
     },
     {
       "brandId": "rise",
@@ -235,17 +215,27 @@
       "storeName": "Hermitage",
       "city": "Hermitage, PA",
       "storeKey": "jane:1551",
-      "productCount": 871
+      "productCount": 867
     },
     {
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
-      "storeId": "6520",
-      "storeName": "Lebanon",
-      "city": "Lebanon, PA",
-      "storeKey": "jane:6520",
-      "productCount": 593
+      "storeId": "1552",
+      "storeName": "King of Prussia",
+      "city": "King of Prussia, PA",
+      "storeKey": "jane:1552",
+      "productCount": 531
+    },
+    {
+      "brandId": "rise",
+      "brandName": "Rise",
+      "provider": "jane",
+      "storeId": "5202",
+      "storeName": "Grove City",
+      "city": "Grove City, PA",
+      "storeKey": "jane:5202",
+      "productCount": 784
     },
     {
       "brandId": "rise",
@@ -255,27 +245,17 @@
       "storeName": "Latrobe",
       "city": "Latrobe, PA",
       "storeKey": "jane:1549",
-      "productCount": 1037
+      "productCount": 1040
     },
     {
       "brandId": "rise",
       "brandName": "Rise",
       "provider": "jane",
-      "storeId": "2863",
-      "storeName": "Meadville",
-      "city": "Meadville, PA",
-      "storeKey": "jane:2863",
-      "productCount": 904
-    },
-    {
-      "brandId": "rise",
-      "brandName": "Rise",
-      "provider": "jane",
-      "storeId": "1545",
-      "storeName": "New Castle",
-      "city": "New Castle, PA",
-      "storeKey": "jane:1545",
-      "productCount": 854
+      "storeId": "6520",
+      "storeName": "Lebanon",
+      "city": "Lebanon, PA",
+      "storeKey": "jane:6520",
+      "productCount": 592
     },
     {
       "brandId": "rise",
@@ -285,7 +265,27 @@
       "storeName": "Mechanicsburg",
       "city": "Mechanicsburg, PA",
       "storeKey": "jane:1550",
-      "productCount": 900
+      "productCount": 899
+    },
+    {
+      "brandId": "rise",
+      "brandName": "Rise",
+      "provider": "jane",
+      "storeId": "2863",
+      "storeName": "Meadville",
+      "city": "Meadville, PA",
+      "storeKey": "jane:2863",
+      "productCount": 911
+    },
+    {
+      "brandId": "rise",
+      "brandName": "Rise",
+      "provider": "jane",
+      "storeId": "1545",
+      "storeName": "New Castle",
+      "city": "New Castle, PA",
+      "storeKey": "jane:1545",
+      "productCount": 850
     },
     {
       "brandId": "rise",
@@ -295,17 +295,7 @@
       "storeName": "Philadelphia",
       "city": "Philadelphia, PA",
       "storeKey": "jane:5383",
-      "productCount": 787
-    },
-    {
-      "brandId": "rise",
-      "brandName": "Rise",
-      "provider": "jane",
-      "storeId": "3404",
-      "storeName": "Warminster",
-      "city": "Warminster, PA",
-      "storeKey": "jane:3404",
-      "productCount": 930
+      "productCount": 786
     },
     {
       "brandId": "rise",
@@ -315,7 +305,17 @@
       "storeName": "Steelton",
       "city": "Steelton, PA",
       "storeKey": "jane:1544",
-      "productCount": 931
+      "productCount": 923
+    },
+    {
+      "brandId": "rise",
+      "brandName": "Rise",
+      "provider": "jane",
+      "storeId": "3404",
+      "storeName": "Warminster",
+      "city": "Warminster, PA",
+      "storeKey": "jane:3404",
+      "productCount": 934
     },
     {
       "brandId": "rise",
@@ -325,7 +325,7 @@
       "storeName": "York",
       "city": "York, PA",
       "storeKey": "jane:1548",
-      "productCount": 1005
+      "productCount": 1004
     },
     {
       "brandId": "restore",
@@ -335,7 +335,7 @@
       "storeName": "Allentown",
       "city": "Allentown, PA",
       "storeKey": "hytiva:172835",
-      "productCount": 810
+      "productCount": 807
     },
     {
       "brandId": "restore",
@@ -345,7 +345,7 @@
       "storeName": "Doylestown",
       "city": "Doylestown, PA",
       "storeKey": "hytiva:8920930",
-      "productCount": 957
+      "productCount": 948
     },
     {
       "brandId": "restore",
@@ -355,17 +355,7 @@
       "storeName": "Elkins Park",
       "city": "Elkins Park, PA",
       "storeKey": "hytiva:8920932",
-      "productCount": 904
-    },
-    {
-      "brandId": "restore",
-      "brandName": "Restore",
-      "provider": "hytiva",
-      "storeId": "8921346",
-      "storeName": "Lancaster",
-      "city": "East Petersburg, PA",
-      "storeKey": "hytiva:8921346",
-      "productCount": 932
+      "productCount": 900
     },
     {
       "brandId": "restore",
@@ -375,7 +365,17 @@
       "storeName": "Fishtown",
       "city": "Philadelphia, PA",
       "storeKey": "hytiva:172827",
-      "productCount": 994
+      "productCount": 992
+    },
+    {
+      "brandId": "restore",
+      "brandName": "Restore",
+      "provider": "hytiva",
+      "storeId": "8921346",
+      "storeName": "Lancaster",
+      "city": "East Petersburg, PA",
+      "storeKey": "hytiva:8921346",
+      "productCount": 925
     },
     {
       "brandId": "restore",
@@ -385,7 +385,7 @@
       "storeName": "Pottstown",
       "city": "Pottstown, PA",
       "storeKey": "hytiva:8921425",
-      "productCount": 836
+      "productCount": 826
     },
     {
       "brandId": "restore",
@@ -395,17 +395,7 @@
       "storeName": "Scranton",
       "city": "Scranton, PA",
       "storeKey": "hytiva:173199",
-      "productCount": 909
-    },
-    {
-      "brandId": "restore",
-      "brandName": "Restore",
-      "provider": "hytiva",
-      "storeId": "173200",
-      "storeName": "Wilkes-Barre",
-      "city": "Wilkes-Barre, PA",
-      "storeKey": "hytiva:173200",
-      "productCount": 937
+      "productCount": 893
     },
     {
       "brandId": "restore",
@@ -415,7 +405,17 @@
       "storeName": "Yeadon",
       "city": "Yeadon, PA",
       "storeKey": "hytiva:8921431",
-      "productCount": 838
+      "productCount": 830
+    },
+    {
+      "brandId": "restore",
+      "brandName": "Restore",
+      "provider": "hytiva",
+      "storeId": "173200",
+      "storeName": "Wilkes-Barre",
+      "city": "Wilkes-Barre, PA",
+      "storeKey": "hytiva:173200",
+      "productCount": 934
     },
     {
       "brandId": "curaleaf",
@@ -425,17 +425,7 @@
       "storeName": "Allentown",
       "city": "Allentown, PA",
       "storeKey": "curaleaf:145",
-      "productCount": 885
-    },
-    {
-      "brandId": "curaleaf",
-      "brandName": "Curaleaf",
-      "provider": "curaleaf",
-      "storeId": "149",
-      "storeName": "DuBois",
-      "city": "DuBois, PA",
-      "storeKey": "curaleaf:149",
-      "productCount": 973
+      "productCount": 880
     },
     {
       "brandId": "curaleaf",
@@ -445,7 +435,17 @@
       "storeName": "Altoona",
       "city": "Altoona, PA",
       "storeKey": "curaleaf:146",
-      "productCount": 991
+      "productCount": 978
+    },
+    {
+      "brandId": "curaleaf",
+      "brandName": "Curaleaf",
+      "provider": "curaleaf",
+      "storeId": "149",
+      "storeName": "DuBois",
+      "city": "DuBois, PA",
+      "storeKey": "curaleaf:149",
+      "productCount": 966
     },
     {
       "brandId": "curaleaf",
@@ -455,7 +455,7 @@
       "storeName": "Brookville",
       "city": "Brookville, PA",
       "storeKey": "curaleaf:148",
-      "productCount": 1076
+      "productCount": 1072
     },
     {
       "brandId": "curaleaf",
@@ -465,17 +465,7 @@
       "storeName": "Gettysburg",
       "city": "Gettysburg, PA",
       "storeKey": "curaleaf:151",
-      "productCount": 653
-    },
-    {
-      "brandId": "curaleaf",
-      "brandName": "Curaleaf",
-      "provider": "curaleaf",
-      "storeId": "153",
-      "storeName": "Harrisburg",
-      "city": "Harrisburg, PA",
-      "storeKey": "curaleaf:153",
-      "productCount": 792
+      "productCount": 652
     },
     {
       "brandId": "curaleaf",
@@ -485,7 +475,17 @@
       "storeName": "Erie",
       "city": "Erie, PA",
       "storeKey": "curaleaf:150",
-      "productCount": 965
+      "productCount": 958
+    },
+    {
+      "brandId": "curaleaf",
+      "brandName": "Curaleaf",
+      "provider": "curaleaf",
+      "storeId": "153",
+      "storeName": "Harrisburg",
+      "city": "Harrisburg, PA",
+      "storeKey": "curaleaf:153",
+      "productCount": 782
     },
     {
       "brandId": "curaleaf",
@@ -495,7 +495,7 @@
       "storeName": "Greensburg",
       "city": "Greensburg, PA",
       "storeKey": "curaleaf:152",
-      "productCount": 958
+      "productCount": 955
     },
     {
       "brandId": "curaleaf",
@@ -505,7 +505,7 @@
       "storeName": "Horsham",
       "city": "Horsham, PA",
       "storeKey": "curaleaf:154",
-      "productCount": 814
+      "productCount": 812
     },
     {
       "brandId": "curaleaf",
@@ -515,7 +515,7 @@
       "storeName": "King of Prussia",
       "city": "King of Prussia, PA",
       "storeKey": "curaleaf:155",
-      "productCount": 928
+      "productCount": 926
     },
     {
       "brandId": "curaleaf",
@@ -525,7 +525,7 @@
       "storeName": "Lebanon",
       "city": "Lebanon, PA",
       "storeKey": "curaleaf:157",
-      "productCount": 1001
+      "productCount": 998
     },
     {
       "brandId": "verilife",
@@ -625,7 +625,7 @@
       "storeName": "Ardmore",
       "city": "Ardmore, PA",
       "storeKey": "jane:1852",
-      "productCount": 535
+      "productCount": 533
     },
     {
       "brandId": "beyond",
@@ -635,27 +635,7 @@
       "storeName": "Bethlehem",
       "city": "Bethlehem, PA",
       "storeKey": "jane:1132",
-      "productCount": 649
-    },
-    {
-      "brandId": "beyond",
-      "brandName": "Beyond / Hello",
-      "provider": "jane",
-      "storeId": "1635",
-      "storeName": "Bristol",
-      "city": "Bristol, PA",
-      "storeKey": "jane:1635",
-      "productCount": 851
-    },
-    {
-      "brandId": "beyond",
-      "brandName": "Beyond / Hello",
-      "provider": "jane",
-      "storeId": "1115",
-      "storeName": "Dickson City",
-      "city": "Dickson City, PA",
-      "storeKey": "jane:1115",
-      "productCount": 803
+      "productCount": 647
     },
     {
       "brandId": "curaleaf",
@@ -665,7 +645,17 @@
       "storeName": "Morton",
       "city": "Morton, PA",
       "storeKey": "curaleaf:158",
-      "productCount": 879
+      "productCount": 874
+    },
+    {
+      "brandId": "beyond",
+      "brandName": "Beyond / Hello",
+      "provider": "jane",
+      "storeId": "1635",
+      "storeName": "Bristol",
+      "city": "Bristol, PA",
+      "storeKey": "jane:1635",
+      "productCount": 843
     },
     {
       "brandId": "beyond",
@@ -675,7 +665,17 @@
       "storeName": "Easton",
       "city": "Easton, PA",
       "storeKey": "jane:3298",
-      "productCount": 752
+      "productCount": 751
+    },
+    {
+      "brandId": "beyond",
+      "brandName": "Beyond / Hello",
+      "provider": "jane",
+      "storeId": "1115",
+      "storeName": "Dickson City",
+      "city": "Dickson City, PA",
+      "storeKey": "jane:1115",
+      "productCount": 801
     },
     {
       "brandId": "beyond",
@@ -685,7 +685,7 @@
       "storeName": "Irwin",
       "city": "Irwin, PA",
       "storeKey": "jane:2935",
-      "productCount": 716
+      "productCount": 714
     },
     {
       "brandId": "beyond",
@@ -695,7 +695,7 @@
       "storeName": "Johnstown",
       "city": "Johnstown, PA",
       "storeKey": "jane:1638",
-      "productCount": 688
+      "productCount": 683
     },
     {
       "brandId": "beyond",
@@ -705,7 +705,7 @@
       "storeName": "Linwood",
       "city": "Linwood, PA",
       "storeKey": "jane:3299",
-      "productCount": 749
+      "productCount": 748
     },
     {
       "brandId": "beyond",
@@ -715,7 +715,7 @@
       "storeName": "Mount Pocono",
       "city": "Mount Pocono, PA",
       "storeKey": "jane:3263",
-      "productCount": 732
+      "productCount": 731
     },
     {
       "brandId": "beyond",
@@ -725,7 +725,7 @@
       "storeName": "Philly - Lancaster",
       "city": "Philadelphia, PA",
       "storeKey": "jane:3300",
-      "productCount": 667
+      "productCount": 664
     },
     {
       "brandId": "beyond",
@@ -735,7 +735,7 @@
       "storeName": "Philly - Center City",
       "city": "Philadelphia, PA",
       "storeKey": "jane:1636",
-      "productCount": 561
+      "productCount": 559
     },
     {
       "brandId": "beyond",
@@ -755,7 +755,7 @@
       "storeName": "Pittsburgh",
       "city": "Pittsburgh, PA",
       "storeKey": "jane:3301",
-      "productCount": 650
+      "productCount": 645
     },
     {
       "brandId": "beyond",
@@ -765,47 +765,7 @@
       "storeName": "Pottsville",
       "city": "Pottsville, PA",
       "storeKey": "jane:3368",
-      "productCount": 696
-    },
-    {
-      "brandId": "beyond",
-      "brandName": "Beyond / Hello",
-      "provider": "jane",
-      "storeId": "1978",
-      "storeName": "Reading",
-      "city": "Reading, PA",
-      "storeKey": "jane:1978",
-      "productCount": 684
-    },
-    {
-      "brandId": "beyond",
-      "brandName": "Beyond / Hello",
-      "provider": "jane",
-      "storeId": "1639",
-      "storeName": "Scranton",
-      "city": "Scranton, PA",
-      "storeKey": "jane:1639",
-      "productCount": 633
-    },
-    {
-      "brandId": "beyond",
-      "brandName": "Beyond / Hello",
-      "provider": "jane",
-      "storeId": "3371",
-      "storeName": "Stroudsburg",
-      "city": "Stroudsburg, PA",
-      "storeKey": "jane:3371",
-      "productCount": 699
-    },
-    {
-      "brandId": "beyond",
-      "brandName": "Beyond / Hello",
-      "provider": "jane",
-      "storeId": "1640",
-      "storeName": "West Chester",
-      "city": "West Chester, PA",
-      "storeKey": "jane:1640",
-      "productCount": 752
+      "productCount": 692
     },
     {
       "brandId": "curaleaf",
@@ -815,7 +775,47 @@
       "storeName": "State College",
       "city": "State College, PA",
       "storeKey": "curaleaf:161",
-      "productCount": 853
+      "productCount": 852
+    },
+    {
+      "brandId": "beyond",
+      "brandName": "Beyond / Hello",
+      "provider": "jane",
+      "storeId": "1978",
+      "storeName": "Reading",
+      "city": "Reading, PA",
+      "storeKey": "jane:1978",
+      "productCount": 681
+    },
+    {
+      "brandId": "beyond",
+      "brandName": "Beyond / Hello",
+      "provider": "jane",
+      "storeId": "3371",
+      "storeName": "Stroudsburg",
+      "city": "Stroudsburg, PA",
+      "storeKey": "jane:3371",
+      "productCount": 696
+    },
+    {
+      "brandId": "beyond",
+      "brandName": "Beyond / Hello",
+      "provider": "jane",
+      "storeId": "1639",
+      "storeName": "Scranton",
+      "city": "Scranton, PA",
+      "storeKey": "jane:1639",
+      "productCount": 631
+    },
+    {
+      "brandId": "beyond",
+      "brandName": "Beyond / Hello",
+      "provider": "jane",
+      "storeId": "1640",
+      "storeName": "West Chester",
+      "city": "West Chester, PA",
+      "storeKey": "jane:1640",
+      "productCount": 750
     },
     {
       "brandId": "curaleaf",
@@ -825,7 +825,7 @@
       "storeName": "Wayne",
       "city": "Wayne, PA",
       "storeKey": "curaleaf:162",
-      "productCount": 1003
+      "productCount": 1002
     }
   ],
   "staleStores": [],
